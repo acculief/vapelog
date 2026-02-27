@@ -41,10 +41,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <Link href="/compare" className="px-3 py-2 text-sm text-gray-400 hover:text-violet-300 hover:bg-violet-500/10 rounded-md transition">比較する</Link>
               </nav>
               <div className="ml-auto flex items-center gap-2">
-                <Link href="/write-review" className="hidden sm:inline-flex items-center gap-1.5 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white text-sm font-medium px-4 py-2 rounded-lg transition" style={{ boxShadow: '0 0 20px rgba(124,58,237,0.4)' }}>
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
-                  レビューを書く
-                </Link>
                 <Link href="/search" className="sm:hidden p-2 text-gray-400 hover:text-violet-300 hover:bg-violet-500/10 rounded-md">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
                 </Link>

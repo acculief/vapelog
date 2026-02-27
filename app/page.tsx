@@ -54,14 +54,19 @@ export default async function HomePage() {
           <p className="text-gray-400 text-sm sm:text-lg mb-8 max-w-xl">
             スパムゼロの信頼できるレビュー。ポッド・BOX MOD・リキッドを徹底比較。
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 max-w-xl">
-            <Link href="/search" className="flex-1 bg-white/10 backdrop-blur border border-violet-500/30 rounded-lg px-4 py-3 text-gray-300 text-sm hover:bg-white/15 transition text-left">
-              商品名・ブランドで検索...
-            </Link>
-            <Link href="/search" className="bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-bold px-6 py-3 rounded-lg text-sm transition text-center shrink-0" style={{ boxShadow: '0 0 20px rgba(124,58,237,0.4)' }}>
+          <form action="/search" method="GET" className="flex flex-col sm:flex-row gap-3 max-w-xl">
+            <input
+              name="q"
+              placeholder="商品名・ブランドで検索..."
+              autoComplete="off"
+              className="flex-1 bg-white/10 backdrop-blur border border-violet-500/30 rounded-lg px-4 py-3 text-white placeholder-gray-500 text-sm focus:outline-none focus:border-violet-400 transition"
+            />
+            <button type="submit"
+              className="bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-bold px-6 py-3 rounded-lg text-sm transition shrink-0"
+              style={{ boxShadow: '0 0 20px rgba(124,58,237,0.4)' }}>
               検索する
-            </Link>
-          </div>
+            </button>
+          </form>
         </div>
       </div>
 
