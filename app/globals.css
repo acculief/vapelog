@@ -1,15 +1,1 @@
 @import "tailwindcss";
-
-:root {
-  --background: #030712;
-  --foreground: #f9fafb;
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-}
-
-.star-rating {
-  color: #fbbf24;
-}
