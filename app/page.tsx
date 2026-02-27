@@ -3,13 +3,14 @@ import { getProducts } from '@/lib/queries'
 
 export const revalidate = 3600
 
+const CDN_BASE = 'https://cuinyjpiifcslzexrunc.supabase.co/storage/v1/object/public/item-images/vapelog-categories'
 const CATEGORIES = [
-  { slug: 'pod', name: 'ポッド型', desc: 'コンパクトで手軽' },
-  { slug: 'starter', name: 'スターターキット', desc: '初心者におすすめ' },
-  { slug: 'boxmod', name: 'BOX MOD', desc: 'ハイパワー・カスタム向け' },
-  { slug: 'liquid', name: 'リキッド', desc: 'フレーバー・ニコチン塩' },
-  { slug: 'disposable', name: '使い捨て', desc: '手軽に試したい方' },
-  { slug: 'parts', name: 'パーツ', desc: 'コイル・ポッド交換' },
+  { slug: 'pod', name: 'ポッド型', desc: 'コンパクトで手軽', image: `${CDN_BASE}/pod.jpg` },
+  { slug: 'starter', name: 'スターターキット', desc: '初心者におすすめ', image: `${CDN_BASE}/starter.jpg` },
+  { slug: 'boxmod', name: 'BOX MOD', desc: 'ハイパワー・カスタム向け', image: `${CDN_BASE}/boxmod.jpg` },
+  { slug: 'liquid', name: 'リキッド', desc: 'フレーバー・ニコチン塩', image: `${CDN_BASE}/liquid.jpg` },
+  { slug: 'disposable', name: '使い捨て', desc: '手軽に試したい方', image: `${CDN_BASE}/disposable.jpg` },
+  { slug: 'parts', name: 'パーツ', desc: 'コイル・ポッド交換', image: `${CDN_BASE}/parts.jpg` },
 ]
 
 async function getTopProducts() {
@@ -82,13 +83,22 @@ export default async function HomePage() {
         {/* Categories */}
         <section className="mb-10">
           <h2 className="text-lg sm:text-xl font-bold mb-4 text-white">カテゴリから探す</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+          <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-6 gap-3">
             {CATEGORIES.map((cat) => (
               <Link key={cat.slug} href={`/search?category=${cat.slug}`}
-                className="border border-white/10 hover:border-violet-500/50 rounded-xl p-3 sm:p-4 transition group"
-                style={{ background: 'rgba(255,255,255,0.05)' }}>
-                <p className="font-bold text-sm text-gray-200 group-hover:text-violet-300 transition">{cat.name}</p>
-                <p className="text-xs text-gray-500 mt-0.5 hidden sm:block">{cat.desc}</p>
+                className="relative overflow-hidden rounded-xl aspect-[4/3] group border border-white/10 hover:border-violet-500/50 transition">
+                <img
+                  src={cat.image}
+                  alt={cat.name}
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"
+                  style={{ background: 'linear-gradient(135deg, rgba(124,58,237,0.3), rgba(79,70,229,0.2))' }} />
+                <div className="absolute bottom-0 left-0 right-0 p-3">
+                  <p className="font-bold text-sm text-white drop-shadow">{cat.name}</p>
+                  <p className="text-xs text-gray-300 mt-0.5 hidden sm:block">{cat.desc}</p>
+                </div>
               </Link>
             ))}
           </div>

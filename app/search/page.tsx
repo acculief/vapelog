@@ -3,14 +3,15 @@ import Link from 'next/link'
 
 export const revalidate = 0
 
+const CDN_BASE = 'https://cuinyjpiifcslzexrunc.supabase.co/storage/v1/object/public/item-images/vapelog-categories'
 const CATEGORIES = [
-  { slug: '', name: '全て' },
-  { slug: 'pod', name: 'ポッド型' },
-  { slug: 'starter', name: 'スターターキット' },
-  { slug: 'boxmod', name: 'BOX MOD' },
-  { slug: 'liquid', name: 'リキッド' },
-  { slug: 'disposable', name: '使い捨て' },
-  { slug: 'parts', name: 'パーツ' },
+  { slug: '', name: '全て', image: null },
+  { slug: 'pod', name: 'ポッド型', image: `${CDN_BASE}/pod.jpg` },
+  { slug: 'starter', name: 'スターターキット', image: `${CDN_BASE}/starter.jpg` },
+  { slug: 'boxmod', name: 'BOX MOD', image: `${CDN_BASE}/boxmod.jpg` },
+  { slug: 'liquid', name: 'リキッド', image: `${CDN_BASE}/liquid.jpg` },
+  { slug: 'disposable', name: '使い捨て', image: `${CDN_BASE}/disposable.jpg` },
+  { slug: 'parts', name: 'パーツ', image: `${CDN_BASE}/parts.jpg` },
 ]
 
 interface P { q?: string; category?: string; brand?: string; minPrice?: string; maxPrice?: string; ratingMin?: string; sort?: string }
@@ -81,12 +82,15 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
       <div className="flex gap-1.5 overflow-x-auto pb-2 mb-4 scrollbar-hide">
         {CATEGORIES.map(cat => (
           <Link key={cat.slug} href={`/search?${new URLSearchParams({ ...p, category: cat.slug }).toString()}`}
-            className={`shrink-0 px-4 py-2 rounded-full text-sm font-medium transition border ${
+            className={`shrink-0 flex items-center gap-2 px-3 py-2 rounded-full text-sm font-medium transition border ${
               (p.category || '') === cat.slug
                 ? 'bg-violet-600 text-white border-violet-600'
                 : 'text-gray-400 border-white/10 hover:border-violet-500/50 hover:text-violet-300'
             }`}
             style={(p.category || '') === cat.slug ? { boxShadow: '0 0 12px rgba(124,58,237,0.3)' } : { background: 'rgba(255,255,255,0.05)' }}>
+            {cat.image && (
+              <img src={cat.image} alt="" className="w-5 h-5 rounded-full object-cover opacity-80" />
+            )}
             {cat.name}
           </Link>
         ))}
