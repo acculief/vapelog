@@ -1,57 +1,27 @@
-import { prisma } from '@/lib/prisma'
+import { db } from '@/lib/db'
 
 export const revalidate = 0
 
 export default async function AdminPage() {
-  let reports: Array<{
-    id: string
-    reason: string
-    status: string
-    createdAt: Date
-    review: {
-      id: string
-      body: string
-      status: string
-      rating: number
-      user: { email: string | null; name: string | null }
-      product: { name: string }
-    }
-  }> = []
-
-  let hiddenReviews: Array<{
-    id: string
-    body: string
-    qualityScore: number
-    rating: number
-    createdAt: Date
-    user: { email: string | null }
-    product: { name: string }
-  }> = []
+  let reports: any[] = []
+  let hiddenReviews: any[] = []
 
   try {
-    reports = await prisma.report.findMany({
-      where: { status: 'pending' },
-      include: {
-        review: {
-          include: {
-            user: { select: { email: true, name: true } },
-            product: { select: { name: true } },
-          },
-        },
-      },
-      orderBy: { createdAt: 'desc' },
-      take: 20,
-    })
+    const { data: reportData } = await db
+      .from('Report')
+      .select('*, review:Review(id, body, status, rating, user:User(email, name), product:Product(name))')
+      .eq('status', 'pending')
+      .order('createdAt', { ascending: false })
+      .limit(20)
+    reports = reportData || []
 
-    hiddenReviews = await prisma.review.findMany({
-      where: { OR: [{ status: 'hidden' }, { qualityScore: { lt: 0.3 } }] },
-      include: {
-        user: { select: { email: true } },
-        product: { select: { name: true } },
-      },
-      orderBy: { createdAt: 'desc' },
-      take: 20,
-    })
+    const { data: hiddenData } = await db
+      .from('Review')
+      .select('*, user:User(email), product:Product(name)')
+      .or('status.eq.hidden,qualityScore.lt.0.3')
+      .order('createdAt', { ascending: false })
+      .limit(20)
+    hiddenReviews = hiddenData || []
   } catch (e) {
     console.error(e)
   }
@@ -75,12 +45,12 @@ export default async function AdminPage() {
           <p className="text-gray-500">未処理の通報はありません</p>
         ) : (
           <div className="space-y-3">
-            {reports.map((report) => (
+            {reports.map((report: any) => (
               <div key={report.id} className="bg-gray-800 rounded-xl p-5">
                 <div className="text-sm text-gray-400 mb-1">
-                  商品: {report.review.product.name}
+                  商品: {report.review?.product?.name}
                 </div>
-                <p className="text-gray-300 text-sm mb-2">{report.review.body.slice(0, 100)}...</p>
+                <p className="text-gray-300 text-sm mb-2">{report.review?.body?.slice(0, 100)}...</p>
                 <div className="text-red-400 text-sm">通報理由: {report.reason}</div>
               </div>
             ))}
@@ -93,12 +63,12 @@ export default async function AdminPage() {
           <p className="text-gray-500">スパム検出なし</p>
         ) : (
           <div className="space-y-3">
-            {hiddenReviews.map((review) => (
+            {hiddenReviews.map((review: any) => (
               <div key={review.id} className="bg-gray-800 border border-red-900/30 rounded-xl p-5">
                 <div className="text-xs text-gray-500 mb-1">
-                  {review.product.name} | スコア: {review.qualityScore.toFixed(2)}
+                  {review.product?.name} | スコア: {(review.qualityScore ?? 0).toFixed(2)}
                 </div>
-                <p className="text-gray-400 text-sm">{review.body.slice(0, 150)}</p>
+                <p className="text-gray-400 text-sm">{review.body?.slice(0, 150)}</p>
               </div>
             ))}
           </div>

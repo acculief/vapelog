@@ -1,15 +1,16 @@
 import { MetadataRoute } from 'next'
-import { prisma } from '@/lib/prisma'
+import { db } from '@/lib/db'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://vapelog.jp'
 
   let productUrls: MetadataRoute.Sitemap = []
   try {
-    const products = await prisma.product.findMany({
-      select: { id: true, createdAt: true },
-    })
-    productUrls = products.map((p) => ({
+    const { data: products } = await db
+      .from('Product')
+      .select('id, createdAt')
+
+    productUrls = (products || []).map((p: any) => ({
       url: `${baseUrl}/products/${p.id}`,
       lastModified: p.createdAt,
     }))

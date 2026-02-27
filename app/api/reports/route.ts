@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
+import { db } from '@/lib/db'
 
 export async function POST(request: Request) {
   try {
@@ -19,12 +19,12 @@ export async function POST(request: Request) {
       const reportId = form.get('reportId') as string
 
       if (action === 'dismiss' && reportId) {
-        await prisma.report.update({ where: { id: reportId }, data: { status: 'dismissed' } })
+        await db.from('Report').update({ status: 'dismissed' }).eq('id', reportId)
         return NextResponse.redirect(new URL('/admin', request.url))
       }
       if (action === 'hide' && reviewId && reportId) {
-        await prisma.review.update({ where: { id: reviewId }, data: { status: 'hidden' } })
-        await prisma.report.update({ where: { id: reportId }, data: { status: 'resolved' } })
+        await db.from('Review').update({ status: 'hidden' }).eq('id', reviewId)
+        await db.from('Report').update({ status: 'resolved' }).eq('id', reportId)
         return NextResponse.redirect(new URL('/admin', request.url))
       }
     }
@@ -33,12 +33,18 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: '通報内容が不足しています' }, { status: 400 })
     }
 
-    const review = await prisma.review.findUnique({ where: { id: reviewId } })
+    const { data: review } = await db.from('Review').select('id').eq('id', reviewId).single()
     if (!review) {
       return NextResponse.json({ error: 'レビューが見つかりません' }, { status: 404 })
     }
 
-    const report = await prisma.report.create({ data: { reviewId, reason } })
+    const { data: report, error } = await db
+      .from('Report')
+      .insert({ reviewId, reason })
+      .select('id')
+      .single()
+
+    if (error) throw error
     return NextResponse.json({ success: true, reportId: report.id })
   } catch (error) {
     console.error(error)

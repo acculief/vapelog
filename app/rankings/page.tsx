@@ -1,30 +1,17 @@
-import { prisma } from '@/lib/prisma'
+import { getProducts } from '@/lib/queries'
 import Link from 'next/link'
 
 export const revalidate = 3600
 
 export default async function RankingsPage() {
-  let products: Array<{
-    id: string
-    name: string
-    brand: string
-    category: string
-    price: number | null
-    rankScore: number
-    reviews: Array<{ rating: number }>
-  }> = []
+  let products: any[] = []
 
   try {
-    products = await prisma.product.findMany({
-      take: 30,
-      orderBy: { rankScore: 'desc' },
-      include: {
-        reviews: {
-          where: { status: 'visible' },
-          select: { rating: true },
-        },
-      },
-    })
+    const raw = await getProducts({ limit: 30, orderBy: 'rankScore' })
+    products = raw.map(p => ({
+      ...p,
+      reviews: (p.reviews || []).filter((r: any) => r.status === 'visible'),
+    }))
   } catch (e) {
     console.error(e)
   }
@@ -54,7 +41,7 @@ export default async function RankingsPage() {
           {products.map((product, i) => {
             const avgRating =
               product.reviews.length > 0
-                ? product.reviews.reduce((s, r) => s + r.rating, 0) / product.reviews.length
+                ? product.reviews.reduce((s: number, r: any) => s + r.rating, 0) / product.reviews.length
                 : 0
             const rankBadgeColors = [
               'bg-yellow-400 text-white',

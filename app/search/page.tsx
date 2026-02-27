@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/prisma'
+import { getProducts } from '@/lib/queries'
 import Link from 'next/link'
 
 export const revalidate = 0
@@ -34,23 +34,38 @@ function Stars({ avg, count }: { avg: number; count: number }) {
 
 export default async function SearchPage({ searchParams }: { searchParams: Promise<P> }) {
   const p = await searchParams
-  const where: Record<string, any> = {}
-  if (p.q) where.OR = [{ name: { contains: p.q, mode: 'insensitive' } }, { brand: { contains: p.q, mode: 'insensitive' } }]
-  if (p.category) where.category = p.category
-  if (p.brand) where.brand = { contains: p.brand, mode: 'insensitive' }
-  if (p.minPrice) where.price = { ...where.price, gte: parseFloat(p.minPrice) }
-  if (p.maxPrice) where.price = { ...where.price, lte: parseFloat(p.maxPrice) }
+
+  const sortOrderBy = p.sort === 'price_asc' ? 'price' as const
+    : p.sort === 'price_desc' ? 'price' as const
+    : 'rankScore' as const
+  const sortOrder = p.sort === 'price_asc' ? 'asc' as const : 'desc' as const
 
   let products: any[] = []
   try {
-    products = await prisma.product.findMany({
-      where, take: 48,
-      orderBy: p.sort === 'price_asc' ? { price: 'asc' } : p.sort === 'price_desc' ? { price: 'desc' } : { rankScore: 'desc' },
-      include: { reviews: { where: { status: 'visible' }, select: { rating: true } } },
+    products = await getProducts({
+      category: p.category || undefined,
+      brand: p.brand || undefined,
+      q: p.q || undefined,
+      minPrice: p.minPrice ? parseFloat(p.minPrice) : undefined,
+      maxPrice: p.maxPrice ? parseFloat(p.maxPrice) : undefined,
+      limit: 48,
+      orderBy: sortOrderBy,
+      order: sortOrder,
     })
+
+    // Filter by visible reviews and rating
+    products = products.map((product: any) => ({
+      ...product,
+      reviews: (product.reviews || []).filter((r: any) => r.status === 'visible'),
+    }))
+
     if (p.ratingMin) {
       const min = parseFloat(p.ratingMin)
-      products = products.filter((pr: any) => pr.reviews.length && pr.reviews.reduce((s: number, r: any) => s + r.rating, 0) / pr.reviews.length >= min)
+      products = products.filter((pr: any) => {
+        if (!pr.reviews.length) return false
+        const avg = pr.reviews.reduce((s: number, r: any) => s + r.rating, 0) / pr.reviews.length
+        return avg >= min
+      })
     }
   } catch {}
 

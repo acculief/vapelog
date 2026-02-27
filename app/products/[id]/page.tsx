@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/prisma'
+import { getProduct } from '@/lib/queries'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import type { Metadata } from 'next'
@@ -8,7 +8,7 @@ export const revalidate = 3600
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params
   try {
-    const product = await prisma.product.findUnique({ where: { id } })
+    const product = await getProduct(id)
     if (!product) return {}
     return {
       title: `${product.name} レビュー・評価 | VapeLog`,
@@ -30,33 +30,30 @@ function StarRating({ rating }: { rating: number }) {
 export default async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   
-  let product
+  let product: any
   try {
-    product = await prisma.product.findUnique({
-      where: { id },
-      include: {
-        reviews: {
-          where: { status: 'visible', qualityScore: { gte: 0.3 } },
-          orderBy: { qualityScore: 'desc' },
-          include: { user: { select: { name: true, email: true } } },
-        },
-        tags: { include: { tag: true } },
-      },
-    })
+    product = await getProduct(id)
   } catch {
     notFound()
   }
 
   if (!product) notFound()
 
+  // Filter and sort reviews in JS (PostgREST doesn't support where filters in nested select)
+  const reviews = ((product.reviews || []) as any[])
+    .filter((r: any) => r.status === 'visible' && (r.qualityScore ?? 0) >= 0.3)
+    .sort((a: any, b: any) => (b.qualityScore ?? 0) - (a.qualityScore ?? 0))
+
+  const tags = (product.tags || []) as any[]
+
   const avgRating =
-    product.reviews.length > 0
-      ? product.reviews.reduce((s, r) => s + r.rating, 0) / product.reviews.length
+    reviews.length > 0
+      ? reviews.reduce((s: number, r: any) => s + r.rating, 0) / reviews.length
       : 0
 
   const ratingDist = [5, 4, 3, 2, 1].map((star) => ({
     star,
-    count: product.reviews.filter((r) => r.rating === star).length,
+    count: reviews.filter((r: any) => r.rating === star).length,
   }))
 
   const specs = product.specs as Record<string, string> | null
@@ -67,12 +64,12 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
     '@type': 'Product',
     name: product.name,
     brand: { '@type': 'Brand', name: product.brand },
-    aggregateRating: product.reviews.length > 0 ? {
+    aggregateRating: reviews.length > 0 ? {
       '@type': 'AggregateRating',
       ratingValue: avgRating.toFixed(1),
-      reviewCount: product.reviews.length,
+      reviewCount: reviews.length,
     } : undefined,
-    review: product.reviews.slice(0, 5).map((r) => ({
+    review: reviews.slice(0, 5).map((r: any) => ({
       '@type': 'Review',
       reviewBody: r.body,
       reviewRating: { '@type': 'Rating', ratingValue: r.rating },
@@ -96,24 +93,13 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
       <div className="bg-gray-800 rounded-2xl p-8 mb-8">
         <div className="flex items-start justify-between flex-wrap gap-4">
-          {(product as any).imageUrl && (
-            <div className="w-full sm:w-48 h-48 bg-gray-700 rounded-xl overflow-hidden flex items-center justify-center shrink-0">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={(product as any).imageUrl}
-                alt={product.name}
-                className="w-full h-full object-contain p-2"
-                referrerPolicy="no-referrer"
-              />
-            </div>
-          )}
           <div className="flex-1">
             <div className="text-sm text-gray-400 mb-1">{product.brand}</div>
             <h1 className="text-3xl font-black mb-4">{product.name}</h1>
             <div className="flex items-center gap-3 mb-4">
               <StarRating rating={avgRating} />
               <span className="text-2xl font-bold">{avgRating.toFixed(1)}</span>
-              <span className="text-gray-400">({product.reviews.length}件のレビュー)</span>
+              <span className="text-gray-400">({reviews.length}件のレビュー)</span>
             </div>
             {product.price && (
               <div className="text-3xl font-black text-blue-400">¥{product.price.toLocaleString()}</div>
@@ -135,9 +121,9 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
           </div>
         </div>
 
-        {product.tags.length > 0 && (
+        {tags.length > 0 && (
           <div className="flex gap-2 flex-wrap mt-4">
-            {product.tags.map(({ tag }) => (
+            {tags.map(({ tag }: any) => (
               <Link
                 key={tag.id}
                 href={`/search?tag=${tag.name}`}
@@ -196,7 +182,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         </div>
       )}
 
-      {product.reviews.length > 0 && (
+      {reviews.length > 0 && (
         <div className="bg-gray-800 rounded-2xl p-6 mb-8">
           <h2 className="font-bold text-xl mb-4">📊 評価分布</h2>
           <div className="space-y-2">
@@ -207,8 +193,8 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                   <div
                     className="bg-yellow-400 rounded-full h-3 transition-all"
                     style={{
-                      width: product.reviews.length > 0
-                        ? `${(count / product.reviews.length) * 100}%`
+                      width: reviews.length > 0
+                        ? `${(count / reviews.length) * 100}%`
                         : '0%',
                     }}
                   />
@@ -221,8 +207,8 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
       )}
 
       <div>
-        <h2 className="font-bold text-2xl mb-6">💬 レビュー ({product.reviews.length}件)</h2>
-        {product.reviews.length === 0 ? (
+        <h2 className="font-bold text-2xl mb-6">💬 レビュー ({reviews.length}件)</h2>
+        {reviews.length === 0 ? (
           <div className="text-center py-12 text-gray-500 bg-gray-800 rounded-2xl">
             <p className="mb-4">まだレビューがありません</p>
             <Link
@@ -234,12 +220,12 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
           </div>
         ) : (
           <div className="space-y-4">
-            {product.reviews.map((review) => (
+            {reviews.map((review: any) => (
               <div key={review.id} className="bg-gray-800 rounded-xl p-6">
                 <div className="flex items-start justify-between mb-3">
                   <div>
                     <div className="font-medium">
-                      {review.user.name || review.user.email?.split('@')[0] || '匿名'}
+                      {review.user?.name || review.user?.email?.split('@')[0] || '匿名'}
                     </div>
                     <div className="flex items-center gap-2 mt-1">
                       <span className="text-yellow-400">

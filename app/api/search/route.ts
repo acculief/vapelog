@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
+import { searchProducts } from '@/lib/queries'
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
@@ -9,56 +9,31 @@ export async function GET(request: Request) {
   const minPrice = searchParams.get('minPrice')
   const maxPrice = searchParams.get('maxPrice')
   const ratingMin = searchParams.get('ratingMin')
-  const tag = searchParams.get('tag')
   const id = searchParams.get('id')
   const limit = parseInt(searchParams.get('limit') || '20')
 
   try {
-    const where: Record<string, unknown> = {}
-
-    if (id) {
-      where.id = id
-    } else {
-      if (q) {
-        where.OR = [
-          { name: { contains: q, mode: 'insensitive' } },
-          { brand: { contains: q, mode: 'insensitive' } },
-          { description: { contains: q, mode: 'insensitive' } },
-        ]
-      }
-      if (category) where.category = category
-      if (brand) where.brand = { contains: brand, mode: 'insensitive' }
-      if (minPrice || maxPrice) {
-        where.price = {}
-        if (minPrice) (where.price as Record<string, number>).gte = parseFloat(minPrice)
-        if (maxPrice) (where.price as Record<string, number>).lte = parseFloat(maxPrice)
-      }
-      if (tag) {
-        where.tags = {
-          some: { tag: { name: { contains: tag, mode: 'insensitive' } } },
-        }
-      }
-    }
-
-    const allProducts = await prisma.product.findMany({
-      where,
-      take: limit,
-      orderBy: { rankScore: 'desc' },
-      include: {
-        reviews: {
-          where: { status: 'visible', qualityScore: { gte: 0.3 } },
-          select: { rating: true, qualityScore: true },
-        },
-        tags: { include: { tag: true } },
-      },
+    let allProducts = await searchProducts({
+      id: id || undefined,
+      q: q || undefined,
+      category: category || undefined,
+      brand: brand || undefined,
+      minPrice: minPrice ? parseFloat(minPrice) : undefined,
+      maxPrice: maxPrice ? parseFloat(maxPrice) : undefined,
+      limit,
     })
 
-    type ProductItem = typeof allProducts[number]
+    // Filter by visible reviews
+    allProducts = allProducts.map((p: any) => ({
+      ...p,
+      reviews: (p.reviews || []).filter((r: any) => r.status === 'visible' && (r.qualityScore ?? 0) >= 0.3),
+      tags: (p.tags || []).map((t: any) => ({ tag: t.tag })),
+    }))
 
-    const products: ProductItem[] = ratingMin
-      ? allProducts.filter((p: ProductItem) => {
+    const products = ratingMin
+      ? allProducts.filter((p: any) => {
           if (p.reviews.length === 0) return false
-          const avg = p.reviews.reduce((s: number, r: { rating: number }) => s + r.rating, 0) / p.reviews.length
+          const avg = p.reviews.reduce((s: number, r: any) => s + r.rating, 0) / p.reviews.length
           return avg >= parseFloat(ratingMin)
         })
       : allProducts
