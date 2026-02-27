@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
 function StarRating({ rating }: { rating: number }) {
   return (
-    <span className="text-yellow-400 text-xl">
+    <span className="text-violet-400 text-xl">
       {'★'.repeat(Math.round(rating))}{'☆'.repeat(5 - Math.round(rating))}
     </span>
   )
@@ -39,7 +39,6 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
   if (!product) notFound()
 
-  // Filter and sort reviews in JS (PostgREST doesn't support where filters in nested select)
   const reviews = ((product.reviews || []) as any[])
     .filter((r: any) => r.status === 'visible' && (r.qualityScore ?? 0) >= 0.3)
     .sort((a: any, b: any) => (b.qualityScore ?? 0) - (a.qualityScore ?? 0))
@@ -83,43 +82,46 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
+      {/* Breadcrumb */}
       <div className="text-sm text-gray-500 mb-6">
-        <Link href="/" className="hover:text-white">トップ</Link>
+        <Link href="/" className="hover:text-violet-400 transition">トップ</Link>
         {' › '}
-        <Link href="/search" className="hover:text-white">検索</Link>
+        <Link href="/search" className="hover:text-violet-400 transition">検索</Link>
         {' › '}
-        <span>{product.name}</span>
+        <span className="text-gray-400">{product.name}</span>
       </div>
 
-      <div className="bg-gray-800 rounded-2xl p-8 mb-8">
+      {/* Main Card */}
+      <div className="rounded-2xl p-8 mb-8 border border-violet-500/20" style={{ background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(12px)' }}>
         <div className="flex items-start justify-between flex-wrap gap-4">
           <div className="flex-1">
             {product.imageUrl && (
-              <div className="mb-4 w-32 h-32 rounded-xl overflow-hidden bg-gray-700 shrink-0">
+              <div className="mb-4 w-32 h-32 rounded-xl overflow-hidden shrink-0 border border-violet-500/20" style={{ background: 'rgba(255,255,255,0.05)' }}>
                 <img src={product.imageUrl} alt={product.name} className="w-full h-full object-contain p-2" />
               </div>
             )}
             <div className="text-sm text-gray-400 mb-1">{product.brand}</div>
-            <h1 className="text-3xl font-black mb-4">{product.name}</h1>
+            <h1 className="text-3xl font-black mb-4 text-white">{product.name}</h1>
             <div className="flex items-center gap-3 mb-4">
               <StarRating rating={avgRating} />
-              <span className="text-2xl font-bold">{avgRating.toFixed(1)}</span>
+              <span className="text-2xl font-bold text-white">{avgRating.toFixed(1)}</span>
               <span className="text-gray-400">({reviews.length}件のレビュー)</span>
             </div>
             {product.price && (
-              <div className="text-3xl font-black text-blue-400">¥{product.price.toLocaleString()}</div>
+              <div className="text-3xl font-black text-violet-300">¥{product.price.toLocaleString()}</div>
             )}
           </div>
           <div className="flex gap-3">
             <Link
               href={`/write-review?productId=${product.id}`}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-xl transition"
+              className="bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-bold py-2 px-6 rounded-xl transition"
+              style={{ boxShadow: '0 0 20px rgba(124,58,237,0.4)' }}
             >
               ✏️ レビューを書く
             </Link>
             <Link
               href={`/compare?add=${product.id}`}
-              className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-xl transition"
+              className="border border-violet-500/30 hover:border-violet-400 hover:bg-violet-500/10 text-white font-bold py-2 px-4 rounded-xl transition"
             >
               ⚖️ 比較
             </Link>
@@ -132,7 +134,8 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
               <Link
                 key={tag.id}
                 href={`/search?tag=${tag.name}`}
-                className="bg-gray-700 hover:bg-gray-600 text-xs px-3 py-1 rounded-full transition"
+                className="text-violet-300 text-xs px-3 py-1 rounded-full transition border border-violet-500/30 hover:border-violet-400 hover:bg-violet-900/40"
+                style={{ background: 'rgba(109,28,217,0.15)' }}
               >
                 # {tag.name}
               </Link>
@@ -141,9 +144,10 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         )}
       </div>
 
+      {/* Affiliate Links */}
       {affiliates && Object.keys(affiliates).length > 0 && (
-        <div className="bg-gradient-to-r from-orange-900/30 to-red-900/30 border border-orange-700/30 rounded-2xl p-6 mb-8">
-          <h2 className="font-bold text-lg mb-4">🛒 購入する</h2>
+        <div className="rounded-2xl p-6 mb-8 border border-violet-500/30" style={{ background: 'rgba(124,58,237,0.1)', backdropFilter: 'blur(12px)' }}>
+          <h2 className="font-bold text-lg mb-4 text-white">🛒 購入する</h2>
           <div className="flex gap-3 flex-wrap">
             {affiliates.amazon && (
               <a href={affiliates.amazon} target="_blank" rel="noopener noreferrer sponsored"
@@ -165,7 +169,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
             )}
             {affiliates.official && (
               <a href={affiliates.official} target="_blank" rel="noopener noreferrer"
-                className="bg-gray-600 hover:bg-gray-500 text-white font-bold py-3 px-6 rounded-xl transition">
+                className="border border-violet-500/30 hover:bg-violet-500/10 text-white font-bold py-3 px-6 rounded-xl transition">
                 公式サイト
               </a>
             )}
@@ -173,30 +177,32 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         </div>
       )}
 
+      {/* Specs */}
       {specs && Object.keys(specs).length > 0 && (
-        <div className="bg-gray-800 rounded-2xl p-6 mb-8">
-          <h2 className="font-bold text-xl mb-4">📋 スペック</h2>
+        <div className="rounded-2xl p-6 mb-8 border border-white/10" style={{ background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(12px)' }}>
+          <h2 className="font-bold text-xl mb-4 text-white">📋 スペック</h2>
           <div className="grid grid-cols-2 gap-3">
             {Object.entries(specs).map(([key, value]) => (
               <div key={key} className="flex gap-2">
                 <span className="text-gray-400 min-w-0">{key}:</span>
-                <span className="font-medium">{value}</span>
+                <span className="font-medium text-gray-200">{value}</span>
               </div>
             ))}
           </div>
         </div>
       )}
 
+      {/* Rating Distribution */}
       {reviews.length > 0 && (
-        <div className="bg-gray-800 rounded-2xl p-6 mb-8">
-          <h2 className="font-bold text-xl mb-4">📊 評価分布</h2>
+        <div className="rounded-2xl p-6 mb-8 border border-white/10" style={{ background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(12px)' }}>
+          <h2 className="font-bold text-xl mb-4 text-white">📊 評価分布</h2>
           <div className="space-y-2">
             {ratingDist.map(({ star, count }) => (
               <div key={star} className="flex items-center gap-3">
-                <span className="text-yellow-400 w-6">{star}★</span>
-                <div className="flex-1 bg-gray-700 rounded-full h-3">
+                <span className="text-violet-400 w-6">{star}★</span>
+                <div className="flex-1 rounded-full h-3" style={{ background: 'rgba(255,255,255,0.1)' }}>
                   <div
-                    className="bg-yellow-400 rounded-full h-3 transition-all"
+                    className="bg-violet-500 rounded-full h-3 transition-all"
                     style={{
                       width: reviews.length > 0
                         ? `${(count / reviews.length) * 100}%`
@@ -211,14 +217,15 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         </div>
       )}
 
+      {/* Reviews */}
       <div>
-        <h2 className="font-bold text-2xl mb-6">💬 レビュー ({reviews.length}件)</h2>
+        <h2 className="font-bold text-2xl mb-6 text-white">💬 レビュー ({reviews.length}件)</h2>
         {reviews.length === 0 ? (
-          <div className="text-center py-12 text-gray-500 bg-gray-800 rounded-2xl">
-            <p className="mb-4">まだレビューがありません</p>
+          <div className="text-center py-12 rounded-2xl border border-white/10" style={{ background: 'rgba(255,255,255,0.05)' }}>
+            <p className="mb-4 text-gray-400">まだレビューがありません</p>
             <Link
               href={`/write-review?productId=${product.id}`}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-xl transition"
+              className="bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-bold py-2 px-6 rounded-xl transition"
             >
               最初のレビューを書く
             </Link>
@@ -226,14 +233,14 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         ) : (
           <div className="space-y-4">
             {reviews.map((review: any) => (
-              <div key={review.id} className="bg-gray-800 rounded-xl p-6">
+              <div key={review.id} className="rounded-xl p-6 border border-white/10" style={{ background: 'rgba(255,255,255,0.05)' }}>
                 <div className="flex items-start justify-between mb-3">
                   <div>
-                    <div className="font-medium">
+                    <div className="font-medium text-gray-200">
                       {review.user?.name || review.user?.email?.split('@')[0] || '匿名'}
                     </div>
                     <div className="flex items-center gap-2 mt-1">
-                      <span className="text-yellow-400">
+                      <span className="text-violet-400">
                         {'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}
                       </span>
                       <span className="text-gray-500 text-sm">
@@ -242,7 +249,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                     </div>
                   </div>
                 </div>
-                {review.title && <h4 className="font-bold mb-2">{review.title}</h4>}
+                {review.title && <h4 className="font-bold mb-2 text-white">{review.title}</h4>}
                 <p className="text-gray-300 leading-relaxed">{review.body}</p>
               </div>
             ))}

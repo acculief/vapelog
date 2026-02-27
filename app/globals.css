@@ -2,7 +2,16 @@
 
 * { box-sizing: border-box; }
 
+:root {
+  --bg-primary: #0d0618;
+  --bg-card: rgba(255,255,255,0.05);
+  --purple-glow: 0 0 20px rgba(124,58,237,0.4);
+  --purple-glow-strong: 0 0 40px rgba(124,58,237,0.6);
+}
+
 body {
+  background: #0d0618;
+  color: white;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -28,4 +37,26 @@ body {
 
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+}
+
+.purple-glow {
+  box-shadow: var(--purple-glow);
+}
+
+.purple-glow-strong {
+  box-shadow: var(--purple-glow-strong);
+}
+
+.gradient-text {
+  background: linear-gradient(to right, #a78bfa, #818cf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glass-card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.1);
 }
