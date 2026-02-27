@@ -144,38 +144,38 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         )}
       </div>
 
-      {/* Affiliate Links */}
-      {affiliates && Object.keys(affiliates).length > 0 && (
-        <div className="rounded-2xl p-6 mb-8 border border-violet-500/30" style={{ background: 'rgba(124,58,237,0.1)', backdropFilter: 'blur(12px)' }}>
-          <h2 className="font-bold text-lg mb-4 text-white">🛒 購入する</h2>
-          <div className="flex gap-3 flex-wrap">
-            {affiliates.amazon && (
-              <a href={affiliates.amazon} target="_blank" rel="noopener noreferrer sponsored"
-                className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-3 px-6 rounded-xl transition">
-                Amazonで買う
-              </a>
-            )}
-            {affiliates.rakuten && (
-              <a href={affiliates.rakuten} target="_blank" rel="noopener noreferrer sponsored"
-                className="bg-red-600 hover:bg-red-500 text-white font-bold py-3 px-6 rounded-xl transition">
-                楽天で買う
-              </a>
-            )}
-            {affiliates.yahoo && (
-              <a href={affiliates.yahoo} target="_blank" rel="noopener noreferrer sponsored"
-                className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 px-6 rounded-xl transition">
-                Yahoo!で買う
-              </a>
-            )}
-            {affiliates.official && (
-              <a href={affiliates.official} target="_blank" rel="noopener noreferrer"
-                className="border border-violet-500/30 hover:bg-violet-500/10 text-white font-bold py-3 px-6 rounded-xl transition">
-                公式サイト
-              </a>
-            )}
-          </div>
+      {/* Purchase Links */}
+      <div className="rounded-2xl p-6 mb-8 border border-violet-500/30" style={{ background: 'rgba(124,58,237,0.1)', backdropFilter: 'blur(12px)' }}>
+        <h2 className="font-bold text-lg mb-4 text-white">🛒 購入する</h2>
+        <div className="flex gap-3 flex-wrap">
+          <a
+            href={`https://www.amazon.co.jp/s?k=${encodeURIComponent(product.name)}`}
+            target="_blank"
+            rel="noopener noreferrer sponsored"
+            className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-3 px-6 rounded-xl transition flex items-center gap-2"
+          >
+            🛍️ Amazonで探す
+          </a>
+          {affiliates?.rakuten && (
+            <a href={affiliates.rakuten} target="_blank" rel="noopener noreferrer sponsored"
+              className="bg-red-600 hover:bg-red-500 text-white font-bold py-3 px-6 rounded-xl transition">
+              楽天で買う
+            </a>
+          )}
+          {affiliates?.yahoo && (
+            <a href={affiliates.yahoo} target="_blank" rel="noopener noreferrer sponsored"
+              className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 px-6 rounded-xl transition">
+              Yahoo!で買う
+            </a>
+          )}
+          {affiliates?.official && (
+            <a href={affiliates.official} target="_blank" rel="noopener noreferrer"
+              className="border border-violet-500/30 hover:bg-violet-500/10 text-white font-bold py-3 px-6 rounded-xl transition">
+              公式サイト
+            </a>
+          )}
         </div>
-      )}
+      </div>
 
       {/* Specs */}
       {specs && Object.keys(specs).length > 0 && (
