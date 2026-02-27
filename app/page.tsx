@@ -3,115 +3,136 @@ import { prisma } from '@/lib/prisma'
 
 export const revalidate = 3600
 
+const CATEGORIES = [
+  { slug: 'pod', name: 'ポッド型', desc: 'コンパクトで手軽' },
+  { slug: 'starter', name: 'スターターキット', desc: '初心者におすすめ' },
+  { slug: 'boxmod', name: 'BOX MOD', desc: 'ハイパワー・カスタム向け' },
+  { slug: 'liquid', name: 'リキッド', desc: 'フレーバー・ニコチン塩' },
+  { slug: 'disposable', name: '使い捨て', desc: '手軽に試したい方' },
+  { slug: 'parts', name: 'パーツ', desc: 'コイル・ポッド交換' },
+]
+
 async function getTopProducts() {
   try {
     return await prisma.product.findMany({
-      take: 6,
+      take: 8,
       orderBy: { rankScore: 'desc' },
-      include: {
-        reviews: { where: { status: 'visible' }, select: { rating: true } },
-      },
+      include: { reviews: { where: { status: 'visible' }, select: { rating: true } } },
     })
   } catch { return [] }
 }
 
-function Stars({ rating }: { rating: number }) {
-  const r = Math.round(rating)
-  return <span className="text-yellow-400 text-sm">{'★'.repeat(r)}{'☆'.repeat(5 - r)}</span>
+function RatingBar({ rating, count }: { rating: number; count: number }) {
+  if (count === 0) return <span className="text-xs text-gray-400">レビューなし</span>
+  const r = Math.round(rating * 10) / 10
+  return (
+    <div className="flex items-center gap-1.5">
+      <div className="flex">
+        {[1,2,3,4,5].map(i => (
+          <svg key={i} className={`w-3.5 h-3.5 ${i <= Math.round(r) ? 'text-yellow-400' : 'text-gray-200'}`} fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+          </svg>
+        ))}
+      </div>
+      <span className="text-xs font-medium text-gray-700">{r.toFixed(1)}</span>
+      <span className="text-xs text-gray-400">({count}件)</span>
+    </div>
+  )
 }
 
 export default async function HomePage() {
   const topProducts = await getTopProducts()
 
-  const categories = [
-    { name: 'スターターキット', emoji: '🚀', slug: 'starter' },
-    { name: 'ポッド型', emoji: '💧', slug: 'pod' },
-    { name: 'BOX MOD', emoji: '📦', slug: 'boxmod' },
-    { name: 'リキッド', emoji: '🧪', slug: 'liquid' },
-    { name: '使い捨て', emoji: '🗑️', slug: 'disposable' },
-    { name: 'パーツ', emoji: '🔧', slug: 'parts' },
-  ]
-
   return (
-    <div className="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-8">
-      {/* Hero */}
-      <div className="text-center py-10 sm:py-16 bg-gradient-to-br from-blue-900/30 to-gray-900 rounded-2xl mb-8 px-4 sm:px-8">
-        <h1 className="text-2xl sm:text-5xl font-black mb-3 bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent leading-tight">
-          日本最大の<br className="sm:hidden" />VAPEレビューサイト
-        </h1>
-        <p className="text-gray-400 text-sm sm:text-xl mb-6">
-          スパムゼロ・信頼の口コミ・詳細比較
-        </p>
-        <div className="flex gap-3 justify-center">
-          <Link href="/search" className="flex-1 sm:flex-none text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl text-sm sm:text-lg transition">
-            🔍 商品を探す
-          </Link>
-          <Link href="/rankings" className="flex-1 sm:flex-none text-center bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-xl text-sm sm:text-lg transition">
-            🏆 ランキング
-          </Link>
+    <>
+      <div className="bg-blue-600 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
+          <h1 className="text-2xl sm:text-4xl font-black mb-3 leading-tight">
+            VAPE・電子タバコの<br className="sm:hidden" />口コミ・比較サイト
+          </h1>
+          <p className="text-blue-100 text-sm sm:text-lg mb-8 max-w-xl">
+            スパムゼロの信頼できるレビュー。ポッド・BOX MOD・リキッドを徹底比較。
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 max-w-xl">
+            <Link href="/search" className="flex-1 bg-white/10 backdrop-blur border border-white/30 rounded-lg px-4 py-3 text-white text-sm hover:bg-white/20 transition text-left">
+              商品名・ブランドで検索...
+            </Link>
+            <Link href="/search" className="bg-white text-blue-700 font-bold px-6 py-3 rounded-lg text-sm hover:bg-blue-50 transition text-center shrink-0">
+              検索する
+            </Link>
+          </div>
         </div>
       </div>
 
-      {/* Categories - 3cols on SP */}
-      <section className="mb-8">
-        <h2 className="text-base sm:text-2xl font-bold mb-4">カテゴリから探す</h2>
-        <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-4">
-          {categories.map((cat) => (
-            <Link key={cat.slug} href={`/search?category=${cat.slug}`}
-              className="bg-gray-800 hover:bg-gray-700 rounded-xl p-3 sm:p-4 text-center transition group">
-              <div className="text-2xl sm:text-4xl mb-1 sm:mb-2">{cat.emoji}</div>
-              <div className="text-xs font-medium group-hover:text-blue-400 transition leading-tight">{cat.name}</div>
-            </Link>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+        <div className="grid grid-cols-3 gap-4 mb-10 p-4 sm:p-6 bg-white rounded-xl border border-gray-200 shadow-sm">
+          {[
+            { value: '53', label: '掲載商品数' },
+            { value: '117+', label: 'レビュー件数' },
+            { value: '0', label: 'スパムレビュー' },
+          ].map(({ value, label }) => (
+            <div key={label} className="text-center">
+              <p className="text-xl sm:text-2xl font-black text-blue-600">{value}</p>
+              <p className="text-xs text-gray-500 mt-0.5">{label}</p>
+            </div>
           ))}
         </div>
-      </section>
 
-      {/* Top Products */}
-      {topProducts.length > 0 && (
-        <section className="mb-8">
-          <h2 className="text-base sm:text-2xl font-bold mb-4">🏆 人気商品TOP6</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
+        <section className="mb-10">
+          <h2 className="text-lg sm:text-xl font-bold mb-4">カテゴリから探す</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+            {CATEGORIES.map((cat) => (
+              <Link key={cat.slug} href={`/search?category=${cat.slug}`}
+                className="bg-white border border-gray-200 hover:border-blue-400 hover:shadow-sm rounded-xl p-3 sm:p-4 transition group">
+                <p className="font-bold text-sm group-hover:text-blue-600 transition">{cat.name}</p>
+                <p className="text-xs text-gray-500 mt-0.5 hidden sm:block">{cat.desc}</p>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section className="mb-10">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg sm:text-xl font-bold">人気商品ランキング</h2>
+            <Link href="/rankings" className="text-sm text-blue-600 hover:underline">全て見る</Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             {topProducts.map((product, i) => {
-              const avgRating = product.reviews.length > 0
-                ? product.reviews.reduce((s, r) => s + r.rating, 0) / product.reviews.length : 0
+              const reviews = product.reviews
+              const avg = reviews.length ? reviews.reduce((s, r) => s + r.rating, 0) / reviews.length : 0
               return (
                 <Link key={product.id} href={`/products/${product.id}`}
-                  className="flex items-start gap-3 bg-gray-800 hover:bg-gray-700 rounded-xl p-4 transition border border-gray-700 hover:border-blue-500">
-                  <span className="text-xl sm:text-2xl font-black text-blue-400 w-8 text-center flex-shrink-0">#{i + 1}</span>
-                  <div className="flex-1 min-w-0">
-                    <div className="text-xs text-gray-500 mb-0.5 truncate">{product.brand}</div>
-                    <h3 className="font-bold text-sm sm:text-base truncate">{product.name}</h3>
-                    <div className="flex items-center gap-1 mt-1">
-                      <Stars rating={avgRating} />
-                      <span className="text-xs text-gray-400">({product.reviews.length}件)</span>
-                    </div>
-                    {product.price && (
-                      <div className="text-blue-400 font-bold text-sm mt-1">¥{product.price.toLocaleString()}</div>
-                    )}
+                  className="bg-white border border-gray-200 hover:border-blue-400 hover:shadow-sm rounded-xl p-4 transition">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="text-xs font-black text-white bg-blue-600 w-6 h-6 rounded-full flex items-center justify-center shrink-0">
+                      {i + 1}
+                    </span>
+                    <span className="text-xs text-gray-500 truncate">{product.brand}</span>
                   </div>
+                  <h3 className="font-bold text-sm leading-snug mb-2 line-clamp-2">{product.name}</h3>
+                  <RatingBar rating={avg} count={reviews.length} />
+                  {product.price && (
+                    <p className="text-blue-600 font-bold text-sm mt-2">¥{product.price.toLocaleString()}</p>
+                  )}
                 </Link>
               )
             })}
           </div>
         </section>
-      )}
 
-      {/* Features - 1col on SP */}
-      <section className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6">
-        {[
-          { icon: '🛡️', title: 'スパム完全排除', desc: 'AI自動スコアリングで低品質レビューを非表示' },
-          { icon: '⚖️', title: '詳細比較', desc: '最大5製品を横並び比較。価格・評価を一目で' },
-          { icon: '🔍', title: '強力な検索', desc: 'カテゴリ・ブランド・価格帯で絞り込み' },
-        ].map((f) => (
-          <div key={f.title} className="bg-gray-800 rounded-xl p-4 sm:p-6 flex sm:flex-col items-start sm:items-center gap-3 sm:gap-0 sm:text-center">
-            <div className="text-3xl sm:text-4xl sm:mb-3 flex-shrink-0">{f.icon}</div>
-            <div>
-              <h3 className="font-bold text-sm sm:text-lg sm:mb-2">{f.title}</h3>
-              <p className="text-gray-400 text-xs sm:text-sm hidden sm:block">{f.desc}</p>
+        <section className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {[
+            { title: 'AIによるスパム排除', desc: 'レビュー品質スコアで低品質な投稿を自動非表示。信頼できる口コミだけ表示します。' },
+            { title: '詳細スペック比較', desc: '最大5製品を横並びで比較。バッテリー容量・出力・対応コイルをひと目で確認。' },
+            { title: 'カテゴリ横断検索', desc: 'ブランド・価格・評価・フレーバーで絞り込み。用途に合った商品が見つかります。' },
+          ].map((f) => (
+            <div key={f.title} className="bg-white border border-gray-200 rounded-xl p-5 sm:p-6">
+              <h3 className="font-bold mb-2">{f.title}</h3>
+              <p className="text-sm text-gray-600 leading-relaxed">{f.desc}</p>
             </div>
-          </div>
-        ))}
-      </section>
-    </div>
+          ))}
+        </section>
+      </div>
+    </>
   )
 }
