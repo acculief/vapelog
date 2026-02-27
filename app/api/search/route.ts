@@ -40,7 +40,7 @@ export async function GET(request: Request) {
       }
     }
 
-    let products = await prisma.product.findMany({
+    const allProducts = await prisma.product.findMany({
       where,
       take: limit,
       orderBy: { rankScore: 'desc' },
@@ -53,14 +53,15 @@ export async function GET(request: Request) {
       },
     })
 
-    if (ratingMin) {
-      const minRating = parseFloat(ratingMin)
-      products = products.filter((p) => {
-        if (p.reviews.length === 0) return false
-        const avg = p.reviews.reduce((s, r) => s + r.rating, 0) / p.reviews.length
-        return avg >= minRating
-      })
-    }
+    type ProductItem = typeof allProducts[number]
+
+    const products: ProductItem[] = ratingMin
+      ? allProducts.filter((p: ProductItem) => {
+          if (p.reviews.length === 0) return false
+          const avg = p.reviews.reduce((s: number, r: { rating: number }) => s + r.rating, 0) / p.reviews.length
+          return avg >= parseFloat(ratingMin)
+        })
+      : allProducts
 
     return NextResponse.json({ products })
   } catch (error) {
