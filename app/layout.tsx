@@ -6,41 +6,33 @@ import Link from 'next/link'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'VapeLog — 日本最大のVAPE口コミ・比較サイト',
-  description: '電子タバコ・VAPEの口コミ・ランキング・比較。スパムゼロの信頼できるレビュー。',
-  openGraph: {
-    title: 'VapeLog',
-    description: '日本最大のVAPE口コミ・比較サイト',
-    type: 'website',
-    locale: 'ja_JP',
-  },
+  title: 'VapeLog — VAPE口コミ・比較',
+  description: '電子タバコ・VAPEの口コミ・ランキング・比較。',
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ja">
       <body className={`${inter.className} bg-gray-950 text-white min-h-screen`}>
         <header className="bg-gray-900 border-b border-gray-800 sticky top-0 z-50">
-          <div className="max-w-7xl mx-auto px-4 py-3 flex items-center gap-6">
-            <Link href="/" className="text-xl font-black text-blue-400 tracking-tight">
+          <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+            <Link href="/" className="text-base sm:text-xl font-black text-blue-400 tracking-tight whitespace-nowrap">
               💨 VapeLog
             </Link>
-            <nav className="flex gap-4 text-sm text-gray-400">
-              <Link href="/search" className="hover:text-white transition">検索</Link>
-              <Link href="/rankings" className="hover:text-white transition">ランキング</Link>
-              <Link href="/compare" className="hover:text-white transition">比較</Link>
-              <Link href="/write-review" className="hover:text-white transition">レビューを書く</Link>
+            <nav className="flex items-center gap-1 sm:gap-3 overflow-x-auto">
+              <Link href="/search" className="text-gray-400 hover:text-white text-xs sm:text-sm whitespace-nowrap px-2 py-1.5 rounded-lg hover:bg-gray-800 transition">検索</Link>
+              <Link href="/rankings" className="text-gray-400 hover:text-white text-xs sm:text-sm whitespace-nowrap px-2 py-1.5 rounded-lg hover:bg-gray-800 transition">ランキング</Link>
+              <Link href="/compare" className="text-gray-400 hover:text-white text-xs sm:text-sm whitespace-nowrap px-2 py-1.5 rounded-lg hover:bg-gray-800 transition">比較</Link>
+              <Link href="/write-review" className="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm whitespace-nowrap px-3 py-1.5 rounded-lg font-medium transition">
+                <span className="sm:hidden">書く</span>
+                <span className="hidden sm:inline">レビューを書く</span>
+              </Link>
             </nav>
           </div>
         </header>
         <main>{children}</main>
-        <footer className="border-t border-gray-800 mt-16 py-8 text-center text-gray-600 text-sm">
-          <p>© 2024 VapeLog — 20歳以上の方のみご利用ください</p>
-          <p className="mt-1">未成年者の喫煙は法律で禁じられています</p>
+        <footer className="border-t border-gray-800 mt-12 py-6 text-center text-gray-600 text-xs">
+          <p>© 2024 VapeLog | 20歳以上の方のみ</p>
         </footer>
       </body>
     </html>
