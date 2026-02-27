@@ -7,7 +7,22 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: { default: 'VapeLog | VAPE・電子タバコ 口コミ・比較', template: '%s | VapeLog' },
-  description: '日本最大のVAPE口コミサイト。ポッド・MOD・リキッドの詳細比較とレビュー。',
+  description: '日本最大のVAPE口コミサイト。ポッド・MOD・リキッドの詳細比較とスパムゼロのレビュー。',
+  metadataBase: new URL('https://vapelog.vercel.app'),
+  openGraph: {
+    type: 'website',
+    locale: 'ja_JP',
+    url: 'https://vapelog.vercel.app',
+    siteName: 'VapeLog',
+    title: 'VapeLog | VAPE・電子タバコ 口コミ・比較',
+    description: '日本最大のVAPE口コミサイト。ポッド・MOD・リキッドの詳細比較とスパムゼロのレビュー。',
+    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'VapeLog' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'VapeLog | VAPE・電子タバコ 口コミ・比較',
+    description: '日本最大のVAPE口コミサイト。ポッド・MOD・リキッドの詳細比較とスパムゼロのレビュー。',
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
