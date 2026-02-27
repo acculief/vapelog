@@ -99,18 +99,25 @@ export default async function HomePage() {
               const avg = visibleReviews.length ? visibleReviews.reduce((s: number, r: any) => s + r.rating, 0) / visibleReviews.length : 0
               return (
                 <Link key={product.id} href={`/products/${product.id}`}
-                  className="bg-white border border-gray-200 hover:border-blue-400 hover:shadow-sm rounded-xl p-4 transition">
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="text-xs font-black text-white bg-blue-600 w-6 h-6 rounded-full flex items-center justify-center shrink-0">
-                      {i + 1}
-                    </span>
-                    <span className="text-xs text-gray-500 truncate">{product.brand}</span>
-                  </div>
-                  <h3 className="font-bold text-sm leading-snug mb-2 line-clamp-2">{product.name}</h3>
-                  <RatingBar rating={avg} count={visibleReviews.length} />
-                  {product.price && (
-                    <p className="text-blue-600 font-bold text-sm mt-2">¥{product.price.toLocaleString()}</p>
+                  className="bg-white border border-gray-200 hover:border-blue-400 hover:shadow-sm rounded-xl overflow-hidden transition">
+                  {product.imageUrl && (
+                    <div className="w-full h-36 bg-gray-50 overflow-hidden">
+                      <img src={product.imageUrl} alt={product.name} className="w-full h-full object-contain p-2" loading="lazy" />
+                    </div>
                   )}
+                  <div className="p-4">
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="text-xs font-black text-white bg-blue-600 w-6 h-6 rounded-full flex items-center justify-center shrink-0">
+                        {i + 1}
+                      </span>
+                      <span className="text-xs text-gray-500 truncate">{product.brand}</span>
+                    </div>
+                    <h3 className="font-bold text-sm leading-snug mb-2 line-clamp-2">{product.name}</h3>
+                    <RatingBar rating={avg} count={visibleReviews.length} />
+                    {product.price && (
+                      <p className="text-blue-600 font-bold text-sm mt-2">¥{product.price.toLocaleString()}</p>
+                    )}
+                  </div>
                 </Link>
               )
             })}

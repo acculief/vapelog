@@ -94,6 +94,11 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
       <div className="bg-gray-800 rounded-2xl p-8 mb-8">
         <div className="flex items-start justify-between flex-wrap gap-4">
           <div className="flex-1">
+            {product.imageUrl && (
+              <div className="mb-4 w-32 h-32 rounded-xl overflow-hidden bg-gray-700 shrink-0">
+                <img src={product.imageUrl} alt={product.name} className="w-full h-full object-contain p-2" />
+              </div>
+            )}
             <div className="text-sm text-gray-400 mb-1">{product.brand}</div>
             <h1 className="text-3xl font-black mb-4">{product.name}</h1>
             <div className="flex items-center gap-3 mb-4">

@@ -139,16 +139,23 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
               const catLabel = CATEGORIES.find(c => c.slug === product.category)?.name || product.category
               return (
                 <Link key={product.id} href={`/products/${product.id}`}
-                  className="bg-white border border-gray-200 hover:border-blue-400 hover:shadow-sm rounded-xl p-4 transition">
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-xs text-gray-400">{product.brand}</span>
-                    <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">{catLabel}</span>
-                  </div>
-                  <h3 className="font-bold text-sm leading-snug mb-2 line-clamp-2">{product.name}</h3>
-                  <Stars avg={avg} count={product.reviews.length} />
-                  {product.price && (
-                    <p className="text-blue-600 font-bold text-sm mt-2">¥{product.price.toLocaleString()}</p>
+                  className="bg-white border border-gray-200 hover:border-blue-400 hover:shadow-sm rounded-xl overflow-hidden transition">
+                  {product.imageUrl && (
+                    <div className="w-full h-40 bg-gray-50 overflow-hidden">
+                      <img src={product.imageUrl} alt={product.name} className="w-full h-full object-contain p-2" loading="lazy" />
+                    </div>
                   )}
+                  <div className="p-4">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-xs text-gray-400">{product.brand}</span>
+                      <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">{catLabel}</span>
+                    </div>
+                    <h3 className="font-bold text-sm leading-snug mb-2 line-clamp-2">{product.name}</h3>
+                    <Stars avg={avg} count={product.reviews.length} />
+                    {product.price && (
+                      <p className="text-blue-600 font-bold text-sm mt-2">¥{product.price.toLocaleString()}</p>
+                    )}
+                  </div>
                 </Link>
               )
             })}
