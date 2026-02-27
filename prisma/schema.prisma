@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String?
+  name      String?
+  role      String   @default("user")
+  banned    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  reviews   Review[]
+}
+
+model Product {
+  id             String       @id @default(cuid())
+  name           String
+  slug           String       @unique
+  category       String
+  brand          String
+  price          Float?
+  specs          Json?
+  description    String?
+  imageUrl       String?
+  affiliateLinks Json?
+  rankScore      Float        @default(0)
+  createdAt      DateTime     @default(now())
+  reviews        Review[]
+  tags           ProductTag[]
+}
+
+model Review {
+  id           String   @id @default(cuid())
+  rating       Int
+  title        String?
+  body         String
+  qualityScore Float    @default(1.0)
+  status       String   @default("visible")
+  product      Product  @relation(fields: [productId], references: [id])
+  productId    String
+  user         User     @relation(fields: [userId], references: [id])
+  userId       String
+  createdAt    DateTime @default(now())
+  reports      Report[]
+}
+
+model Tag {
+  id       String       @id @default(cuid())
+  name     String       @unique
+  type     String
+  products ProductTag[]
+}
+
+model ProductTag {
+  product   Product @relation(fields: [productId], references: [id])
+  productId String
+  tag       Tag     @relation(fields: [tagId], references: [id])
+  tagId     String
+
+  @@id([productId, tagId])
+}
+
+model Report {
+  id        String   @id @default(cuid())
+  review    Review   @relation(fields: [reviewId], references: [id])
+  reviewId  String
+  reason    String
+  status    String   @default("pending")
+  createdAt DateTime @default(now())
+}
