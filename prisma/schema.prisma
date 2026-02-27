@@ -3,24 +3,25 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model Product {
-  id          String  @id @default(cuid())
-  name        String
-  slug        String  @unique
-  category    String
-  brand       String
-  price       Float?
-  specs       Json?
-  description String?
+  id             String       @id @default(cuid())
+  name           String
+  slug           String       @unique
+  category       String
+  brand          String
+  price          Float?
+  specs          Json?
+  description    String?
   affiliateLinks Json?
-  rankScore   Float   @default(0)
-  createdAt   DateTime @default(now())
-  reviews     Review[]
-  tags        ProductTag[]
+  rankScore      Float        @default(0)
+  createdAt      DateTime     @default(now())
+  reviews        Review[]
+  tags           ProductTag[]
 }
 
 model Review {
@@ -61,6 +62,7 @@ model ProductTag {
   tagId     String
   product   Product @relation(fields: [productId], references: [id])
   tag       Tag     @relation(fields: [tagId], references: [id])
+
   @@id([productId, tagId])
 }
 
