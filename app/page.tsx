@@ -69,7 +69,7 @@ export default async function HomePage() {
         {/* Stats */}
         <div className="grid grid-cols-3 gap-4 mb-10 p-4 sm:p-6 rounded-xl border border-violet-500/20" style={{ background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(12px)' }}>
           {[
-            { value: '53', label: '掲載商品数' },
+            { value: '67', label: '掲載商品数' },
             { value: '117+', label: 'レビュー件数' },
             { value: '0', label: 'スパムレビュー' },
           ].map(({ value, label }) => (
@@ -83,21 +83,26 @@ export default async function HomePage() {
         {/* Categories */}
         <section className="mb-10">
           <h2 className="text-lg sm:text-xl font-bold mb-4 text-white">カテゴリから探す</h2>
-          <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             {CATEGORIES.map((cat) => (
               <Link key={cat.slug} href={`/search?category=${cat.slug}`}
-                className="relative overflow-hidden rounded-xl aspect-[4/3] group border border-white/10 hover:border-violet-500/50 transition">
-                <img
-                  src={cat.image}
-                  alt={cat.name}
-                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"
-                  style={{ background: 'linear-gradient(135deg, rgba(124,58,237,0.3), rgba(79,70,229,0.2))' }} />
-                <div className="absolute bottom-0 left-0 right-0 p-3">
-                  <p className="font-bold text-sm text-white drop-shadow">{cat.name}</p>
-                  <p className="text-xs text-gray-300 mt-0.5 hidden sm:block">{cat.desc}</p>
+                className="group rounded-2xl overflow-hidden border border-white/10 hover:border-violet-500/60 transition-all duration-300"
+                style={{ background: 'rgba(255,255,255,0.04)' }}>
+                {/* 画像：全体表示 */}
+                <div className="w-full aspect-[4/3] flex items-center justify-center overflow-hidden"
+                  style={{ background: 'rgba(10,5,25,0.6)' }}>
+                  <img
+                    src={cat.image}
+                    alt={cat.name}
+                    className="w-full h-full object-contain p-5 group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                {/* 紫グラデーションライン */}
+                <div className="h-[2px] bg-gradient-to-r from-violet-600 via-indigo-500 to-violet-600 opacity-40 group-hover:opacity-100 transition-opacity" />
+                {/* テキスト */}
+                <div className="px-4 py-3">
+                  <p className="font-bold text-base text-white group-hover:text-violet-300 transition-colors">{cat.name}</p>
+                  <p className="text-xs text-gray-500 mt-0.5">{cat.desc}</p>
                 </div>
               </Link>
             ))}
