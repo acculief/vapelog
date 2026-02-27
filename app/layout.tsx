@@ -1,9 +1,12 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import Script from "next/script"
 import Link from 'next/link'
 
 const inter = Inter({ subsets: ['latin'] })
+
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID
 
 export const metadata: Metadata = {
   title: { default: 'VapeLog | VAPE・電子タバコ 口コミ・比較', template: '%s | VapeLog' },
@@ -29,6 +32,22 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ja">
       <body className={`${inter.className} min-h-screen`} style={{ background: '#0d0618', color: 'white' }}>
+        {GA_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="ga4-init" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${GA_ID}');
+              `}
+            </Script>
+          </>
+        )}
         <header className="sticky top-0 z-50 border-b border-violet-500/20 backdrop-blur-md" style={{ background: 'rgba(13,6,24,0.90)' }}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="flex items-center h-14 gap-6">
