@@ -1,12 +1,7 @@
-import "dotenv/config";
-import { defineConfig } from "prisma/config";
+import path from 'node:path'
+import type { PrismaConfig } from 'prisma'
 
-export default defineConfig({
-  schema: "prisma/schema.prisma",
-  migrations: {
-    path: "prisma/migrations",
-  },
-  datasource: {
-    url: process.env["DATABASE_URL"] || "postgresql://localhost:5432/vapelog",
-  },
-});
+export default {
+  earlyAccess: false,
+  schema: path.join('prisma', 'schema.prisma'),
+} satisfies PrismaConfig

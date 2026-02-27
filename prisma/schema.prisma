@@ -4,6 +4,38 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id          String  @id @default(cuid())
+  name        String
+  slug        String  @unique
+  category    String
+  brand       String
+  price       Float?
+  specs       Json?
+  description String?
+  affiliateLinks Json?
+  rankScore   Float   @default(0)
+  createdAt   DateTime @default(now())
+  reviews     Review[]
+  tags        ProductTag[]
+}
+
+model Review {
+  id           String   @id @default(cuid())
+  rating       Int
+  title        String?
+  body         String
+  qualityScore Float    @default(1.0)
+  status       String   @default("visible")
+  productId    String
+  product      Product  @relation(fields: [productId], references: [id])
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  createdAt    DateTime @default(now())
+  reports      Report[]
 }
 
 model User {
@@ -17,38 +49,6 @@ model User {
   reviews   Review[]
 }
 
-model Product {
-  id             String       @id @default(cuid())
-  name           String
-  slug           String       @unique
-  category       String
-  brand          String
-  price          Float?
-  specs          Json?
-  description    String?
-  imageUrl       String?
-  affiliateLinks Json?
-  rankScore      Float        @default(0)
-  createdAt      DateTime     @default(now())
-  reviews        Review[]
-  tags           ProductTag[]
-}
-
-model Review {
-  id           String   @id @default(cuid())
-  rating       Int
-  title        String?
-  body         String
-  qualityScore Float    @default(1.0)
-  status       String   @default("visible")
-  product      Product  @relation(fields: [productId], references: [id])
-  productId    String
-  user         User     @relation(fields: [userId], references: [id])
-  userId       String
-  createdAt    DateTime @default(now())
-  reports      Report[]
-}
-
 model Tag {
   id       String       @id @default(cuid())
   name     String       @unique
@@ -57,18 +57,17 @@ model Tag {
 }
 
 model ProductTag {
-  product   Product @relation(fields: [productId], references: [id])
   productId String
-  tag       Tag     @relation(fields: [tagId], references: [id])
   tagId     String
-
+  product   Product @relation(fields: [productId], references: [id])
+  tag       Tag     @relation(fields: [tagId], references: [id])
   @@id([productId, tagId])
 }
 
 model Report {
   id        String   @id @default(cuid())
-  review    Review   @relation(fields: [reviewId], references: [id])
   reviewId  String
+  review    Review   @relation(fields: [reviewId], references: [id])
   reason    String
   status    String   @default("pending")
   createdAt DateTime @default(now())
