@@ -96,6 +96,17 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
       <div className="bg-gray-800 rounded-2xl p-8 mb-8">
         <div className="flex items-start justify-between flex-wrap gap-4">
+          {(product as any).imageUrl && (
+            <div className="w-full sm:w-48 h-48 bg-gray-700 rounded-xl overflow-hidden flex items-center justify-center shrink-0">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={(product as any).imageUrl}
+                alt={product.name}
+                className="w-full h-full object-contain p-2"
+                referrerPolicy="no-referrer"
+              />
+            </div>
+          )}
           <div className="flex-1">
             <div className="text-sm text-gray-400 mb-1">{product.brand}</div>
             <h1 className="text-3xl font-black mb-4">{product.name}</h1>

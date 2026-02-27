@@ -1,15 +1,17 @@
 import Link from 'next/link'
 import { prisma } from '@/lib/prisma'
+import CategoryCard from '@/components/CategoryCard'
+import categoryImages from '@/lib/category-images.json'
 
 export const revalidate = 3600
 
 const CATEGORIES = [
-  { slug: 'pod', name: 'ポッド型', desc: 'コンパクトで手軽' },
-  { slug: 'starter', name: 'スターターキット', desc: '初心者におすすめ' },
-  { slug: 'boxmod', name: 'BOX MOD', desc: 'ハイパワー・カスタム向け' },
-  { slug: 'liquid', name: 'リキッド', desc: 'フレーバー・ニコチン塩' },
-  { slug: 'disposable', name: '使い捨て', desc: '手軽に試したい方' },
-  { slug: 'parts', name: 'パーツ', desc: 'コイル・ポッド交換' },
+  { slug: 'disposable', name: '使い捨てVAPE' },
+  { slug: 'pod', name: 'ポッド型VAPE' },
+  { slug: 'boxmod', name: 'BOX MOD' },
+  { slug: 'liquid', name: 'リキッド / フレーバー' },
+  { slug: 'starter', name: 'スターターキット' },
+  { slug: 'parts', name: 'コイル / パーツ' },
 ]
 
 async function getTopProducts() {
@@ -67,7 +69,7 @@ export default async function HomePage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
         <div className="grid grid-cols-3 gap-4 mb-10 p-4 sm:p-6 bg-white rounded-xl border border-gray-200 shadow-sm">
           {[
-            { value: '53', label: '掲載商品数' },
+            { value: '67+', label: '掲載商品数' },
             { value: '117+', label: 'レビュー件数' },
             { value: '0', label: 'スパムレビュー' },
           ].map(({ value, label }) => (
@@ -80,13 +82,15 @@ export default async function HomePage() {
 
         <section className="mb-10">
           <h2 className="text-lg sm:text-xl font-bold mb-4">カテゴリから探す</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
             {CATEGORIES.map((cat) => (
-              <Link key={cat.slug} href={`/search?category=${cat.slug}`}
-                className="bg-white border border-gray-200 hover:border-blue-400 hover:shadow-sm rounded-xl p-3 sm:p-4 transition group">
-                <p className="font-bold text-sm group-hover:text-blue-600 transition">{cat.name}</p>
-                <p className="text-xs text-gray-500 mt-0.5 hidden sm:block">{cat.desc}</p>
-              </Link>
+              <CategoryCard
+                key={cat.slug}
+                slug={cat.slug}
+                name={cat.name}
+                images={(categoryImages as Record<string, string[]>)[cat.slug] || []}
+                href={`/search?category=${cat.slug}`}
+              />
             ))}
           </div>
         </section>
