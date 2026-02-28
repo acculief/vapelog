@@ -10,9 +10,12 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   try {
     const product = await getProduct(id)
     if (!product) return {}
+    // reviews & avgRating for meta
+    const metaReviews = ((product.reviews || []) as any[]).filter((r: any) => r.status === 'visible')
+    const metaAvg = metaReviews.length > 0 ? metaReviews.reduce((s: number, r: any) => s + r.rating, 0) / metaReviews.length : 0
     return {
       title: `${product.name} レビュー・評価 | VapeLog`,
-      description: `${product.name}の口コミ・評価・レビューをチェック。VapeLogで信頼できる最新情報を。`,
+      description: `${product.name}（${product.brand}）のレビュー・評価。${metaReviews.length}件の口コミ、平均${metaAvg.toFixed(1)}点。VapeLogで信頼できるVAPEの情報を。`,
     }
   } catch {
     return {}
@@ -75,11 +78,25 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
     })),
   }
 
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'トップ', item: 'https://vapelog.vercel.app' },
+      { '@type': 'ListItem', position: 2, name: '商品一覧', item: 'https://vapelog.vercel.app/search' },
+      { '@type': 'ListItem', position: 3, name: product.name },
+    ],
+  }
+
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
 
       {/* Breadcrumb */}

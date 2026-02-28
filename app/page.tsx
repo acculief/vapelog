@@ -3,14 +3,13 @@ import { getProducts } from '@/lib/queries'
 
 export const revalidate = 3600
 
-const CDN_BASE = 'https://cuinyjpiifcslzexrunc.supabase.co/storage/v1/object/public/item-images/vapelog-categories'
 const CATEGORIES = [
-  { slug: 'pod', name: 'ポッド型', desc: 'コンパクトで手軽', image: `${CDN_BASE}/pod.jpg` },
-  { slug: 'starter', name: 'スターターキット', desc: '初心者におすすめ', image: `${CDN_BASE}/starter.jpg` },
-  { slug: 'boxmod', name: 'BOX MOD', desc: 'ハイパワー・カスタム向け', image: `${CDN_BASE}/boxmod.jpg` },
-  { slug: 'liquid', name: 'リキッド', desc: 'フレーバー・ニコチン塩', image: `${CDN_BASE}/liquid.jpg` },
-  { slug: 'disposable', name: '使い捨て', desc: '手軽に試したい方', image: `${CDN_BASE}/disposable.jpg` },
-  { slug: 'parts', name: 'パーツ', desc: 'コイル・ポッド交換', image: `${CDN_BASE}/parts.jpg` },
+  { slug: 'pod', name: 'ポッド型', emoji: '📱', desc: 'コンパクトで手軽', image: null },
+  { slug: 'starter', name: 'スターターキット', emoji: '🎁', desc: '初心者におすすめ', image: null },
+  { slug: 'boxmod', name: 'BOX MOD', emoji: '📦', desc: 'ハイパワー・カスタム向け', image: null },
+  { slug: 'liquid', name: 'リキッド', emoji: '💧', desc: 'フレーバー・ニコチン塩', image: null },
+  { slug: 'disposable', name: '使い捨て', emoji: '🪄', desc: '手軽に試したい方', image: null },
+  { slug: 'parts', name: 'パーツ', emoji: '⚙️', desc: 'コイル・ポッド交換', image: null },
 ]
 
 async function getTopProducts() {
@@ -93,14 +92,10 @@ export default async function HomePage() {
               <Link key={cat.slug} href={`/search?category=${cat.slug}`}
                 className="group rounded-2xl overflow-hidden border border-white/10 hover:border-violet-500/60 transition-all duration-300"
                 style={{ background: 'rgba(255,255,255,0.04)' }}>
-                {/* 画像：全体表示 */}
-                <div className="w-full aspect-[4/3] flex items-center justify-center overflow-hidden"
+                {/* Emojiアイコン */}
+                <div className="w-full aspect-[4/3] flex items-center justify-center"
                   style={{ background: 'rgba(10,5,25,0.6)' }}>
-                  <img
-                    src={cat.image}
-                    alt={cat.name}
-                    className="w-full h-full object-contain p-5 group-hover:scale-105 transition-transform duration-300"
-                  />
+                  <span className="text-4xl group-hover:scale-110 transition-transform duration-300 select-none">{cat.emoji}</span>
                 </div>
                 {/* 紫グラデーションライン */}
                 <div className="h-[2px] bg-gradient-to-r from-violet-600 via-indigo-500 to-violet-600 opacity-40 group-hover:opacity-100 transition-opacity" />
