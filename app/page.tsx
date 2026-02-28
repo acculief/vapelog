@@ -71,19 +71,6 @@ export default async function HomePage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
-        {/* Stats */}
-        <div className="grid grid-cols-3 gap-4 mb-10 p-4 sm:p-6 rounded-xl border border-violet-500/20" style={{ background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(12px)' }}>
-          {[
-            { value: '67', label: '掲載商品数' },
-            { value: '★搭載', label: 'スペック比較' },
-            { value: 'ゼロ', label: 'スパムレビュー' },
-          ].map(({ value, label }) => (
-            <div key={label} className="text-center">
-              <p className="text-xl sm:text-2xl font-black bg-gradient-to-r from-violet-400 to-indigo-400 bg-clip-text text-transparent">{value}</p>
-              <p className="text-xs text-gray-500 mt-0.5">{label}</p>
-            </div>
-          ))}
-        </div>
 
         {/* Categories */}
         <section className="mb-10">

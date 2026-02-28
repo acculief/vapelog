@@ -37,6 +37,21 @@ function renderContent(content: string) {
           {line.replace('- ', '')}
         </li>
       )
+    } else if (line.startsWith('[IMG:')) {
+      const match = line.match(/\[IMG:([^\|]+)\|([^\]]+)\]/)
+      if (match) {
+        elements.push(
+          <div key={key++} className="my-6 rounded-xl overflow-hidden border border-white/10">
+            <img
+              src={match[1]}
+              alt={match[2]}
+              className="w-full h-44 sm:h-56 object-cover opacity-85"
+              loading="lazy"
+            />
+            <p className="text-xs text-gray-500 text-center py-1.5 px-2">{match[2]}</p>
+          </div>
+        )
+      }
     } else if (line.trim() === '') {
       elements.push(<div key={key++} className="h-2" />)
     } else {
@@ -102,6 +117,17 @@ export default async function GuideArticlePage({ params }: { params: Promise<{ s
           <p className="text-gray-400 text-sm">{article.description}</p>
         </div>
 
+
+        {article.heroImage && (
+          <div className="mb-8 rounded-xl overflow-hidden" style={{ boxShadow: '0 0 40px rgba(124,58,237,0.2)' }}>
+            <img
+              src={article.heroImage}
+              alt={article.title}
+              className="w-full h-48 sm:h-64 object-cover"
+              loading="eager"
+            />
+          </div>
+        )}
         <div className="rounded-xl p-6 border border-white/10 mb-8" style={{ background: 'rgba(255,255,255,0.04)' }}>
           {renderContent(article.content)}
         </div>
