@@ -12,6 +12,7 @@ export const metadata: Metadata = {
   title: { default: 'VapeGo | VAPE・ヴェポライザー 口コミ・比較', template: '%s | VapeGo' },
   description: 'VAPE・ヴェポライザーの口コミ・スペック比較サイト。あなたにぴったりの一本を見つけよう。',
   metadataBase: new URL('https://vapelog.vercel.app'),
+  verification: { google: '0uJTSoLifNf9F30GBAdAstHG5n6Ci6kGC29csJZbdRM' },
   openGraph: {
     type: 'website',
     locale: 'ja_JP',
