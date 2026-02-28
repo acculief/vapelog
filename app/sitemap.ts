@@ -13,7 +13,7 @@ const GUIDE_SLUGS = [
 const RANKING_CATEGORIES = ['pod', 'starter', 'boxmod', 'liquid', 'disposable', 'parts']
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://vapelog.jp'
+  const baseUrl = 'https://vapego.vercel.app'
 
   let productUrls: MetadataRoute.Sitemap = []
   try {

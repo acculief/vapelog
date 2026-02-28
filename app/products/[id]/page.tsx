@@ -82,8 +82,8 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'トップ', item: 'https://vapelog.vercel.app' },
-      { '@type': 'ListItem', position: 2, name: '商品一覧', item: 'https://vapelog.vercel.app/search' },
+      { '@type': 'ListItem', position: 1, name: 'トップ', item: 'https://vapego.vercel.app' },
+      { '@type': 'ListItem', position: 2, name: '商品一覧', item: 'https://vapego.vercel.app/search' },
       { '@type': 'ListItem', position: 3, name: product.name },
     ],
   }
