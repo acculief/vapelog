@@ -1,5 +1,6 @@
 import { getProducts } from '@/lib/queries'
 import Link from 'next/link'
+import type { Metadata } from 'next'
 
 export const revalidate = 0
 
@@ -15,6 +16,21 @@ const CATEGORIES = [
 ]
 
 interface P { q?: string; category?: string; brand?: string; minPrice?: string; maxPrice?: string; ratingMin?: string; sort?: string }
+
+export async function generateMetadata({ searchParams }: { searchParams: Promise<P> }): Promise<Metadata> {
+  const p = await searchParams
+  if (p.q) {
+    return {
+      title: `「${p.q}」の検索結果 | VapeGo`,
+      description: `VapeGoで「${p.q}」を検索した結果です。VAPE・ヴェポライザーの口コミ・スペック比較。`,
+      robots: { index: false, follow: true },
+    }
+  }
+  return {
+    title: 'VAPE・ヴェポライザー商品検索 | VapeGo',
+    description: 'VAPE・ヴェポライザーを商品名・ブランド・カテゴリで絞り込み検索。口コミ・スペック比較ができます。',
+  }
+}
 
 function Stars({ avg, count }: { avg: number; count: number }) {
   if (count === 0) return <span className="text-xs text-gray-500">未レビュー</span>

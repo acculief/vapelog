@@ -79,25 +79,86 @@ const SLUG_SEARCH_QUERIES: Record<string, string> = {
   'liquid-guide': 'リキッド',
 }
 
+const FAQ_DATA: Record<string, { q: string; a: string }[]> = {
+  'what-is-vape': [
+    { q: 'ヴェポライザーとは何ですか？', a: 'たばこ葉やリキッドを燃焼させずに加熱し、蒸気を吸引するデバイスです。燃やさないためタールや一酸化炭素の発生を大幅に抑えられます。' },
+    { q: '電子タバコ・加熱式タバコ・ヴェポライザーの違いは？', a: '加熱式タバコ（iQOS等）は専用スティックを電気で加熱、ニコチンリキッドVAPEはリキッドを気化、乾式ヴェポライザーはたばこ葉をそのまま加熱します。消耗品・使用感がそれぞれ異なります。' },
+    { q: 'ヴェポライザーのメリットは？', a: 'においが少ない・コストが抑えられる・フレーバーを楽しめるの3点が主なメリットです。燃焼させないため煙臭さが格段に少なく、長期的なコストも低く抑えられます。' },
+  ],
+  'how-to-choose': [
+    { q: '初心者はどんなVAPEを選べばいいですか？', a: 'まずはポッド型かスターターキットがおすすめです。操作が簡単で価格も3,000〜8,000円程度と手頃で、コイル交換の手間も最小限です。' },
+    { q: 'VAPEを選ぶときのポイントは？', a: '予算・使用シーン・操作のしやすさ・カスタム性の4つが判断基準です。外出先中心ならポッド型、自宅でじっくり使いたいならBOX MODが向いています。' },
+    { q: 'VAPEの予算はどのくらい必要ですか？', a: '入門は3,000円以下の使い捨てまたは超入門モデル。コスパと使いやすさのバランスが良いゾーンは3,000〜8,000円のポッド型・スターターキットです。' },
+  ],
+  'pod-vs-boxmod': [
+    { q: 'ポッド型VAPEの特徴は？', a: 'コンパクトで操作が簡単。ポケットに収まるサイズで、吸うだけで動作するオートドロー方式が多く初心者向きです。カスタム性はBOX MODより低めです。' },
+    { q: 'BOX MODの特徴は？', a: '出力ワット数・温度・抵抗値など細かい設定が可能でカスタム性が高い。蒸気量が豊富で上級者向けですが、サイズが大きく設定の学習コストがかかります。' },
+    { q: 'ポッド型とBOX MODどちらを先に買うべきですか？', a: 'まずポッド型から始め、VAPEの楽しさに慣れてきたらBOX MODへのステップアップがスムーズです。ポッド型は操作が簡単で失敗しにくいためです。' },
+  ],
+  'beginner-setup': [
+    { q: 'VAPEを購入したら最初に何をすればいいですか？', a: 'フル充電（1〜2時間）→リキッド補充→プライミング（5〜10分待機）→少量から試吸い、の順番が正しいスタートです。' },
+    { q: 'プライミングとは何ですか？', a: 'コイルのコットンにリキッドを馴染ませる作業です。リキッド補充後5〜10分待つだけで、焦げ臭さや喉への刺激を防げます。スキップすると「焦げ臭い」「喉が痛い」原因になります。' },
+    { q: 'VAPEコイルの交換サインは？', a: '焦げたようなにおいがする・フレーバーが薄くなった・蒸気量が著しく減少した、の3つが主なサインです。使用頻度にもよりますが1〜2週間が目安です。' },
+  ],
+  'maintenance': [
+    { q: 'VAPEコイルの寿命はどのくらいですか？', a: '使用頻度にもよりますが、一般的に1〜2週間が目安です。焦げ臭さ・フレーバーの薄れ・蒸気量の低下が交換サインです。' },
+    { q: 'VAPEタンクの清掃方法は？', a: 'コイルを外してリキッドをふき取り、温水でタンク内をすすいで完全乾燥させます。週1回程度、またはリキッドを変えるタイミングで清掃しましょう。' },
+    { q: 'VAPEのバッテリーを長持ちさせるには？', a: '過充電・過放電を避けることが重要です。充電完了後はすぐにケーブルを外し、完全放電状態を長時間放置しないようにしましょう。' },
+  ],
+  'liquid-guide': [
+    { q: 'PG/VG比率とは何ですか？', a: 'VAPEリキッドのベース液の配合比率です。PGが多いと喉への刺激（スロートヒット）が強くフレーバーが際立ち、VGが多いと蒸気量が増えまろやかな口当たりになります。' },
+    { q: '初心者はどのPG/VG比率がおすすめですか？', a: 'PG50/VG50前後のバランス型が汎用性が高くおすすめです。スロートヒット重視ならPG70/VG30、蒸気量重視ならPG30/VG70を選びましょう。' },
+    { q: '日本でニコチン入りリキッドは使えますか？', a: '日本ではニコチン入りリキッドの販売は薬機法で規制されています。ニコチンなしのフレーバーリキッドは合法的に使用できます。' },
+  ],
+}
+
 export default async function GuideArticlePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const article = getArticle(slug)
   if (!article) notFound()
 
   const searchQuery = SLUG_SEARCH_QUERIES[slug] || 'VAPE'
+  const faqs = FAQ_DATA[slug] || []
 
-  const jsonLd = {
+  const jsonLdArticle = {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: article.title,
     description: article.description,
-    author: { '@type': 'Organization', name: 'VapeGo' },
-    publisher: { '@type': 'Organization', name: 'VapeGo' },
+    image: article.heroImage,
+    datePublished: '2025-01-01',
+    dateModified: new Date().toISOString().split('T')[0],
+    author: { '@type': 'Organization', name: 'VapeGo', url: 'https://vapego.vercel.app' },
+    publisher: { '@type': 'Organization', name: 'VapeGo', url: 'https://vapego.vercel.app' },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `https://vapego.vercel.app/guide/${slug}` },
+    wordCount: article.content.length,
+  }
+
+  const jsonLdFaq = faqs.length > 0 ? {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map(({ q, a }) => ({
+      '@type': 'Question',
+      name: q,
+      acceptedAnswer: { '@type': 'Answer', text: a },
+    })),
+  } : null
+
+  const jsonLdBreadcrumb = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'ホーム', item: 'https://vapego.vercel.app' },
+      { '@type': 'ListItem', position: 2, name: 'ガイド', item: 'https://vapego.vercel.app/guide' },
+      { '@type': 'ListItem', position: 3, name: article.title, item: `https://vapego.vercel.app/guide/${slug}` },
+    ],
   }
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdArticle) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }} />
+      {jsonLdFaq && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdFaq) }} />}
       <div className="max-w-3xl mx-auto px-4 py-10">
         <nav className="text-xs text-gray-500 mb-6 flex items-center gap-2">
           <Link href="/" className="hover:text-violet-400 transition">ホーム</Link>
@@ -131,6 +192,25 @@ export default async function GuideArticlePage({ params }: { params: Promise<{ s
         <div className="rounded-xl p-6 border border-white/10 mb-8" style={{ background: 'rgba(255,255,255,0.04)' }}>
           {renderContent(article.content)}
         </div>
+
+        {faqs.length > 0 && (
+          <div className="mb-8">
+            <h2 className="text-lg font-black text-white mb-4">よくある質問</h2>
+            <div className="space-y-3">
+              {faqs.map((faq, i) => (
+                <details key={i} className="rounded-xl border border-violet-500/20 overflow-hidden" style={{ background: 'rgba(255,255,255,0.03)' }}>
+                  <summary className="px-5 py-4 cursor-pointer text-sm font-bold text-white hover:text-violet-300 transition list-none flex items-center justify-between">
+                    <span>Q. {faq.q}</span>
+                    <span className="text-violet-400 shrink-0 ml-2">▾</span>
+                  </summary>
+                  <div className="px-5 pb-4 text-sm text-gray-300 leading-relaxed border-t border-violet-500/10 pt-3">
+                    A. {faq.a}
+                  </div>
+                </details>
+              ))}
+            </div>
+          </div>
+        )}
 
         <div className="p-6 rounded-xl border border-violet-500/20 mb-8" style={{ background: 'rgba(124,58,237,0.08)' }}>
           <h2 className="text-base font-bold text-white mb-2">関連商品を探す</h2>

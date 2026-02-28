@@ -13,6 +13,10 @@ export const metadata: Metadata = {
   description: 'VAPE・ヴェポライザーの口コミ・スペック比較サイト。あなたにぴったりの一本を見つけよう。',
   metadataBase: new URL('https://vapego.vercel.app'),
   verification: { google: '0uJTSoLifNf9F30GBAdAstHG5n6Ci6kGC29csJZbdRM' },
+  alternates: {
+    canonical: 'https://vapego.vercel.app',
+    languages: { 'ja': 'https://vapego.vercel.app' },
+  },
   openGraph: {
     type: 'website',
     locale: 'ja_JP',
@@ -49,6 +53,27 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </Script>
           </>
         )}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'WebSite',
+              name: 'VapeGo',
+              url: 'https://vapego.vercel.app',
+              description: 'VAPE・ヴェポライザーの口コミ・スペック比較サイト',
+              inLanguage: 'ja',
+              potentialAction: {
+                '@type': 'SearchAction',
+                target: {
+                  '@type': 'EntryPoint',
+                  urlTemplate: 'https://vapego.vercel.app/search?q={search_term_string}',
+                },
+                'query-input': 'required name=search_term_string',
+              },
+            })
+          }}
+        />
         <header className="sticky top-0 z-50 border-b border-violet-500/20 backdrop-blur-md" style={{ background: 'rgba(13,6,24,0.90)' }}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="flex items-center h-14 gap-6">

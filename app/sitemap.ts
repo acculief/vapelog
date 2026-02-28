@@ -24,31 +24,34 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     productUrls = (products || []).map((p: any) => ({
       url: `${baseUrl}/products/${p.id}`,
       lastModified: p.createdAt,
+      changeFrequency: 'weekly' as const,
+      priority: 0.6,
     }))
   } catch {
     // DB not connected, return static urls only
   }
 
-  const guideUrls: MetadataRoute.Sitemap = [
-    { url: `${baseUrl}/guide`, lastModified: new Date() },
-    ...GUIDE_SLUGS.map((slug) => ({
-      url: `${baseUrl}/guide/${slug}`,
-      lastModified: new Date(),
-    })),
-  ]
+  const guideUrls: MetadataRoute.Sitemap = GUIDE_SLUGS.map((slug) => ({
+    url: `${baseUrl}/guide/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'monthly' as const,
+    priority: 0.7,
+  }))
 
   const rankingCategoryUrls: MetadataRoute.Sitemap = RANKING_CATEGORIES.map((cat) => ({
     url: `${baseUrl}/rankings/${cat}`,
     lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.8,
   }))
 
   return [
-    { url: baseUrl, lastModified: new Date() },
-    { url: `${baseUrl}/search`, lastModified: new Date() },
-    { url: `${baseUrl}/rankings`, lastModified: new Date() },
-    { url: `${baseUrl}/compare`, lastModified: new Date() },
-    { url: `${baseUrl}/guide`, lastModified: new Date() },
-    { url: `${baseUrl}/write-review`, lastModified: new Date() },
+    { url: baseUrl, lastModified: new Date(), changeFrequency: 'daily' as const, priority: 1.0 },
+    { url: `${baseUrl}/search`, lastModified: new Date(), changeFrequency: 'daily' as const, priority: 0.9 },
+    { url: `${baseUrl}/rankings`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.9 },
+    { url: `${baseUrl}/compare`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.7 },
+    { url: `${baseUrl}/guide`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.8 },
+    { url: `${baseUrl}/write-review`, lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.5 },
     ...guideUrls,
     ...rankingCategoryUrls,
     ...productUrls,

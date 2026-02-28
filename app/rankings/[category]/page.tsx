@@ -82,14 +82,12 @@ export default async function CategoryRankingPage({ params }: { params: Promise<
     '@type': 'ItemList',
     name: meta.h1,
     description: meta.desc,
+    url: `https://vapego.vercel.app/rankings/${category}`,
     itemListElement: products.slice(0, 10).map((p, i) => ({
       '@type': 'ListItem',
       position: i + 1,
-      item: {
-        '@type': 'Product',
-        name: p.name,
-        brand: { '@type': 'Brand', name: p.brand },
-      },
+      name: p.name,
+      url: `https://vapego.vercel.app/products/${p.id}`,
     })),
   }
 
