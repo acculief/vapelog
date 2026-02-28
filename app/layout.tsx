@@ -36,6 +36,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ja">
+      <head>
+        <link rel="preconnect" href="https://images.unsplash.com" />
+        <link rel="preconnect" href="https://cuinyjpiifcslzexrunc.supabase.co" />
+        <link rel="dns-prefetch" href="https://images.unsplash.com" />
+        <link rel="dns-prefetch" href="https://cuinyjpiifcslzexrunc.supabase.co" />
+      </head>
       <body className={`${inter.className} min-h-screen`} style={{ background: '#0d0618', color: 'white' }}>
         {GA_ID && (
           <>
@@ -71,6 +77,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 },
                 'query-input': 'required name=search_term_string',
               },
+            })
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Organization',
+              name: 'VapeGo',
+              url: 'https://vapego.vercel.app',
+              logo: 'https://vapego.vercel.app/icon.png',
+              sameAs: [],
+              description: 'VAPE・ヴェポライザーの口コミ・スペック比較サイト',
             })
           }}
         />

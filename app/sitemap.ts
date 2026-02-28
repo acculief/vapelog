@@ -8,6 +8,10 @@ const GUIDE_SLUGS = [
   'beginner-setup',
   'maintenance',
   'liquid-guide',
+  'vape-for-beginners-2025',
+  'vape-coil-types',
+  'vape-smell',
+  'vape-quit-smoking',
 ]
 
 const RANKING_CATEGORIES = ['pod', 'starter', 'boxmod', 'liquid', 'disposable', 'parts']

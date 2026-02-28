@@ -55,6 +55,38 @@ const GUIDES = [
     tags: ['リキッド', 'ニコチン', 'PG/VG'],
     image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=240&auto=format&fit=crop&q=80',
   },
+  {
+    slug: 'vape-for-beginners-2025',
+    title: 'VAPE初心者おすすめ2025年版｜失敗しない選び方と人気機種',
+    desc: '2025年最新のVAPE初心者向けおすすめ機種。予算別・目的別に失敗しない選び方を解説。',
+    readTime: '8分',
+    tags: ['2025年版', '初心者', 'おすすめ'],
+    image: 'https://images.unsplash.com/photo-1526045612212-70caf35c14df?w=600&h=240&auto=format&fit=crop&q=80',
+  },
+  {
+    slug: 'vape-coil-types',
+    title: 'VAPEコイルの種類と選び方｜抵抗値・素材別に解説',
+    desc: 'コイルの抵抗値・素材（カンタル/ステンレス/ニクロム）の違いと選び方。交換手順も解説。',
+    readTime: '6分',
+    tags: ['コイル', '抵抗値', 'メンテナンス'],
+    image: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=600&h=240&auto=format&fit=crop&q=80',
+  },
+  {
+    slug: 'vape-smell',
+    title: 'VAPEは臭い？においが少ないデバイスと使い方のコツ',
+    desc: 'VAPEのにおいが気になる方へ。においが少ない理由・デバイス選び・室内での使い方を解説。',
+    readTime: '5分',
+    tags: ['におい', '室内使用', 'マナー'],
+    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=240&auto=format&fit=crop&q=80',
+  },
+  {
+    slug: 'vape-quit-smoking',
+    title: 'VAPEで禁煙・減煙できる？タバコからの切り替えガイド',
+    desc: 'タバコからVAPEへの切り替えを検討中の方向け。禁煙・減煙の実態とおすすめデバイスを解説。',
+    readTime: '7分',
+    tags: ['禁煙', '減煙', 'タバコ代替'],
+    image: 'https://images.unsplash.com/photo-1574482620811-1aa16ffe3c82?w=600&h=240&auto=format&fit=crop&q=80',
+  },
 ]
 
 export const revalidate = 86400

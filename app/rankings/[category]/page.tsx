@@ -6,12 +6,12 @@ import { notFound } from 'next/navigation'
 const CATEGORY_META: Record<string, { h1: string; title: string; desc: string }> = {
   pod: {
     h1: 'ポッド型VAPEランキング',
-    title: 'ポッド型VAPEおすすめランキング2024【コンパクト重視】 | VapeGo',
+    title: 'ポッド型VAPEおすすめランキング2025【コンパクト重視】 | VapeGo',
     desc: 'ポッド型VAPEのランキング。持ち運びやすさ・コスパ・使いやすさで比較したおすすめ機種を紹介。',
   },
   starter: {
     h1: '初心者向けスターターキットランキング',
-    title: 'VAPE初心者向けスターターキットランキング【2024年版】 | VapeGo',
+    title: 'VAPE初心者向けスターターキットランキング【2025年版】 | VapeGo',
     desc: 'VAPE初心者に最適なスターターキットランキング。設定不要・リキッド付きのセットから選べる。',
   },
   boxmod: {
@@ -21,7 +21,7 @@ const CATEGORY_META: Record<string, { h1: string; title: string; desc: string }>
   },
   liquid: {
     h1: 'VAPEリキッドランキング',
-    title: 'VAPEリキッドおすすめランキング2024【フレーバー別】 | VapeGo',
+    title: 'VAPEリキッドおすすめランキング2025【フレーバー別】 | VapeGo',
     desc: 'VAPEリキッドのおすすめランキング。フルーツ系・メンソール・タバコ系フレーバー別に比較。',
   },
   disposable: {

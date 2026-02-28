@@ -16,6 +16,15 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     return {
       title: `${product.name} レビュー・評価 | VapeGo`,
       description: `${product.name}（${product.brand}）のレビュー・評価。${metaReviews.length}件の口コミ、平均${metaAvg.toFixed(1)}点。VapeGoで信頼できるVAPEの情報を。`,
+      alternates: {
+        canonical: `https://vapego.vercel.app/products/${id}`,
+      },
+      openGraph: {
+        title: `${product.name} レビュー・評価 | VapeGo`,
+        description: `${product.name}（${product.brand}）のレビュー・評価。${metaReviews.length}件の口コミ。`,
+        url: `https://vapego.vercel.app/products/${id}`,
+        type: 'website',
+      },
     }
   } catch {
     return {}
