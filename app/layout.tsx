@@ -105,6 +105,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <Link href="/rankings" className="px-3 py-2 text-sm text-gray-400 hover:text-violet-300 hover:bg-violet-500/10 rounded-md transition">ランキング</Link>
                 <Link href="/compare" className="px-3 py-2 text-sm text-gray-400 hover:text-violet-300 hover:bg-violet-500/10 rounded-md transition">比較する</Link>
                 <Link href="/guide" className="px-3 py-2 text-sm text-gray-400 hover:text-violet-300 hover:bg-violet-500/10 rounded-md transition">ガイド</Link>
+                <Link href="/brands" className="px-3 py-2 text-sm text-gray-400 hover:text-violet-300 hover:bg-violet-500/10 rounded-md transition">ブランド</Link>
               </nav>
               <div className="ml-auto flex items-center gap-2">
                 <Link href="/search" className="sm:hidden p-2 text-gray-400 hover:text-violet-300 hover:bg-violet-500/10 rounded-md">
@@ -116,7 +117,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </div>
             </div>
             <div className="sm:hidden flex border-t border-violet-500/10">
-              {[['/', 'トップ'], ['/search', '検索'], ['/rankings', 'ランキング'], ['/compare', '比較'], ['/guide', 'ガイド']].map(([href, label]) => (
+              {[['/', 'トップ'], ['/search', '検索'], ['/rankings', 'ランキング'], ['/compare', '比較'], ['/guide', 'ガイド'], ['/brands', 'ブランド']].map(([href, label]) => (
                 <Link key={href} href={href} className="flex-1 text-center py-2.5 text-xs text-gray-400 hover:text-violet-300 hover:bg-violet-500/10 transition">{label}</Link>
               ))}
             </div>

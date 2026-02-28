@@ -101,6 +101,33 @@ export default async function HomePage() {
           </div>
         </section>
 
+
+        {/* ガイド最新記事 */}
+        <section className="mb-12">
+          <div className="flex items-center justify-between mb-5">
+            <h2 className="text-lg font-black text-white">📖 VAPEガイド・使い方</h2>
+            <Link href="/guide" className="text-sm text-violet-400 hover:text-violet-300 transition">すべて見る →</Link>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {[
+              { slug: 'what-is-vape', title: 'ヴェポライザーとは？', img: 'https://images.unsplash.com/photo-1512069772995-ec65ed45afd6?w=400&h=200&auto=format&fit=crop&q=80' },
+              { slug: 'how-to-choose', title: 'VAPEの選び方', img: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=400&h=200&auto=format&fit=crop&q=80' },
+              { slug: 'vape-quit-smoking', title: '禁煙・減煙ガイド', img: 'https://images.unsplash.com/photo-1574482620811-1aa16ffe3c82?w=400&h=200&auto=format&fit=crop&q=80' },
+              { slug: 'vape-rules-japan', title: 'VAPEの法律・ルール', img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=200&auto=format&fit=crop&q=80' },
+            ].map(g => (
+              <Link key={g.slug} href={`/guide/${g.slug}`} className="group rounded-xl overflow-hidden border border-white/10 hover:border-violet-500/40 transition">
+                <div className="relative h-24 overflow-hidden">
+                  <img src={g.img} alt={g.title} className="w-full h-full object-cover opacity-70 group-hover:opacity-90 group-hover:scale-105 transition-all duration-300" loading="lazy" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+                </div>
+                <div className="p-2.5">
+                  <p className="text-xs font-bold text-white group-hover:text-violet-300 transition leading-tight">{g.title}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+
         {/* Rankings */}
         <section className="mb-10">
           <div className="flex items-center justify-between mb-4">

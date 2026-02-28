@@ -12,6 +12,10 @@ const GUIDE_SLUGS = [
   'vape-coil-types',
   'vape-smell',
   'vape-quit-smoking',
+  'vape-accessories',
+  'vape-travel',
+  'vape-japanese-brands',
+  'vape-rules-japan',
 ]
 
 const RANKING_CATEGORIES = ['pod', 'starter', 'boxmod', 'liquid', 'disposable', 'parts']
@@ -55,6 +59,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/rankings`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.9 },
     { url: `${baseUrl}/compare`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.7 },
     { url: `${baseUrl}/guide`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.8 },
+    { url: `${baseUrl}/brands`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.7 },
     { url: `${baseUrl}/write-review`, lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.5 },
     ...guideUrls,
     ...rankingCategoryUrls,

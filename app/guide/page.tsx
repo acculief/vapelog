@@ -87,11 +87,54 @@ const GUIDES = [
     tags: ['禁煙', '減煙', 'タバコ代替'],
     image: 'https://images.unsplash.com/photo-1574482620811-1aa16ffe3c82?w=600&h=240&auto=format&fit=crop&q=80',
   },
+  {
+    slug: 'vape-accessories',
+    title: 'VAPEアクセサリー完全ガイド｜ケース・充電器・コットンの選び方',
+    desc: 'VAPEをより快適に使うためのアクセサリー紹介。保護ケース・充電器・コットン・ドリップチップの選び方を解説。',
+    readTime: '6分',
+    tags: ['アクセサリー', 'ケース', '充電器'],
+    image: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=600&h=240&auto=format&fit=crop&q=80',
+  },
+  {
+    slug: 'vape-travel',
+    title: '旅行・出張でVAPEを持ち運ぶ方法｜機内持ち込みルールと注意点',
+    desc: '飛行機・新幹線でのVAPEの持ち運びルール、国際線での注意点、旅行先での使用マナーを詳しく解説。',
+    readTime: '7分',
+    tags: ['旅行', '機内持ち込み', '海外'],
+    image: 'https://images.unsplash.com/photo-1530521954074-e64f6810b32d?w=600&h=240&auto=format&fit=crop&q=80',
+  },
+  {
+    slug: 'vape-japanese-brands',
+    title: '日本のVAPEブランド・国産おすすめデバイスまとめ【2025年版】',
+    desc: '日本発のVAPEブランドと日本向けに設計されたデバイスを紹介。国産品質・日本語サポート・国内入手しやすさで選ぶ。',
+    readTime: '6分',
+    tags: ['日本ブランド', '国産', '2025年版'],
+    image: 'https://images.unsplash.com/photo-1512069772995-ec65ed45afd6?w=600&h=240&auto=format&fit=crop&q=80',
+  },
+  {
+    slug: 'vape-rules-japan',
+    title: '日本のVAPE法律・規制まとめ｜使用可能な場所とルールを解説',
+    desc: '日本でのVAPE使用に関する法律・規制、使用禁止場所、年齢制限、ニコチンリキッド規制について分かりやすく解説。',
+    readTime: '7分',
+    tags: ['法律', '規制', 'ルール'],
+    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=240&auto=format&fit=crop&q=80',
+  },
 ]
 
 export const revalidate = 86400
 
 export default function GuidePage() {
+
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    { '@type': 'Question', name: 'VAPEとは何ですか？', acceptedAnswer: { '@type': 'Answer', text: 'VAPEとはたばこ葉やリキッドを燃焼させずに加熱し蒸気を吸引するデバイスです。燃やさないためタールや一酸化炭素の発生を大幅に抑えられます。' } },
+    { '@type': 'Question', name: '初心者にはどんなVAPEがおすすめですか？', acceptedAnswer: { '@type': 'Answer', text: 'ポッド型かスターターキットがおすすめです。操作がシンプルで価格も手頃、コイル交換の手間も最小限です。' } },
+    { '@type': 'Question', name: 'VAPEは日本で合法ですか？', acceptedAnswer: { '@type': 'Answer', text: 'ニコチンなしのVAPEは日本で合法です。ニコチン入りリキッドの国内販売は薬機法で規制されています。' } },
+  ],
+}
+
   return (
     <div className="max-w-4xl mx-auto px-4 py-10">
       <div className="mb-10">
@@ -147,6 +190,10 @@ export default function GuidePage() {
         ))}
       </div>
 
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
+      />
       <div className="mt-10 p-6 rounded-xl border border-violet-500/20" style={{ background: 'rgba(124,58,237,0.08)' }}>
         <h2 className="text-lg font-bold text-white mb-2">📊 商品を比較・検索する</h2>
         <p className="text-gray-400 text-sm mb-4">ガイドを読んだら、実際に商品を探してみましょう。スペック比較や口コミも確認できます。</p>
