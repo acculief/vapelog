@@ -1,6 +1,17 @@
 import { MetadataRoute } from 'next'
 import { db } from '@/lib/db'
 
+const GUIDE_SLUGS = [
+  'what-is-vape',
+  'how-to-choose',
+  'pod-vs-boxmod',
+  'beginner-setup',
+  'maintenance',
+  'liquid-guide',
+]
+
+const RANKING_CATEGORIES = ['pod', 'starter', 'boxmod', 'liquid', 'disposable', 'parts']
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://vapelog.jp'
 
@@ -18,12 +29,28 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // DB not connected, return static urls only
   }
 
+  const guideUrls: MetadataRoute.Sitemap = [
+    { url: `${baseUrl}/guide`, lastModified: new Date() },
+    ...GUIDE_SLUGS.map((slug) => ({
+      url: `${baseUrl}/guide/${slug}`,
+      lastModified: new Date(),
+    })),
+  ]
+
+  const rankingCategoryUrls: MetadataRoute.Sitemap = RANKING_CATEGORIES.map((cat) => ({
+    url: `${baseUrl}/rankings/${cat}`,
+    lastModified: new Date(),
+  }))
+
   return [
     { url: baseUrl, lastModified: new Date() },
     { url: `${baseUrl}/search`, lastModified: new Date() },
     { url: `${baseUrl}/rankings`, lastModified: new Date() },
     { url: `${baseUrl}/compare`, lastModified: new Date() },
+    { url: `${baseUrl}/guide`, lastModified: new Date() },
     { url: `${baseUrl}/write-review`, lastModified: new Date() },
+    ...guideUrls,
+    ...rankingCategoryUrls,
     ...productUrls,
   ]
 }

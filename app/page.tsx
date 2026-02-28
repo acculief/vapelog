@@ -48,11 +48,11 @@ export default async function HomePage() {
         <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 20% 50%, rgba(124,58,237,0.15) 0%, transparent 60%)' }} />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-20 relative">
           <h1 className="text-2xl sm:text-4xl font-black mb-3 leading-tight">
-            VAPE・電子タバコの<br className="sm:hidden" />
-            <span className="bg-gradient-to-r from-violet-400 to-indigo-400 bg-clip-text text-transparent">口コミ・比較サイト</span>
+            VAPE・ヴェポライザーの<br className="sm:hidden" />
+            <span className="bg-gradient-to-r from-violet-400 to-indigo-400 bg-clip-text text-transparent">口コミ＆比較サイト</span>
           </h1>
           <p className="text-gray-400 text-sm sm:text-lg mb-8 max-w-xl">
-            スパムゼロの信頼できるレビュー。ポッド・BOX MOD・リキッドを徹底比較。
+            VAPE・ヴェポライザーの口コミ・スペック比較サイト。あなたにぴったりの一本を見つけよう。
           </p>
           <form action="/search" method="GET" className="flex flex-col sm:flex-row gap-3 max-w-xl">
             <input
@@ -75,8 +75,8 @@ export default async function HomePage() {
         <div className="grid grid-cols-3 gap-4 mb-10 p-4 sm:p-6 rounded-xl border border-violet-500/20" style={{ background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(12px)' }}>
           {[
             { value: '67', label: '掲載商品数' },
-            { value: '117+', label: 'レビュー件数' },
-            { value: '0', label: 'スパムレビュー' },
+            { value: '★搭載', label: 'スペック比較' },
+            { value: 'ゼロ', label: 'スパムレビュー' },
           ].map(({ value, label }) => (
             <div key={label} className="text-center">
               <p className="text-xl sm:text-2xl font-black bg-gradient-to-r from-violet-400 to-indigo-400 bg-clip-text text-transparent">{value}</p>

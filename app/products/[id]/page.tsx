@@ -14,8 +14,8 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     const metaReviews = ((product.reviews || []) as any[]).filter((r: any) => r.status === 'visible')
     const metaAvg = metaReviews.length > 0 ? metaReviews.reduce((s: number, r: any) => s + r.rating, 0) / metaReviews.length : 0
     return {
-      title: `${product.name} レビュー・評価 | VapeLog`,
-      description: `${product.name}（${product.brand}）のレビュー・評価。${metaReviews.length}件の口コミ、平均${metaAvg.toFixed(1)}点。VapeLogで信頼できるVAPEの情報を。`,
+      title: `${product.name} レビュー・評価 | VapeGo`,
+      description: `${product.name}（${product.brand}）のレビュー・評価。${metaReviews.length}件の口コミ、平均${metaAvg.toFixed(1)}点。VapeGoで信頼できるVAPEの情報を。`,
     }
   } catch {
     return {}

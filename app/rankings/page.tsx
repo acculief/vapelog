@@ -1,7 +1,22 @@
 import { getProducts } from '@/lib/queries'
 import Link from 'next/link'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'VAPEランキング | VapeGo',
+  description: 'VAPE・ヴェポライザーの人気ランキング。レビュー数・評価・品質スコアを総合した独自スコアで算出。カテゴリ別ランキングも掲載。',
+}
 
 export const revalidate = 3600
+
+const CATEGORY_NAV = [
+  { slug: 'pod', label: 'ポッド型' },
+  { slug: 'starter', label: 'スターター' },
+  { slug: 'boxmod', label: 'BOX MOD' },
+  { slug: 'liquid', label: 'リキッド' },
+  { slug: 'disposable', label: '使い捨て' },
+  { slug: 'parts', label: 'パーツ' },
+]
 
 export default async function RankingsPage() {
   let products: any[] = []
@@ -28,8 +43,21 @@ export default async function RankingsPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       <div className="mb-8">
-        <h1 className="text-2xl sm:text-3xl font-black text-white">VAPEランキング</h1>
+        <h1 className="text-2xl sm:text-3xl font-black text-white">ヴェポライザー・VAPEランキング</h1>
         <p className="text-gray-500 mt-2 text-sm">レビュー数・評価・品質スコアを総合した独自スコアで算出</p>
+      </div>
+
+      {/* カテゴリナビ */}
+      <div className="flex flex-wrap gap-2 mb-8">
+        {CATEGORY_NAV.map((cat) => (
+          <Link
+            key={cat.slug}
+            href={`/rankings/${cat.slug}`}
+            className="px-4 py-2 text-sm font-bold rounded-full border border-violet-500/40 text-violet-300 hover:border-violet-400 hover:bg-violet-500/10 transition"
+          >
+            {cat.label}
+          </Link>
+        ))}
       </div>
 
       {products.length === 0 ? (
