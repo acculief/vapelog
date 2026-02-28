@@ -11,49 +11,49 @@ const GUIDES = [
     slug: 'what-is-vape',
     title: 'ヴェポライザーとは？電子タバコとの違いを解説',
     desc: '加熱式・電子タバコ・ヴェポライザーの違いを分かりやすく解説。初めて選ぶ方はここから。',
-    emoji: '💨',
     readTime: '5分',
     tags: ['初心者', 'ヴェポライザー', '基礎知識'],
+    image: 'https://images.unsplash.com/photo-1512069772995-ec65ed45afd6?w=600&h=240&auto=format&fit=crop&q=80',
   },
   {
     slug: 'how-to-choose',
     title: 'VAPEの選び方｜初心者がまず知るべき4つのポイント',
     desc: 'ポッド型・BOX MOD・使い捨て、どれを選ぶべきか。予算・ライフスタイル別の選び方を解説。',
-    emoji: '🔍',
     readTime: '7分',
     tags: ['選び方', 'ポッド型', 'BOX MOD'],
+    image: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=600&h=240&auto=format&fit=crop&q=80',
   },
   {
     slug: 'pod-vs-boxmod',
     title: 'ポッド型 vs BOX MOD｜あなたに合うのはどっち？',
     desc: 'コンパクトなポッド型とハイパワーなBOX MODを徹底比較。使用シーン別のおすすめを紹介。',
-    emoji: '⚡',
     readTime: '6分',
     tags: ['ポッド型', 'BOX MOD', '比較'],
+    image: 'https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=600&h=240&auto=format&fit=crop&q=80',
   },
   {
     slug: 'beginner-setup',
     title: 'VAPE初心者セットアップガイド｜購入後すぐできること',
     desc: '初めてVAPEを購入した方向け。充電・リキッド入れ方・吸い方まで画像付きで解説。',
-    emoji: '📖',
     readTime: '8分',
     tags: ['初心者', 'セットアップ', '使い方'],
+    image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600&h=240&auto=format&fit=crop&q=80',
   },
   {
     slug: 'maintenance',
     title: 'VAPEのお手入れ・メンテナンス完全ガイド',
     desc: 'コイル交換タイミング・清掃方法・保管方法。正しいケアで長持ちさせる方法を解説。',
-    emoji: '🔧',
     readTime: '6分',
     tags: ['メンテナンス', 'コイル交換', 'お手入れ'],
+    image: 'https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=600&h=240&auto=format&fit=crop&q=80',
   },
   {
     slug: 'liquid-guide',
     title: 'VAPEリキッドの選び方｜ニコチン濃度・PG/VG比率を解説',
     desc: 'フレーバー・ニコチン濃度・PG/VG比率の意味と選び方。初心者向けのおすすめリキッドも紹介。',
-    emoji: '💧',
     readTime: '7分',
     tags: ['リキッド', 'ニコチン', 'PG/VG'],
+    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=240&auto=format&fit=crop&q=80',
   },
 ]
 
@@ -75,25 +75,40 @@ export default function GuidePage() {
         </p>
       </div>
 
-      <div className="grid sm:grid-cols-2 gap-4">
+      <div className="grid sm:grid-cols-2 gap-5">
         {GUIDES.map((g) => (
           <Link
             key={g.slug}
             href={`/guide/${g.slug}`}
-            className="group rounded-xl p-5 border border-white/10 hover:border-violet-500/50 transition-all duration-200"
-            style={{ background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(8px)' }}
+            className="group rounded-xl overflow-hidden border border-white/10 hover:border-violet-500/50 transition-all duration-200"
+            style={{ background: 'rgba(255,255,255,0.04)', backdropFilter: 'blur(8px)' }}
           >
-            <div className="flex items-start gap-4">
-              <div className="text-3xl shrink-0">{g.emoji}</div>
-              <div className="flex-1 min-w-0">
-                <h2 className="text-sm font-bold text-white group-hover:text-violet-300 transition leading-snug mb-1">{g.title}</h2>
-                <p className="text-xs text-gray-500 leading-relaxed mb-3">{g.desc}</p>
-                <div className="flex items-center gap-2 flex-wrap">
-                  {g.tags.map(t => (
-                    <span key={t} className="px-2 py-0.5 text-xs rounded-full border border-violet-500/30 text-violet-400" style={{ background: 'rgba(124,58,237,0.1)' }}>{t}</span>
-                  ))}
-                  <span className="ml-auto text-xs text-gray-600">📖 {g.readTime}</span>
-                </div>
+            {/* サムネイル画像 */}
+            <div className="relative overflow-hidden h-40">
+              <img
+                src={g.image}
+                alt={g.title}
+                className="w-full h-full object-cover opacity-75 group-hover:opacity-90 group-hover:scale-105 transition-all duration-300"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+              <div className="absolute bottom-2 right-3 text-xs text-gray-300 bg-black/50 rounded px-2 py-0.5">
+                📖 {g.readTime}
+              </div>
+            </div>
+
+            {/* テキスト部分 */}
+            <div className="p-4">
+              <h2 className="text-sm font-bold text-white group-hover:text-violet-300 transition leading-snug mb-1.5">
+                {g.title}
+              </h2>
+              <p className="text-xs text-gray-500 leading-relaxed mb-3">{g.desc}</p>
+              <div className="flex items-center gap-1.5 flex-wrap">
+                {g.tags.map(t => (
+                  <span key={t} className="px-2 py-0.5 text-xs rounded-full border border-violet-500/30 text-violet-400" style={{ background: 'rgba(124,58,237,0.1)' }}>
+                    {t}
+                  </span>
+                ))}
               </div>
             </div>
           </Link>
