@@ -3,14 +3,15 @@ import Link from 'next/link'
 
 export const revalidate = 0
 
+const CDN_BASE = 'https://cuinyjpiifcslzexrunc.supabase.co/storage/v1/object/public/item-images/vapelog-categories'
 const CATEGORIES = [
-  { slug: '', name: '全て', emoji: '🔍', image: null },
-  { slug: 'pod', name: 'ポッド型', emoji: '📱', image: null },
-  { slug: 'starter', name: 'スターターキット', emoji: '🎁', image: null },
-  { slug: 'boxmod', name: 'BOX MOD', emoji: '📦', image: null },
-  { slug: 'liquid', name: 'リキッド', emoji: '💧', image: null },
-  { slug: 'disposable', name: '使い捨て', emoji: '🪄', image: null },
-  { slug: 'parts', name: 'パーツ', emoji: '⚙️', image: null },
+  { slug: '', name: '全て', image: null },
+  { slug: 'pod', name: 'ポッド型', image: `${CDN_BASE}/pod.jpg` },
+  { slug: 'starter', name: 'スターターキット', image: `${CDN_BASE}/starter.jpg` },
+  { slug: 'boxmod', name: 'BOX MOD', image: `${CDN_BASE}/boxmod.jpg` },
+  { slug: 'liquid', name: 'リキッド', image: `${CDN_BASE}/liquid.jpg` },
+  { slug: 'disposable', name: '使い捨て', image: `${CDN_BASE}/disposable.jpg` },
+  { slug: 'parts', name: 'パーツ', image: `${CDN_BASE}/parts.jpg` },
 ]
 
 interface P { q?: string; category?: string; brand?: string; minPrice?: string; maxPrice?: string; ratingMin?: string; sort?: string }
@@ -87,7 +88,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
                 : 'text-gray-400 border-white/10 hover:border-violet-500/50 hover:text-violet-300'
             }`}
             style={(p.category || '') === cat.slug ? { boxShadow: '0 0 12px rgba(124,58,237,0.3)' } : { background: 'rgba(255,255,255,0.05)' }}>
-            <span className="text-base">{cat.emoji}</span>
+            {cat.image && <img src={cat.image} alt="" className="w-5 h-5 object-contain shrink-0" />}
             {cat.name}
           </Link>
         ))}
