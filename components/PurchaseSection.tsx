@@ -76,22 +76,42 @@ export default function PurchaseSection({ productName, price, affiliates, avgRat
             </div>
           </a>
 
-          {/* Secondary buttons */}
-          {(affiliates?.rakuten || affiliates?.yahoo) && (
-            <div className="flex gap-2 mb-4">
-              {affiliates?.rakuten && (
-                <a href={affiliates.rakuten} target="_blank" rel="noopener noreferrer sponsored"
-                  className="flex-1 text-center bg-red-600 hover:bg-red-500 text-white font-bold py-3 rounded-xl transition text-sm flex items-center justify-center gap-1 whitespace-nowrap">
-                  <span>🏬</span> 楽天で購入
-                </a>
-              )}
-              {affiliates?.yahoo && (
-                <a href={affiliates.yahoo} target="_blank" rel="noopener noreferrer sponsored"
-                  className="flex-1 text-center bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-xl transition text-sm flex items-center justify-center gap-1 whitespace-nowrap">
-                  <span>🛒</span> Yahoo!で購入
-                </a>
-              )}
-            </div>
+          {/* Rakuten button — same scale as Amazon */}
+          {affiliates?.rakuten && (
+            <a
+              href={affiliates.rakuten}
+              target="_blank"
+              rel="noopener noreferrer sponsored"
+              className="block w-full font-black text-base py-4 px-4 rounded-xl transition-all duration-200 active:scale-[0.98] mb-3"
+              style={{
+                background: 'linear-gradient(135deg, #e63329, #bf1e14)',
+                boxShadow: '0 6px 30px rgba(230,51,41,0.35)',
+                color: '#fff',
+              }}
+            >
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2 flex-1 min-w-0">
+                  <span className="text-xl shrink-0">🏬</span>
+                  <div className="min-w-0">
+                    <div className="leading-tight font-black">楽天市場で最安値をチェック</div>
+                    <div className="text-xs font-normal opacity-80 mt-0.5">✓ ポイント還元あり　✓ 送料無料多数</div>
+                  </div>
+                </div>
+                {price && (
+                  <span className="text-base font-black border-l border-white/20 pl-3 whitespace-nowrap shrink-0">
+                    ¥{price.toLocaleString()}
+                  </span>
+                )}
+              </div>
+            </a>
+          )}
+
+          {/* Yahoo button (compact secondary) */}
+          {affiliates?.yahoo && (
+            <a href={affiliates.yahoo} target="_blank" rel="noopener noreferrer sponsored"
+              className="block w-full text-center bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-xl transition text-sm mb-3">
+              🛒 Yahoo!ショッピングで購入
+            </a>
           )}
 
           {/* Trust badges */}
