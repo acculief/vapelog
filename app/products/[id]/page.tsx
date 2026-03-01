@@ -119,60 +119,63 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
       </div>
 
       {/* Main Card */}
-      <div className="rounded-2xl p-8 mb-8 border border-violet-500/20" style={{ background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(12px)' }}>
-        <div className="flex items-start justify-between flex-wrap gap-4">
-          <div className="flex-1">
-            {product.imageUrl && (
-              <div className="mb-4 w-32 h-32 rounded-xl overflow-hidden shrink-0 border border-violet-500/20" style={{ background: 'rgba(255,255,255,0.05)' }}>
-                <img src={product.imageUrl} alt={product.name} className="w-full h-full object-contain p-2" />
-              </div>
-            )}
-            <div className="text-sm text-gray-400 mb-1">{product.brand}</div>
-            <h1 className="text-3xl font-black mb-4 text-white">{product.name}</h1>
-            <div className="flex items-center gap-3 mb-4">
-              <StarRating rating={avgRating} />
-              <span className="text-2xl font-bold text-white">{avgRating.toFixed(1)}</span>
-              <span className="text-gray-400">({reviews.length}件のレビュー)</span>
-            </div>
-            {product.price && (
-              <div className="flex items-center gap-2 flex-wrap mb-1">
-                <span className="text-xs text-gray-400 border border-gray-600 rounded px-1.5 py-0.5">参考価格</span>
-                <span className="text-2xl font-black text-violet-300">¥{product.price.toLocaleString()}</span>
-                <span className="text-xs text-gray-500">※Amazon実際の価格は変動します</span>
-              </div>
-            )}
-          </div>
-          <div className="flex gap-3">
-            <Link
-              href={`/write-review?productId=${product.id}`}
-              className="bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-bold py-2 px-6 rounded-xl transition"
-              style={{ boxShadow: '0 0 20px rgba(124,58,237,0.4)' }}
-            >
-              ✏️ レビューを書く
-            </Link>
-            <Link
-              href={`/compare?add=${product.id}`}
-              className="border border-violet-500/30 hover:border-violet-400 hover:bg-violet-500/10 text-white font-bold py-2 px-4 rounded-xl transition"
-            >
-              ⚖️ 比較
-            </Link>
-          </div>
-        </div>
-
-        {tags.length > 0 && (
-          <div className="flex gap-2 flex-wrap mt-4">
-            {tags.map(({ tag }: any) => (
-              <Link
-                key={tag.id}
-                href={`/search?tag=${tag.name}`}
-                className="text-violet-300 text-xs px-3 py-1 rounded-full transition border border-violet-500/30 hover:border-violet-400 hover:bg-violet-900/40"
-                style={{ background: 'rgba(109,28,217,0.15)' }}
-              >
-                # {tag.name}
-              </Link>
-            ))}
+      <div className="rounded-2xl mb-8 border border-violet-500/20 overflow-hidden" style={{ background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(12px)' }}>
+        {/* Product Image - same style as list cards */}
+        {product.imageUrl && (
+          <div className="w-full h-64 overflow-hidden" style={{ background: 'rgba(255,255,255,0.03)' }}>
+            <img src={product.imageUrl} alt={product.name} className="w-full h-full object-contain p-6" />
           </div>
         )}
+        <div className="p-8">
+          <div className="flex items-start justify-between flex-wrap gap-4">
+            <div className="flex-1">
+              <div className="text-sm text-gray-400 mb-1">{product.brand}</div>
+              <h1 className="text-3xl font-black mb-4 text-white">{product.name}</h1>
+              <div className="flex items-center gap-3 mb-4">
+                <StarRating rating={avgRating} />
+                <span className="text-2xl font-bold text-white">{avgRating.toFixed(1)}</span>
+                <span className="text-gray-400">({reviews.length}件のレビュー)</span>
+              </div>
+              {product.price && (
+                <div className="flex items-center gap-2 flex-wrap mb-1">
+                  <span className="text-xs text-gray-400 border border-gray-600 rounded px-1.5 py-0.5">参考価格</span>
+                  <span className="text-2xl font-black text-violet-300">¥{product.price.toLocaleString()}</span>
+                  <span className="text-xs text-gray-500">※Amazon実際の価格は変動します</span>
+                </div>
+              )}
+            </div>
+            <div className="flex gap-3">
+              <Link
+                href={`/write-review?productId=${product.id}`}
+                className="bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-bold py-2 px-6 rounded-xl transition"
+                style={{ boxShadow: '0 0 20px rgba(124,58,237,0.4)' }}
+              >
+                ✏️ レビューを書く
+              </Link>
+              <Link
+                href={`/compare?add=${product.id}`}
+                className="border border-violet-500/30 hover:border-violet-400 hover:bg-violet-500/10 text-white font-bold py-2 px-4 rounded-xl transition"
+              >
+                ⚖️ 比較
+              </Link>
+            </div>
+          </div>
+
+          {tags.length > 0 && (
+            <div className="flex gap-2 flex-wrap mt-4">
+              {tags.map(({ tag }: any) => (
+                <Link
+                  key={tag.id}
+                  href={`/search?tag=${tag.name}`}
+                  className="text-violet-300 text-xs px-3 py-1 rounded-full transition border border-violet-500/30 hover:border-violet-400 hover:bg-violet-900/40"
+                  style={{ background: 'rgba(109,28,217,0.15)' }}
+                >
+                  # {tag.name}
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Purchase Section - CV Optimized */}
