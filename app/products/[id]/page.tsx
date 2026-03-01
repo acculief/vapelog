@@ -175,7 +175,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         <h2 className="font-bold text-lg mb-4 text-white">🛒 購入する</h2>
         <div className="flex gap-3 flex-wrap">
           <a
-            href={`https://www.amazon.co.jp/s?k=${encodeURIComponent(product.name)}`}
+            href={affiliates?.amazon || `https://www.amazon.co.jp/s?k=${encodeURIComponent(product.name)}&tag=yajousaki-22`}
             target="_blank"
             rel="noopener noreferrer sponsored"
             className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-3 px-6 rounded-xl transition flex items-center gap-2"
