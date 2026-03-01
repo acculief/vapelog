@@ -118,6 +118,30 @@ const GUIDES = [
     readTime: '7分',
     tags: ['法律', '規制', 'ルール'],
     image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=240&auto=format&fit=crop&q=80',
+  },,
+  {
+    slug: 'vape-cost-comparison',
+    title: '電子タバコとタバコの費用比較：1年間でいくら節約できる？',
+    desc: '1日1箱喫煙者がVAPEに切り替えると年間いくら節約できるか。デバイス代・リキッド代込みで徹底計算。',
+    readTime: '6分',
+    tags: ['費用比較', 'コスト', '節約'],
+    image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&h=240&auto=format&fit=crop&q=80',
+  },
+  {
+    slug: 'vape-starter-checklist',
+    title: 'VAPEを始めるときに必要なもの完全リスト【初心者向け】',
+    desc: 'デバイス・リキッド・充電器・替えコイル。VAPEスタートに絶対必要なものとあると便利なものを完全リスト化。',
+    readTime: '5分',
+    tags: ['初心者', 'スターター', '必要なもの'],
+    image: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=600&h=240&auto=format&fit=crop&q=80',
+  },
+  {
+    slug: 'vape-battery-safety',
+    title: '電子タバコのバッテリー安全対策と正しい充電方法',
+    desc: 'リチウムイオンバッテリーの安全な使い方・充電方法・保管のコツ・発火リスクの防ぎ方を徹底解説。',
+    readTime: '6分',
+    tags: ['バッテリー', '安全', '充電'],
+    image: 'https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=600&h=240&auto=format&fit=crop&q=80',
   },
 ]
 
