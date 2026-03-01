@@ -1,4 +1,4 @@
-import { supabaseAdmin } from '@/lib/supabase'
+import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 
@@ -39,13 +39,13 @@ export const metadata: Metadata = {
 export const revalidate = 3600
 
 export default async function BrandsPage() {
-  const { data: products } = await supabaseAdmin
-    .from('Product')
-    .select('brand, category')
-    .order('brand')
+  const products = await prisma.product.findMany({
+    select: { brand: true, category: true },
+    orderBy: { brand: 'asc' },
+  })
 
   const brandMap: Record<string, { count: number; categories: Set<string> }> = {}
-  for (const p of products || []) {
+  for (const p of products) {
     if (!brandMap[p.brand]) brandMap[p.brand] = { count: 0, categories: new Set() }
     brandMap[p.brand].count++
     brandMap[p.brand].categories.add(p.category)
@@ -67,7 +67,6 @@ export default async function BrandsPage() {
         <p className="text-gray-400 text-sm">主要ブランドの特徴と取扱商品を確認できます</p>
       </div>
 
-      {/* 注目ブランド（特集） */}
       <div className="mb-10">
         <h2 className="text-base font-bold text-white mb-4 flex items-center gap-2">
           <span className="text-violet-400">★</span> 注目ブランド
