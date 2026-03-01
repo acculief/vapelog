@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://vapego.vercel.app/brands' },
 }
 
-export const revalidate = 3600
+export const dynamic = 'force-dynamic'
 
 export default async function BrandsPage() {
   const products = await prisma.product.findMany({

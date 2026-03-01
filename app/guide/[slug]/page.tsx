@@ -3,11 +3,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { ARTICLES, getArticle } from '../articles'
 
-export const revalidate = 86400
-
-export async function generateStaticParams() {
-  return ARTICLES.map((a) => ({ slug: a.slug }))
-}
+export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
