@@ -134,7 +134,11 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
               <span className="text-gray-400">({reviews.length}件のレビュー)</span>
             </div>
             {product.price && (
-              <div className="text-3xl font-black text-violet-300">¥{product.price.toLocaleString()}</div>
+              <div className="flex items-center gap-2 flex-wrap mb-1">
+                <span className="text-xs text-gray-400 border border-gray-600 rounded px-1.5 py-0.5">参考価格</span>
+                <span className="text-2xl font-black text-violet-300">¥{product.price.toLocaleString()}</span>
+                <span className="text-xs text-gray-500">※Amazon実際の価格は変動します</span>
+              </div>
             )}
           </div>
           <div className="flex gap-3">
@@ -179,8 +183,13 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
             target="_blank"
             rel="noopener noreferrer sponsored"
             className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-3 px-6 rounded-xl transition flex items-center gap-2"
+            style={{ boxShadow: '0 0 16px rgba(234,179,8,0.3)' }}
           >
-            🛍️ Amazonで探す
+            <span>🛍️</span>
+            <span>{affiliates?.amazon?.includes('/dp/') ? 'Amazonで購入する' : 'Amazonで探す'}</span>
+            {product.price && (
+              <span className="text-sm font-normal opacity-75 ml-1">¥{product.price.toLocaleString()}〜</span>
+            )}
           </a>
           {affiliates?.rakuten && (
             <a href={affiliates.rakuten} target="_blank" rel="noopener noreferrer sponsored"
