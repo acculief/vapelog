@@ -5,12 +5,12 @@ export const revalidate = 3600
 
 const CDN_BASE = 'https://cuinyjpiifcslzexrunc.supabase.co/storage/v1/object/public/item-images/vapelog-categories'
 const CATEGORIES = [
-  { slug: 'pod', name: 'ポッド型', desc: 'コンパクトで手軽', image: `${CDN_BASE}/pod.jpg` },
-  { slug: 'starter', name: 'スターターキット', desc: '初心者におすすめ', image: `${CDN_BASE}/starter.jpg` },
-  { slug: 'boxmod', name: 'BOX MOD', desc: 'ハイパワー・カスタム向け', image: `${CDN_BASE}/boxmod.jpg` },
-  { slug: 'liquid', name: 'リキッド', desc: 'フレーバー・ニコチン塩', image: `${CDN_BASE}/liquid.jpg` },
-  { slug: 'disposable', name: '使い捨て', desc: '手軽に試したい方', image: `${CDN_BASE}/disposable.jpg` },
-  { slug: 'parts', name: 'パーツ', desc: 'コイル・ポッド交換', image: `${CDN_BASE}/parts.jpg` },
+  { slug: 'pod', name: 'ポッド型', desc: 'コンパクトで手軽', image: `${CDN_BASE}/pod.jpg`, href: '/category/pod' },
+  { slug: 'starter', name: 'スターターキット', desc: '初心者におすすめ', image: `${CDN_BASE}/starter.jpg`, href: '/search?category=starter' },
+  { slug: 'boxmod', name: 'BOX MOD', desc: 'ハイパワー・カスタム向け', image: `${CDN_BASE}/boxmod.jpg`, href: '/category/mod' },
+  { slug: 'liquid', name: 'リキッド', desc: 'フレーバー・ニコチン塩', image: `${CDN_BASE}/liquid.jpg`, href: '/search?category=liquid' },
+  { slug: 'disposable', name: '使い捨て', desc: '手軽に試したい方', image: `${CDN_BASE}/disposable.jpg`, href: '/category/disposable' },
+  { slug: 'parts', name: 'パーツ', desc: 'コイル・ポッド交換', image: `${CDN_BASE}/parts.jpg`, href: '/search?category=parts' },
 ]
 
 async function getTopProducts() {
@@ -77,7 +77,7 @@ export default async function HomePage() {
           <h2 className="text-lg sm:text-xl font-bold mb-4 text-white">カテゴリから探す</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             {CATEGORIES.map((cat) => (
-              <Link key={cat.slug} href={`/search?category=${cat.slug}`}
+              <Link key={cat.slug} href={cat.href}
                 className="group rounded-2xl overflow-hidden border border-white/10 hover:border-violet-500/60 transition-all duration-300"
                 style={{ background: 'rgba(255,255,255,0.04)' }}>
                 {/* Emojiアイコン */}
