@@ -116,11 +116,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 </Link>
               </div>
             </div>
-            <div className="sm:hidden flex border-t border-violet-500/10">
-              {[['/', 'トップ'], ['/search', '検索'], ['/rankings', 'ランキング'], ['/compare', '比較'], ['/guide', 'ガイド'], ['/brands', 'ブランド']].map(([href, label]) => (
-                <Link key={href} href={href} className="flex-1 text-center py-2.5 text-xs text-gray-400 hover:text-violet-300 hover:bg-violet-500/10 transition">{label}</Link>
-              ))}
-            </div>
+
           </div>
         </header>
         <main>{children}</main>
