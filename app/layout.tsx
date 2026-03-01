@@ -6,7 +6,7 @@ import Link from 'next/link'
 
 const inter = Inter({ subsets: ['latin'] })
 
-const GA_ID = process.env.NEXT_PUBLIC_GA_ID
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID || 'G-VCD9S5NWF8'
 
 export const metadata: Metadata = {
   title: { default: 'VapeGo | VAPE・ヴェポライザー 口コミ・比較', template: '%s | VapeGo' },
