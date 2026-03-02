@@ -18,12 +18,12 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
       title: `${product.name} レビュー・評価 | VapeGo`,
       description: `${product.name}（${product.brand}）のレビュー・評価。${metaReviews.length}件の口コミ、平均${metaAvg.toFixed(1)}点。VapeGoで信頼できるVAPEの情報を。`,
       alternates: {
-        canonical: `https://vapego.vercel.app/products/${id}`,
+        canonical: `https://www.vape-go.com/products/${id}`,
       },
       openGraph: {
         title: `${product.name} レビュー・評価 | VapeGo`,
         description: `${product.name}（${product.brand}）のレビュー・評価。${metaReviews.length}件の口コミ。`,
-        url: `https://vapego.vercel.app/products/${id}`,
+        url: `https://www.vape-go.com/products/${id}`,
         type: 'website',
       },
     }
@@ -92,8 +92,8 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'トップ', item: 'https://vapego.vercel.app' },
-      { '@type': 'ListItem', position: 2, name: '商品一覧', item: 'https://vapego.vercel.app/search' },
+      { '@type': 'ListItem', position: 1, name: 'トップ', item: 'https://www.vape-go.com' },
+      { '@type': 'ListItem', position: 2, name: '商品一覧', item: 'https://www.vape-go.com/search' },
       { '@type': 'ListItem', position: 3, name: product.name },
     ],
   }
@@ -131,10 +131,22 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
             <div className="flex-1">
               <div className="text-sm text-gray-400 mb-1">{product.brand}</div>
               <h1 className="text-3xl font-black mb-4 text-white">{product.name}</h1>
-              <div className="flex items-center gap-3 mb-4">
-                <StarRating rating={avgRating} />
-                <span className="text-2xl font-bold text-white">{avgRating.toFixed(1)}</span>
-                <span className="text-gray-400">({reviews.length}件のレビュー)</span>
+              {/* スコアボックス */}
+              <div className="flex items-center gap-4 mb-4 p-4 rounded-xl border border-violet-500/20" style={{ background: 'rgba(139,92,246,0.08)' }}>
+                <div className="text-center">
+                  <div className="text-4xl font-black text-violet-300 leading-none">{avgRating > 0 ? avgRating.toFixed(1) : '-'}</div>
+                  <div className="text-xs text-gray-500 mt-1">/ 5.0点</div>
+                </div>
+                <div className="flex-1">
+                  <div className="flex mb-1">
+                    {[1,2,3,4,5].map(s => (
+                      <svg key={s} className={`w-5 h-5 ${s <= Math.round(avgRating) ? 'text-violet-400' : 'text-gray-600'}`} fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    ))}
+                  </div>
+                  <div className="text-xs text-gray-400">{reviews.length > 0 ? `${reviews.length}件の口コミ` : 'まだレビューがありません'}</div>
+                </div>
               </div>
               {product.price && (
                 <div className="flex items-center gap-2 flex-wrap mb-1">
@@ -201,6 +213,36 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
           </div>
         </div>
       )}
+
+      {/* こんな人におすすめ */}
+      {(() => {
+        const catRecommends: Record<string, { points: string[]; notFor: string }> = {
+          pod: { points: ['日常的に手軽に使いたい方', 'コンパクトで持ち運びしたい方', 'ランニングコストを抑えたい方'], notFor: '強いカスタマイズを求める方' },
+          starter: { points: ['VAPEをこれから始める方', '本格的な吸い心地を求める方', '長期間使い続けたい方'], notFor: '使い捨て感覚で手軽に試したい方' },
+          boxmod: { points: ['出力・温度を細かく調整したい方', 'クラウドチェイシングを楽しみたい方', '上級者・カスタム志向の方'], notFor: 'シンプルに使いたい初心者' },
+          liquid: { points: ['フレーバーの種類を楽しみたい方', '自分好みの味を追求したい方', 'コスト重視でリキッドを選びたい方'], notFor: 'メンテナンスが面倒な方' },
+          disposable: { points: ['とにかく手軽に試したい方', '充電・交換なしで使いたい方', '外出先でサッと使いたい方'], notFor: 'ランニングコストを抑えたい長期ユーザー' },
+          parts: { points: ['既存機器のメンテをしたい方', 'コイルを定期交換している方', 'スペックにこだわりたい方'], notFor: 'VAPEをこれから始める初心者' },
+        }
+        const rec = catRecommends[product.category]
+        if (!rec) return null
+        return (
+          <div className="rounded-2xl p-6 mb-8 border border-white/10" style={{ background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(12px)' }}>
+            <h2 className="font-bold text-xl mb-4 text-white">✅ こんな人におすすめ</h2>
+            <ul className="space-y-2 mb-4">
+              {rec.points.map((p, i) => (
+                <li key={i} className="flex items-center gap-2 text-sm text-gray-200">
+                  <span className="text-violet-400 font-bold">◎</span>{p}
+                </li>
+              ))}
+            </ul>
+            <div className="flex items-center gap-2 text-sm text-gray-500 border-t border-white/5 pt-3 mt-3">
+              <span className="text-gray-600">✕ 向いていない方:</span>
+              <span>{rec.notFor}</span>
+            </div>
+          </div>
+        )
+      })()}
 
       {/* Rating Distribution */}
       {reviews.length > 0 && (
