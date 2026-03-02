@@ -118,7 +118,7 @@ const GUIDES = [
     readTime: '7分',
     tags: ['法律', '規制', 'ルール'],
     image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=240&auto=format&fit=crop&q=80',
-  },,
+  },
   {
     slug: 'vape-cost-comparison',
     title: '電子タバコとタバコの費用比較：1年間でいくら節約できる？',
