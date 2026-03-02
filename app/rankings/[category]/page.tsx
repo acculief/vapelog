@@ -202,9 +202,9 @@ export default async function CategoryRankingPage({ params }: { params: Promise<
                     <Link key={product.id} href={`/products/${product.id}`}
                       className="rounded-xl overflow-hidden border border-white/10 hover:border-violet-500/50 transition group"
                       style={{ background: 'rgba(255,255,255,0.06)' }}>
-                      {product.imageUrl && (
+                      {/* imageUrl fallback */
                         <div className="w-full h-36 overflow-hidden" style={{ background: 'rgba(255,255,255,0.03)' }}>
-                          <img src={product.imageUrl} alt={product.name} className="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform" loading="lazy" />
+                          <img src={product.imageUrl || '/no-image.svg'} alt={product.name} className="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform" loading="lazy" />
                         </div>
                       )}
                       <div className="p-3">
@@ -233,9 +233,9 @@ export default async function CategoryRankingPage({ params }: { params: Promise<
                       className="flex items-center gap-3 rounded-xl p-4 border border-white/10 hover:border-violet-500/50 transition group"
                       style={{ background: 'rgba(255,255,255,0.05)' }}>
                       <span className="text-sm font-black w-7 h-7 rounded-full flex items-center justify-center shrink-0 bg-violet-950/60 text-violet-300 border border-violet-500/30">{rank}</span>
-                      {product.imageUrl && (
+                      {/* imageUrl fallback */
                         <div className="w-10 h-10 shrink-0 rounded-lg overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
-                          <img src={product.imageUrl} alt={product.name} className="w-full h-full object-contain p-0.5" loading="lazy" />
+                          <img src={product.imageUrl || '/no-image.svg'} alt={product.name} className="w-full h-full object-contain p-0.5" loading="lazy" />
                         </div>
                       )}
                       <div className="flex-1 min-w-0">

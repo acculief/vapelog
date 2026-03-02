@@ -121,11 +121,9 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
       {/* Main Card */}
       <div className="rounded-2xl mb-8 border border-violet-500/20 overflow-hidden" style={{ background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(12px)' }}>
         {/* Product Image - same style as list cards */}
-        {product.imageUrl && (
-          <div className="w-full h-64 overflow-hidden" style={{ background: 'rgba(255,255,255,0.03)' }}>
-            <img src={product.imageUrl} alt={product.name} className="w-full h-full object-contain p-6" />
+        <div className="w-full h-64 overflow-hidden" style={{ background: 'rgba(255,255,255,0.03)' }}>
+            <img src={product.imageUrl || '/no-image.svg'} alt={product.name} className="w-full h-full object-contain p-6" />
           </div>
-        )}
         <div className="p-8">
           <div className="flex items-start justify-between flex-wrap gap-4">
             <div className="flex-1">

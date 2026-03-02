@@ -225,11 +225,9 @@ export default async function RankingsPage() {
                     </div>
 
                     {/* 商品画像 */}
-                    {product.imageUrl && (
-                      <div className="w-14 h-14 shrink-0 rounded-lg overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
-                        <img src={product.imageUrl} alt={product.name} className="w-full h-full object-contain p-1" loading="lazy" />
-                      </div>
-                    )}
+                    <div className="w-14 h-14 shrink-0 rounded-lg overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
+                      <img src={product.imageUrl || '/no-image.svg'} alt={product.name} className="w-full h-full object-contain p-1" loading="lazy" />
+                    </div>
 
                     {/* 商品情報 */}
                     <div className="flex-1 min-w-0">

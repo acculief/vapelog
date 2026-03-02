@@ -171,10 +171,10 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
                     className="rounded-xl overflow-hidden border border-white/10 hover:border-violet-500/50 transition group"
                     style={{ background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(10px)' }}
                   >
-                    {product.imageUrl && (
+                    {/* imageUrl fallback */
                       <div className="w-full h-44 overflow-hidden" style={{ background: 'rgba(255,255,255,0.03)' }}>
                         <img
-                          src={product.imageUrl}
+                          src={product.imageUrl || '/no-image.svg'}
                           alt={product.name}
                           className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
                           loading="lazy"
