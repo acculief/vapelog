@@ -102,6 +102,26 @@ export default async function HomePage() {
         </section>
 
 
+        {/* 目的から探す */}
+        <section className="mb-10">
+          <h2 className="text-lg sm:text-xl font-bold mb-4 text-white">🎯 目的から探す</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {[
+              { emoji: '🚬', label: '禁煙・減煙したい', sub: 'ニコチンなしで移行', href: '/rankings/disposable', color: 'from-green-600/20 to-emerald-600/20', border: 'border-green-500/30' },
+              { emoji: '💨', label: 'とにかく手軽に', sub: '充電・交換不要', href: '/rankings/disposable', color: 'from-blue-600/20 to-cyan-600/20', border: 'border-blue-500/30' },
+              { emoji: '⚖️', label: 'コスパ重視', sub: 'ランニングコスト最小', href: '/rankings/pod', color: 'from-violet-600/20 to-purple-600/20', border: 'border-violet-500/30' },
+              { emoji: '🔥', label: '本格的に楽しむ', sub: '煙量・カスタム重視', href: '/rankings/boxmod', color: 'from-orange-600/20 to-red-600/20', border: 'border-orange-500/30' },
+            ].map(item => (
+              <Link key={item.label} href={item.href}
+                className={`group rounded-xl p-4 border ${item.border} hover:border-violet-500/60 transition-all bg-gradient-to-br ${item.color}`}>
+                <div className="text-2xl mb-2">{item.emoji}</div>
+                <p className="font-bold text-sm text-white group-hover:text-violet-300 transition leading-tight">{item.label}</p>
+                <p className="text-xs text-gray-500 mt-1">{item.sub}</p>
+              </Link>
+            ))}
+          </div>
+        </section>
+
         {/* ガイド最新記事 */}
         <section className="mb-12">
           <div className="flex items-center justify-between mb-5">

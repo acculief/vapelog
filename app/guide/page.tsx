@@ -290,7 +290,7 @@ const faqLd = {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-10">
-      <div className="mb-10">
+      <div className="mb-8">
         <div className="inline-block px-3 py-1 rounded-full text-xs font-bold text-violet-300 border border-violet-500/30 mb-3" style={{ background: 'rgba(124,58,237,0.15)' }}>
           初心者ガイド
         </div>
@@ -301,6 +301,36 @@ const faqLd = {
           VAPEをもっと自由に。ヴェポライザー・VAPEをはじめて選ぶ方から、もっと使いこなしたい方まで。
           基礎知識から選び方・お手入れまで、すべてのガイドがここに。
         </p>
+      </div>
+
+      {/* ピックアップ記事 */}
+      <section className="mb-10">
+        <h2 className="text-base font-bold text-white mb-4">📌 まずはここから読もう</h2>
+        <div className="grid sm:grid-cols-2 gap-4">
+          {[
+            { slug: 'what-is-vape', title: 'ヴェポライザーとは？電子タバコとの違いを解説', badge: '基礎知識', img: 'https://images.unsplash.com/photo-1512069772995-ec65ed45afd6?w=600&h=240&auto=format&fit=crop&q=80' },
+            { slug: 'how-to-choose', title: 'VAPEの選び方｜初心者がまず知るべき4つのポイント', badge: '選び方', img: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=600&h=240&auto=format&fit=crop&q=80' },
+            { slug: 'vape-quit-smoking', title: 'VAPEで禁煙・減煙できる？タバコからの切り替えガイド', badge: '禁煙', img: 'https://images.unsplash.com/photo-1574482620811-1aa16ffe3c82?w=600&h=240&auto=format&fit=crop&q=80' },
+            { slug: 'vape-health-effects', title: 'VAPEは体に悪い？タバコとの比較で解説', badge: '健康', img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=240&auto=format&fit=crop&q=80' },
+          ].map(g => (
+            <Link key={g.slug} href={`/guide/${g.slug}`}
+              className="group flex gap-3 rounded-xl overflow-hidden border border-white/10 hover:border-violet-500/50 transition p-3"
+              style={{ background: 'rgba(255,255,255,0.05)' }}>
+              <div className="w-20 h-16 rounded-lg overflow-hidden shrink-0">
+                <img src={g.img} alt={g.title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition" loading="lazy" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <span className="inline-block px-2 py-0.5 text-xs rounded-full border border-violet-500/30 text-violet-400 mb-1" style={{ background: 'rgba(124,58,237,0.1)' }}>{g.badge}</span>
+                <p className="text-sm font-bold text-white group-hover:text-violet-300 transition leading-snug line-clamp-2">{g.title}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* カテゴリ別 */}
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-base font-bold text-white">全記事一覧（{GUIDES.length}本）</h2>
       </div>
 
       <div className="grid sm:grid-cols-2 gap-5">
