@@ -3,36 +3,69 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
-const CATEGORY_META: Record<string, { h1: string; title: string; desc: string }> = {
+const CATEGORY_META: Record<string, {
+  h1: string; title: string; desc: string;
+  points: { title: string; body: string; icon: string }[]
+}> = {
   pod: {
     h1: 'ポッド型VAPEランキング',
-    title: 'ポッド型VAPEおすすめランキング2025【コンパクト重視】 | VapeGo',
-    desc: 'ポッド型VAPEのランキング。持ち運びやすさ・コスパ・使いやすさで比較したおすすめ機種を紹介。',
+    title: '【2026年最新】ポッド型VAPEおすすめランキング | VapeGo',
+    desc: 'ポッド型VAPEのおすすめランキング【2026年最新版】。持ち運びやすさ・コスパ・使いやすさで比較した人気機種。',
+    points: [
+      { icon: '🔋', title: 'バッテリー容量は400mAh以上を選ぼう', body: '1日外出するなら400mAh以上のバッテリーが安心。充電頻度が少なく、ビジネスシーンや外出先でもストレスなく使えます。' },
+      { icon: '💧', title: 'オープン型かクローズド型かをチェック', body: 'オープン型は好きなリキッドを入れられコスパ◎。クローズド型（カートリッジ式）はリキッド漏れが少なく手軽。用途で選ぼう。' },
+      { icon: '💰', title: '交換コイルの価格も比較ポイント', body: 'コイル1個300〜800円が相場。月2〜4個使うので年間コストも計算しておくと失敗しません。' },
+    ],
   },
   starter: {
     h1: '初心者向けスターターキットランキング',
-    title: 'VAPE初心者向けスターターキットランキング【2025年版】 | VapeGo',
-    desc: 'VAPE初心者に最適なスターターキットランキング。設定不要・リキッド付きのセットから選べる。',
+    title: '【2026年版】VAPE初心者スターターキットランキング | VapeGo',
+    desc: 'VAPE初心者向けスターターキットランキング【2026年最新版】。操作簡単・リキッド付きのセットを比較して厳選。',
+    points: [
+      { icon: '🎯', title: 'セット内容が充実しているものを選ぼう', body: 'デバイス本体＋コイル＋リキッドがセットになったものが便利。追加購入の手間なくすぐ始められます。' },
+      { icon: '⚙️', title: '操作ボタンが少ないシンプル設計がベスト', body: '初心者はドローアクティベート（吸うだけで起動）または1ボタン操作のデバイスがおすすめ。設定不要ですぐ使えます。' },
+      { icon: '📞', title: '日本語サポートがあるブランドを選ぼう', body: '故障や使い方のトラブル時に日本語サポートがあると安心。国内正規代理店経由の製品がおすすめです。' },
+    ],
   },
   boxmod: {
     h1: 'BOX MODランキング',
-    title: 'BOX MODおすすめランキング【ハイパワー・上級者向け】 | VapeGo',
-    desc: 'ハイパワーBOX MODのランキング。出力・バッテリー・カスタム性で比較したおすすめ機種。',
+    title: '【2026年版】BOX MODおすすめランキング｜上級者向け | VapeGo',
+    desc: 'BOX MODおすすめランキング【2026年最新版】。出力・バッテリー・カスタム性で徹底比較したハイパワー機種。',
+    points: [
+      { icon: '⚡', title: '出力ワット数は使い方に合わせて選ぼう', body: '一般的な使用なら40〜80W。クラウドチェイシングやサブオームコイルには100W以上が必要。最大出力より実用レンジで判断。' },
+      { icon: '🔋', title: 'バッテリーは交換式か内蔵型かで選ぶ', body: '交換式（18650/21700）は長期使用に有利でコスト削減◎。内蔵型はUSB充電で手軽だが劣化したら本体買い替えが必要。' },
+      { icon: '🛡️', title: '安全機能の充実度を確認しよう', body: '過充電保護・ショート保護・過熱保護は必須。GeekVape・VoopooなどメジャーブランドのチップはOHM値チェックも備えています。' },
+    ],
   },
   liquid: {
     h1: 'VAPEリキッドランキング',
-    title: 'VAPEリキッドおすすめランキング2025【フレーバー別】 | VapeGo',
-    desc: 'VAPEリキッドのおすすめランキング。フルーツ系・メンソール・タバコ系フレーバー別に比較。',
+    title: '【2026年版】VAPEリキッドおすすめランキング｜フレーバー別 | VapeGo',
+    desc: 'VAPEリキッドおすすめランキング【2026年最新版】。フルーツ・メンソール・タバコ系フレーバー別に人気商品を比較。',
+    points: [
+      { icon: '🧪', title: 'PG/VG比率で吸い心地が変わる', body: 'PG高め（60:40以上）はのどへのキック感が強く、タバコに近い感覚。VG高め（30:70以上）は煙量が多くまろやか。初心者は50:50が無難。' },
+      { icon: '🌸', title: 'フレーバー系統は試してから選ぼう', body: 'フルーツ・メンソール・タバコ・デザート系が主流。10mlの小容量からお試しして、気に入ったら大容量を買うのが無駄がなくおすすめ。' },
+      { icon: '🔬', title: '成分表示と製造国を必ず確認', body: '食品グレードの原料使用・製造元が明記されているものを選ぼう。規制成分が含まれていないかの確認も重要です。' },
+    ],
   },
   disposable: {
     h1: '使い捨てVAPEランキング',
-    title: '使い捨てVAPE（ディスポーザブル）おすすめランキング | VapeGo',
-    desc: '使い捨てVAPEのおすすめランキング。コスパ・フレーバー・吸引回数で比較した人気機種。',
+    title: '【2026年版】使い捨てVAPEおすすめランキング｜コスパ比較 | VapeGo',
+    desc: '使い捨てVAPEおすすめランキング【2026年最新版】。パフ数・フレーバー・コスパで比較した人気ディスポーザブル機種。',
+    points: [
+      { icon: '💨', title: 'パフ数と1パフあたりのコストで比較しよう', body: '1本300円台で500パフなら1パフ約0.6円。高品質な600〜800円帯で800パフ超のモデルはコスパも高め。長持ちするほど割安になる。' },
+      { icon: '🍃', title: 'フレーバーは多いほど選択肢が広がる', body: 'メンソール・フルーツ・ミント系が初心者に人気。同ブランドで複数フレーバーがある製品は、シリーズで試せて便利です。' },
+      { icon: '♻️', title: '捨て方ルールを事前に確認しよう', body: 'バッテリー内蔵のため一般ゴミでは捨てられない自治体が多い。購入前に各自治体の廃棄ルールを確認しておきましょう。' },
+    ],
   },
   parts: {
     h1: 'VAPEコイル・パーツランキング',
-    title: 'VAPEコイル・パーツおすすめランキング | VapeGo',
-    desc: 'VAPEコイル・交換パーツのランキング。対応機種・抵抗値・寿命で比較したおすすめパーツ。',
+    title: '【2026年版】VAPEコイル・パーツおすすめランキング | VapeGo',
+    desc: 'VAPEコイル・交換パーツのランキング【2026年最新版】。対応機種・抵抗値・寿命で比較したおすすめパーツ。',
+    points: [
+      { icon: '🔧', title: '対応機種を必ず確認してから購入', body: 'コイルは機種専用設計がほとんど。型番・シリーズ名を確認してから購入しましょう。互換コイルは安価ですが性能差がある場合もあります。' },
+      { icon: '⚡', title: '抵抗値（Ω）は使用ワット数に合わせて選ぶ', body: '0.3Ω以下はサブオームで高ワット・大煙量向け。0.6〜1.0Ωは中〜低ワットで吸いごたえ重視。デバイスの推奨レンジに収める。' },
+      { icon: '📦', title: '純正品とOEM品の違いを理解しよう', body: '純正品は品質安定・安全だが単価高め。OEM互換品はコスパ良だが品質にばらつきあり。まずは純正でベンチマークを取るのが基本。' },
+    ],
   },
 }
 
@@ -55,7 +88,11 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   const { category } = await params
   const meta = CATEGORY_META[category]
   if (!meta) return {}
-  return { title: meta.title, description: meta.desc }
+  return {
+    title: meta.title,
+    description: meta.desc,
+    alternates: { canonical: `https://www.vape-go.com/rankings/${category}` },
+  }
 }
 
 export default async function CategoryRankingPage({ params }: { params: Promise<{ category: string }> }) {
@@ -82,12 +119,12 @@ export default async function CategoryRankingPage({ params }: { params: Promise<
     '@type': 'ItemList',
     name: meta.h1,
     description: meta.desc,
-    url: `https://vapego.vercel.app/rankings/${category}`,
+    url: `https://www.vape-go.com/rankings/${category}`,
     itemListElement: products.slice(0, 10).map((p, i) => ({
       '@type': 'ListItem',
       position: i + 1,
       name: p.name,
-      url: `https://vapego.vercel.app/products/${p.id}`,
+      url: `https://www.vape-go.com/products/${p.id}`,
     })),
   }
 
@@ -95,7 +132,8 @@ export default async function CategoryRankingPage({ params }: { params: Promise<
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div className="max-w-4xl mx-auto px-4 py-8">
-        <nav className="text-xs text-gray-500 mb-6 flex items-center gap-2">
+
+        <nav className="text-xs text-gray-500 mb-5 flex items-center gap-2">
           <Link href="/" className="hover:text-violet-400 transition">ホーム</Link>
           <span>/</span>
           <Link href="/rankings" className="hover:text-violet-400 transition">ランキング</Link>
@@ -104,25 +142,45 @@ export default async function CategoryRankingPage({ params }: { params: Promise<
         </nav>
 
         <div className="mb-6">
-          <h1 className="text-2xl sm:text-3xl font-black text-white mb-2">{meta.h1}</h1>
-          <p className="text-gray-500 text-sm">{meta.desc}</p>
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-xs bg-violet-500/20 text-violet-300 border border-violet-500/30 px-2 py-0.5 rounded-full font-bold">2026年3月 最終更新</span>
+            <span className="text-xs text-gray-500">{products.length}商品掲載</span>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-black text-white leading-tight">{meta.h1}</h1>
+          <p className="text-gray-400 mt-2 text-sm leading-relaxed">{meta.desc}</p>
         </div>
 
         <div className="flex flex-wrap gap-2 mb-8">
           {CATEGORY_NAV.map((cat) => (
-            <Link
-              key={cat.slug}
-              href={`/rankings/${cat.slug}`}
-              className={`px-4 py-2 text-sm font-bold rounded-full border transition ${
+            <Link key={cat.slug} href={`/rankings/${cat.slug}`}
+              className={`px-3 py-1.5 text-xs font-bold rounded-full border transition ${
                 cat.slug === category
                   ? 'bg-violet-600 border-violet-600 text-white'
                   : 'border-violet-500/40 text-violet-300 hover:border-violet-400 hover:bg-violet-500/10'
-              }`}
-            >
+              }`}>
               {cat.label}
             </Link>
           ))}
         </div>
+
+        {/* 選び方ポイント */}
+        <section className="mb-10">
+          <h2 className="text-lg font-black text-white mb-4">選び方のポイント</h2>
+          <div className="space-y-3">
+            {meta.points.map((p, i) => (
+              <div key={i} className="flex gap-3 rounded-xl p-4 border border-white/10" style={{ background: 'rgba(255,255,255,0.04)' }}>
+                <div className="w-7 h-7 rounded-full bg-violet-600 flex items-center justify-center text-white font-black text-xs shrink-0 mt-0.5">{i + 1}</div>
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span>{p.icon}</span>
+                    <h3 className="font-bold text-sm text-white">{p.title}</h3>
+                  </div>
+                  <p className="text-xs text-gray-400 leading-relaxed">{p.body}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
 
         {products.length === 0 ? (
           <div className="text-center py-16 text-gray-500">
@@ -131,45 +189,32 @@ export default async function CategoryRankingPage({ params }: { params: Promise<
           </div>
         ) : (
           <>
+            <h2 className="text-lg font-black text-white mb-4">人気ランキング TOP{products.length}</h2>
+
             {heroProducts.length > 0 && (
-              <div className="grid sm:grid-cols-3 gap-4 mb-6">
+              <div className="grid sm:grid-cols-3 gap-4 mb-5">
                 {heroProducts.map((product, i) => {
                   const avgRating = product.reviews.length > 0
-                    ? product.reviews.reduce((s: number, r: any) => s + r.rating, 0) / product.reviews.length
-                    : 0
-                  const badgeStyles = [
-                    { bg: 'from-yellow-400 to-amber-500', shadow: '0 0 16px rgba(251,191,36,0.4)', label: '🥇 1位' },
-                    { bg: 'from-gray-300 to-gray-400', shadow: '0 0 12px rgba(156,163,175,0.3)', label: '🥈 2位' },
-                    { bg: 'from-orange-400 to-amber-600', shadow: '0 0 12px rgba(251,146,60,0.3)', label: '🥉 3位' },
-                  ]
-                  const style = badgeStyles[i]
+                    ? product.reviews.reduce((s: number, r: any) => s + r.rating, 0) / product.reviews.length : 0
+                  const medals = ['🥇 1位', '🥈 2位', '🥉 3位']
+                  const badgeBg = ['from-yellow-400 to-amber-500', 'from-gray-300 to-gray-400', 'from-orange-400 to-amber-600']
                   return (
-                    <Link
-                      key={product.id}
-                      href={`/products/${product.id}`}
+                    <Link key={product.id} href={`/products/${product.id}`}
                       className="rounded-xl overflow-hidden border border-white/10 hover:border-violet-500/50 transition group"
-                      style={{ background: 'rgba(255,255,255,0.06)', backdropFilter: 'blur(10px)' }}
-                    >
+                      style={{ background: 'rgba(255,255,255,0.06)' }}>
                       {product.imageUrl && (
-                        <div className="w-full h-40 overflow-hidden" style={{ background: 'rgba(255,255,255,0.03)' }}>
+                        <div className="w-full h-36 overflow-hidden" style={{ background: 'rgba(255,255,255,0.03)' }}>
                           <img src={product.imageUrl} alt={product.name} className="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform" loading="lazy" />
                         </div>
                       )}
-                      <div className="p-4">
-                        <div className={`inline-block px-3 py-1 text-xs font-black text-white rounded-full mb-2 bg-gradient-to-r ${style.bg}`} style={{ boxShadow: style.shadow }}>
-                          {style.label}
-                        </div>
+                      <div className="p-3">
+                        <div className={`inline-block px-2 py-0.5 text-xs font-black text-white rounded-full mb-2 bg-gradient-to-r ${badgeBg[i]}`}>{medals[i]}</div>
                         <h3 className="font-bold text-sm text-white leading-snug mb-1 group-hover:text-violet-300 transition line-clamp-2">{product.name}</h3>
                         <p className="text-xs text-gray-500 mb-2">{product.brand}</p>
-                        <div className="flex items-center gap-1">
-                          {[1,2,3,4,5].map(s => (
-                            <svg key={s} className={`w-3 h-3 ${s <= Math.round(avgRating) ? 'text-violet-400' : 'text-gray-600'}`} fill="currentColor" viewBox="0 0 20 20">
-                              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                            </svg>
-                          ))}
-                          <span className="text-xs text-gray-400 ml-1">{avgRating.toFixed(1)}</span>
+                        <div className="flex items-center justify-between">
+                          <div className="text-xl font-black text-violet-300">{avgRating > 0 ? avgRating.toFixed(1) : '-'}<span className="text-xs text-gray-500 font-normal ml-1">点</span></div>
+                          {product.price && <div className="text-violet-300 font-bold text-xs">¥{product.price.toLocaleString()}</div>}
                         </div>
-                        {product.price && <p className="text-violet-300 font-bold text-sm mt-2">¥{product.price.toLocaleString()}</p>}
                       </div>
                     </Link>
                   )
@@ -182,38 +227,30 @@ export default async function CategoryRankingPage({ params }: { params: Promise<
                 {restProducts.map((product, i) => {
                   const rank = i + 4
                   const avgRating = product.reviews.length > 0
-                    ? product.reviews.reduce((s: number, r: any) => s + r.rating, 0) / product.reviews.length
-                    : 0
+                    ? product.reviews.reduce((s: number, r: any) => s + r.rating, 0) / product.reviews.length : 0
                   return (
-                    <Link
-                      key={product.id}
-                      href={`/products/${product.id}`}
-                      className="flex items-center gap-4 rounded-xl p-4 transition border border-white/10 hover:border-violet-500/50 group"
-                      style={{ background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(8px)' }}
-                    >
-                      <span className="text-sm font-black w-8 h-8 rounded-full flex items-center justify-center shrink-0 bg-violet-950/60 text-violet-300 border border-violet-500/30">
-                        {rank}
-                      </span>
-                      <div className="flex-1 min-w-0">
-                        <div className="text-xs text-gray-500 mb-0.5">{product.brand}</div>
-                        <div className="font-bold text-sm truncate text-gray-100 group-hover:text-white transition">{product.name}</div>
-                      </div>
-                      <div className="text-right shrink-0">
-                        <div className="flex items-center gap-1 justify-end">
-                          {[1,2,3,4,5].map(s => (
-                            <svg key={s} className={`w-3 h-3 ${s <= Math.round(avgRating) ? 'text-violet-400' : 'text-gray-600'}`} fill="currentColor" viewBox="0 0 20 20">
-                              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                            </svg>
-                          ))}
-                          <span className="text-xs font-bold ml-1 text-gray-300">{avgRating.toFixed(1)}</span>
-                        </div>
-                        <div className="text-xs text-gray-500 mt-0.5">{product.reviews.length}件</div>
-                      </div>
-                      {product.price && (
-                        <div className="text-violet-300 font-bold text-sm w-20 text-right shrink-0">
-                          ¥{product.price.toLocaleString()}
+                    <Link key={product.id} href={`/products/${product.id}`}
+                      className="flex items-center gap-3 rounded-xl p-4 border border-white/10 hover:border-violet-500/50 transition group"
+                      style={{ background: 'rgba(255,255,255,0.05)' }}>
+                      <span className="text-sm font-black w-7 h-7 rounded-full flex items-center justify-center shrink-0 bg-violet-950/60 text-violet-300 border border-violet-500/30">{rank}</span>
+                      {product.imageUrl && (
+                        <div className="w-10 h-10 shrink-0 rounded-lg overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
+                          <img src={product.imageUrl} alt={product.name} className="w-full h-full object-contain p-0.5" loading="lazy" />
                         </div>
                       )}
+                      <div className="flex-1 min-w-0">
+                        <div className="text-xs text-gray-500 mb-0.5">{product.brand}</div>
+                        <div className="font-bold text-sm truncate text-gray-100 group-hover:text-white">{product.name}</div>
+                        {product.price && <div className="text-violet-300 text-xs mt-0.5">¥{product.price.toLocaleString()}</div>}
+                      </div>
+                      <div className="shrink-0 text-right">
+                        {avgRating > 0 ? (
+                          <>
+                            <div className="text-xl font-black text-violet-300 leading-none">{avgRating.toFixed(1)}</div>
+                            <div className="text-xs text-gray-600">{product.reviews.length}件</div>
+                          </>
+                        ) : <div className="text-xs text-gray-600">-</div>}
+                      </div>
                     </Link>
                   )
                 })}
