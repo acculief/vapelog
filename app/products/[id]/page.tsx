@@ -146,7 +146,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
                   <div className="text-xs text-gray-400">{reviews.length > 0 ? `${reviews.length}件の口コミ` : 'まだレビューがありません'}</div>
                 </div>
               </div>
-              {product.price && (
+              {!!product.price && (
                 <div className="flex items-center gap-2 flex-wrap mb-1">
                   <span className="text-xs text-gray-400 border border-gray-600 rounded px-1.5 py-0.5">参考価格</span>
                   <span className="text-2xl font-black text-violet-300">¥{product.price.toLocaleString()}</span>

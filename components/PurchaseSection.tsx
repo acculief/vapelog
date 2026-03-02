@@ -40,7 +40,7 @@ export default function PurchaseSection({ productName, price, affiliates, avgRat
 
         <div className="p-4" style={{ background: 'rgba(0,0,0,0.35)' }}>
           {/* Price display */}
-          {price && (
+          {!!price && (
             <div className="flex items-baseline gap-2 mb-4 flex-wrap">
               <span className="text-xs text-gray-400 border border-gray-600 rounded px-1.5 py-0.5 whitespace-nowrap">参考価格</span>
               <span className="text-3xl font-black text-white">¥{price.toLocaleString()}</span>
@@ -68,7 +68,7 @@ export default function PurchaseSection({ productName, price, affiliates, avgRat
                   <div className="text-xs font-normal opacity-70 mt-0.5">✓ Prime翌日配送　✓ 返品OK</div>
                 </div>
               </div>
-              {price && (
+              {!!price && (
                 <span className="text-base font-black border-l border-black/20 pl-3 whitespace-nowrap shrink-0">
                   ¥{price.toLocaleString()}
                 </span>
@@ -97,7 +97,7 @@ export default function PurchaseSection({ productName, price, affiliates, avgRat
                     <div className="text-xs font-normal opacity-80 mt-0.5">✓ ポイント還元あり　✓ 送料無料多数</div>
                   </div>
                 </div>
-                {price && (
+                {!!price && (
                   <span className="text-base font-black border-l border-white/20 pl-3 whitespace-nowrap shrink-0">
                     ¥{price.toLocaleString()}
                   </span>
@@ -140,7 +140,7 @@ export default function PurchaseSection({ productName, price, affiliates, avgRat
         >
           <span>🛍️</span>
           <span>{ctaText}</span>
-          {price && <span className="ml-1 opacity-80 font-bold text-sm">¥{price.toLocaleString()}</span>}
+          {!!price && <span className="ml-1 opacity-80 font-bold text-sm">¥{price.toLocaleString()}</span>}
         </a>
       </div>
     </>
