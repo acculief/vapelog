@@ -293,6 +293,39 @@ export default async function GuideArticlePage({ params }: { params: Promise<{ s
           </div>
         </div>
 
+        {/* 関連記事 */}
+        {(() => {
+          const RELATED = [
+            { slug: 'what-is-vape', title: 'ヴェポライザーとは？電子タバコとの違いを解説', time: '5分', img: 'https://images.unsplash.com/photo-1512069772995-ec65ed45afd6?w=400&h=200&auto=format&fit=crop&q=80' },
+            { slug: 'how-to-choose', title: 'VAPEの選び方｜初心者がまず知るべき4つのポイント', time: '7分', img: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=400&h=200&auto=format&fit=crop&q=80' },
+            { slug: 'vape-quit-smoking', title: 'VAPEで禁煙・減煙できる？タバコからの切り替えガイド', time: '7分', img: 'https://images.unsplash.com/photo-1574482620811-1aa16ffe3c82?w=400&h=200&auto=format&fit=crop&q=80' },
+            { slug: 'vape-health-effects', title: 'VAPEは体に悪い？タバコとの比較で解説', time: '7分', img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=200&auto=format&fit=crop&q=80' },
+            { slug: 'liquid-guide', title: 'VAPEリキッドの選び方｜ニコチン濃度・PG/VG比率を解説', time: '7分', img: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=200&auto=format&fit=crop&q=80' },
+            { slug: 'maintenance', title: 'VAPEのお手入れ・メンテナンス完全ガイド', time: '6分', img: 'https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?w=400&h=200&auto=format&fit=crop&q=80' },
+          ].filter(r => r.slug !== article.slug).slice(0, 3)
+          return (
+            <div className="mb-8">
+              <h2 className="text-base font-bold text-white mb-4">📖 他のガイドも読む</h2>
+              <div className="grid sm:grid-cols-3 gap-3">
+                {RELATED.map(r => (
+                  <Link key={r.slug} href={`/guide/${r.slug}`}
+                    className="group rounded-xl overflow-hidden border border-white/10 hover:border-violet-500/50 transition"
+                    style={{ background: 'rgba(255,255,255,0.04)' }}>
+                    <div className="relative h-24 overflow-hidden">
+                      <img src={r.img} alt={r.title} className="w-full h-full object-cover opacity-70 group-hover:opacity-90 group-hover:scale-105 transition-all duration-300" loading="lazy" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                      <span className="absolute bottom-1 right-2 text-xs text-gray-300 bg-black/50 rounded px-1.5 py-0.5">📖 {r.time}</span>
+                    </div>
+                    <div className="p-3">
+                      <p className="text-xs font-bold text-white group-hover:text-violet-300 transition leading-snug line-clamp-2">{r.title}</p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )
+        })()}
+
         <div className="text-center">
           <Link href="/guide" className="inline-flex items-center gap-2 text-sm text-violet-400 hover:text-violet-300 transition">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
