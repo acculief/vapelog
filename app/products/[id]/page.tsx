@@ -121,8 +121,17 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
       {/* Main Card */}
       <div className="rounded-2xl mb-8 border border-violet-500/20 overflow-hidden" style={{ background: 'rgba(255,255,255,0.05)', backdropFilter: 'blur(12px)' }}>
         {/* Product Image - same style as list cards */}
-        <div className="w-full h-64 overflow-hidden" style={{ background: 'rgba(255,255,255,0.03)' }}>
-            <img src={product.imageUrl || '/no-image.svg'} alt={product.name} className="w-full h-full object-contain p-6" />
+        <div className="w-full h-64 overflow-hidden flex items-center justify-center" style={{ background: product.imageUrl ? 'rgba(255,255,255,0.03)' : 'rgba(93,69,146,0.12)' }}>
+          {product.imageUrl ? (
+            <img src={product.imageUrl} alt={product.name} className="w-full h-full object-contain p-6" />
+          ) : (
+            <div className="flex flex-col items-center justify-center gap-2 text-violet-400/50">
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-16 h-16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              <span className="text-sm text-violet-400/40">画像なし</span>
+            </div>
+          )}
           </div>
         <div className="p-8">
           <div className="flex items-start justify-between flex-wrap gap-4">

@@ -204,7 +204,11 @@ export default async function CategoryRankingPage({ params }: { params: Promise<
                       style={{ background: 'rgba(255,255,255,0.06)' }}>
                       {/* imageUrl fallback */
                         <div className="w-full h-36 overflow-hidden" style={{ background: 'rgba(255,255,255,0.03)' }}>
-                          <img src={product.imageUrl || '/no-image.svg'} alt={product.name} className="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform" loading="lazy" />
+                          {product.imageUrl ? (
+                            <img src={product.imageUrl} alt={product.name} className="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform" loading="lazy" />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center bg-violet-900/20"><svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-violet-400/40" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg></div>
+                          )}
                         </div>
                       )}
                       <div className="p-3">
@@ -213,7 +217,7 @@ export default async function CategoryRankingPage({ params }: { params: Promise<
                         <p className="text-xs text-gray-500 mb-2">{product.brand}</p>
                         <div className="flex items-center justify-between">
                           <div className="text-xl font-black text-violet-300">{avgRating > 0 ? avgRating.toFixed(1) : '-'}<span className="text-xs text-gray-500 font-normal ml-1">点</span></div>
-                          {product.price && <div className="text-violet-300 font-bold text-xs">¥{product.price.toLocaleString()}</div>}
+                          {!!product.price && <div className="text-violet-300 font-bold text-xs">¥{product.price.toLocaleString()}</div>}
                         </div>
                       </div>
                     </Link>
@@ -235,13 +239,17 @@ export default async function CategoryRankingPage({ params }: { params: Promise<
                       <span className="text-sm font-black w-7 h-7 rounded-full flex items-center justify-center shrink-0 bg-violet-950/60 text-violet-300 border border-violet-500/30">{rank}</span>
                       {/* imageUrl fallback */
                         <div className="w-10 h-10 shrink-0 rounded-lg overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
-                          <img src={product.imageUrl || '/no-image.svg'} alt={product.name} className="w-full h-full object-contain p-0.5" loading="lazy" />
+                          {product.imageUrl ? (
+                            <img src={product.imageUrl} alt={product.name} className="w-full h-full object-contain p-0.5" loading="lazy" />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center bg-violet-900/20"><svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-violet-400/40" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg></div>
+                          )}
                         </div>
                       )}
                       <div className="flex-1 min-w-0">
                         <div className="text-xs text-gray-500 mb-0.5">{product.brand}</div>
                         <div className="font-bold text-sm truncate text-gray-100 group-hover:text-white">{product.name}</div>
-                        {product.price && <div className="text-violet-300 text-xs mt-0.5">¥{product.price.toLocaleString()}</div>}
+                        {!!product.price && <div className="text-violet-300 text-xs mt-0.5">¥{product.price.toLocaleString()}</div>}
                       </div>
                       <div className="shrink-0 text-right">
                         {avgRating > 0 ? (
