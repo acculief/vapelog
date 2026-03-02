@@ -4,7 +4,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import PurchaseSection from '@/components/PurchaseSection'
 
-export const revalidate = 3600
+export const revalidate = 0
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params

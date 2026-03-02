@@ -78,7 +78,7 @@ const CATEGORY_NAV = [
   { slug: 'parts', label: 'パーツ' },
 ]
 
-export const revalidate = 3600
+export const revalidate = 0
 
 export async function generateStaticParams() {
   return Object.keys(CATEGORY_META).map((category) => ({ category }))

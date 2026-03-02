@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description: 'VAPE・ヴェポライザーの人気ランキング【2026年最新版】。吸いごたえ・使いやすさ・コスパを独自スコアで徹底比較。初心者向けの選び方ガイドも解説。',
 }
 
-export const revalidate = 3600
+export const revalidate = 0
 
 const CATEGORY_NAV = [
   { slug: 'pod', label: 'ポッド型' },

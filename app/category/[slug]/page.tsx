@@ -74,7 +74,7 @@ const CATEGORY_META: Record<Slug, {
   },
 }
 
-export const revalidate = 3600
+export const revalidate = 0
 
 export async function generateStaticParams() {
   return (['pod', 'mod', 'disposable'] as Slug[]).map((slug) => ({ slug }))

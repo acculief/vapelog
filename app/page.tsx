@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { getProducts } from '@/lib/queries'
 
-export const revalidate = 3600
+export const revalidate = 0
 
 const CDN_BASE = 'https://cuinyjpiifcslzexrunc.supabase.co/storage/v1/object/public/item-images/vapelog-categories'
 const CATEGORIES = [
