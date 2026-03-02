@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import Script from "next/script"
 import Link from 'next/link'
+import Image from 'next/image'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -97,8 +98,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <header className="sticky top-0 z-50 border-b border-violet-500/20 backdrop-blur-md" style={{ background: 'rgba(13,6,24,0.90)' }}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="flex items-center h-14 gap-6">
-              <Link href="/" className="text-xl font-black shrink-0 bg-gradient-to-r from-violet-400 to-indigo-400 bg-clip-text text-transparent">
-                VapeGo
+              <Link href="/" className="shrink-0 flex items-center">
+                <Image src="/logo.jpg" alt="VapeGo" width={44} height={44} className="rounded-full object-cover" />
               </Link>
               <nav className="hidden sm:flex items-center gap-1 flex-1">
                 <Link href="/search" className="px-3 py-2 text-sm text-gray-400 hover:text-violet-300 hover:bg-violet-500/10 rounded-md transition">商品を探す</Link>
