@@ -202,15 +202,13 @@ export default async function CategoryRankingPage({ params }: { params: Promise<
                     <Link key={product.id} href={`/products/${product.id}`}
                       className="rounded-xl overflow-hidden border border-white/10 hover:border-violet-500/50 transition group"
                       style={{ background: 'rgba(255,255,255,0.06)' }}>
-                      {/* imageUrl fallback */
-                        <div className="w-full h-36 overflow-hidden" style={{ background: 'rgba(255,255,255,0.03)' }}>
-                          {product.imageUrl ? (
-                            <img src={product.imageUrl} alt={product.name} className="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform" loading="lazy" />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center bg-violet-900/20"><svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-violet-400/40" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg></div>
-                          )}
-                        </div>
-                      )}
+                      <div className="w-full h-36 overflow-hidden" style={{ background: 'rgba(255,255,255,0.03)' }}>
+                        {product.imageUrl ? (
+                          <img src={product.imageUrl} alt={product.name} className="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform" loading="lazy" />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center bg-violet-900/20"><svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-violet-400/40" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg></div>
+                        )}
+                      </div>
                       <div className="p-3">
                         <div className={`inline-block px-2 py-0.5 text-xs font-black text-white rounded-full mb-2 bg-gradient-to-r ${badgeBg[i]}`}>{medals[i]}</div>
                         <h3 className="font-bold text-sm text-white leading-snug mb-1 group-hover:text-violet-300 transition line-clamp-2">{product.name}</h3>
@@ -237,15 +235,13 @@ export default async function CategoryRankingPage({ params }: { params: Promise<
                       className="flex items-center gap-3 rounded-xl p-4 border border-white/10 hover:border-violet-500/50 transition group"
                       style={{ background: 'rgba(255,255,255,0.05)' }}>
                       <span className="text-sm font-black w-7 h-7 rounded-full flex items-center justify-center shrink-0 bg-violet-950/60 text-violet-300 border border-violet-500/30">{rank}</span>
-                      {/* imageUrl fallback */
-                        <div className="w-10 h-10 shrink-0 rounded-lg overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
-                          {product.imageUrl ? (
-                            <img src={product.imageUrl} alt={product.name} className="w-full h-full object-contain p-0.5" loading="lazy" />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center bg-violet-900/20"><svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-violet-400/40" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg></div>
-                          )}
-                        </div>
-                      )}
+                      <div className="w-10 h-10 shrink-0 rounded-lg overflow-hidden" style={{ background: 'rgba(255,255,255,0.08)' }}>
+                        {product.imageUrl ? (
+                          <img src={product.imageUrl} alt={product.name} className="w-full h-full object-contain p-0.5" loading="lazy" />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center bg-violet-900/20"><svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-violet-400/40" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg></div>
+                        )}
+                      </div>
                       <div className="flex-1 min-w-0">
                         <div className="text-xs text-gray-500 mb-0.5">{product.brand}</div>
                         <div className="font-bold text-sm truncate text-gray-100 group-hover:text-white">{product.name}</div>
