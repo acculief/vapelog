@@ -7,19 +7,26 @@ on:
     branches: [main]
 
 jobs:
-  typecheck:
-    name: TypeScript Check
+  build:
+    name: Build Check (Next.js + Turbopack)
     runs-on: ubuntu-latest
     env:
-      DATABASE_URL: "postgresql://dummy:dummy@localhost:5432/dummy"
+      DATABASE_URL: "postgresql://dummy:dummy@localhost:5432/dummy?pgbouncer=true"
+      DIRECT_URL: "postgresql://dummy:dummy@localhost:5432/dummy"
+      NEXTAUTH_SECRET: "ci-dummy-secret-32chars-xxxxxxxxxx"
+      NEXTAUTH_URL: "http://localhost:3000"
+      CRON_SECRET: "ci-cron-secret"
+      NEXT_PUBLIC_SUPABASE_URL: "https://cuinyjpiifcslzexrunc.supabase.co"
+      SUPABASE_SERVICE_ROLE_KEY: "dummy-service-role-key"
+
     steps:
       - uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -29,3 +36,6 @@ jobs:
 
       - name: TypeScript Check
         run: npx tsc --noEmit
+
+      - name: Next.js Build (Turbopack)
+        run: npx next build
