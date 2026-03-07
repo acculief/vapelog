@@ -109,16 +109,52 @@ export default async function HomePage() {
           <h2 className="text-lg sm:text-xl font-bold mb-4 text-white">🎯 目的から探す</h2>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
-              { emoji: '🚬', label: '禁煙・減煙したい', sub: 'ニコチンなしで移行', href: '/rankings/disposable', color: 'from-green-600/20 to-emerald-600/20', border: 'border-green-500/30' },
-              { emoji: '💨', label: 'とにかく手軽に', sub: '充電・交換不要', href: '/rankings/disposable', color: 'from-blue-600/20 to-cyan-600/20', border: 'border-blue-500/30' },
-              { emoji: '⚖️', label: 'コスパ重視', sub: 'ランニングコスト最小', href: '/rankings/pod', color: 'from-violet-600/20 to-purple-600/20', border: 'border-violet-500/30' },
-              { emoji: '🔥', label: '本格的に楽しむ', sub: '煙量・カスタム重視', href: '/rankings/boxmod', color: 'from-orange-600/20 to-red-600/20', border: 'border-orange-500/30' },
+              {
+                emoji: '🆕',
+                label: 'まず試してみたい',
+                sub: '充電・設定不要、買ってすぐ使える使い捨てVAPE',
+                href: '/category/disposable',
+                color: 'from-blue-600/20 to-cyan-600/20',
+                border: 'border-blue-500/30',
+                badge: '初心者におすすめ',
+              },
+              {
+                emoji: '💸',
+                label: '毎日使うならコスパ重視',
+                sub: 'スターターキット＋リキッドで使い捨てより断然お得',
+                href: '/category/starter',
+                color: 'from-violet-600/20 to-purple-600/20',
+                border: 'border-violet-500/30',
+                badge: 'ランニングコスト◎',
+              },
+              {
+                emoji: '🍓',
+                label: 'フレーバーで選びたい',
+                sub: 'フルーツ・メンソール・タバコ系など100種以上',
+                href: '/category/liquid',
+                color: 'from-pink-600/20 to-rose-600/20',
+                border: 'border-pink-500/30',
+                badge: '185種以上',
+              },
+              {
+                emoji: '💨',
+                label: 'シーシャ・大煙量を楽しむ',
+                sub: '本格シーシャ体験、大きな蒸気量でリラックス',
+                href: '/category/shisha',
+                color: 'from-teal-600/20 to-emerald-600/20',
+                border: 'border-teal-500/30',
+                badge: '電子シーシャ',
+              },
             ].map(item => (
               <Link key={item.label} href={item.href}
-                className={`group rounded-xl p-4 border ${item.border} hover:border-violet-500/60 transition-all bg-gradient-to-br ${item.color}`}>
-                <div className="text-2xl mb-2">{item.emoji}</div>
+                className={`group rounded-xl p-4 border ${item.border} hover:border-violet-500/60 transition-all bg-gradient-to-br ${item.color} flex flex-col gap-2`}>
+                <div className="flex items-center gap-2">
+                  <span className="text-2xl">{item.emoji}</span>
+                  <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-white/10 text-gray-300">{item.badge}</span>
+                </div>
                 <p className="font-bold text-sm text-white group-hover:text-violet-300 transition leading-tight">{item.label}</p>
-                <p className="text-xs text-gray-500 mt-1">{item.sub}</p>
+                <p className="text-xs text-gray-400 leading-relaxed">{item.sub}</p>
+                <p className="text-xs text-violet-400 group-hover:text-violet-300 transition mt-auto">詳しく見る →</p>
               </Link>
             ))}
           </div>
