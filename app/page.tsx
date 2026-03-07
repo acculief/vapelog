@@ -5,15 +5,15 @@ export const revalidate = 0
 
 const CDN_BASE = 'https://cuinyjpiifcslzexrunc.supabase.co/storage/v1/object/public/item-images/vapelog-categories'
 // ベプログ（vapelog.jp）準拠の8カテゴリ
-const CATEGORIES: { slug: string; name: string; desc: string; image: string | null; emoji: string | null; href: string }[] = [
-  { slug: 'disposable',   name: '使い捨てVAPE',           desc: '充電不要でそのまま使える',     image: `${CDN_BASE}/disposable.jpg`, emoji: null,  href: '/category/disposable' },
-  { slug: 'pod',          name: '使い捨てPOD',             desc: 'コンパクトPOD型ディスポ',     image: `${CDN_BASE}/pod.jpg`,        emoji: null,  href: '/search?category=pod' },
-  { slug: 'rechargeable', name: 'リキッドチャージ式VAPE',  desc: 'POD・BOX MOD・スターター',    image: `${CDN_BASE}/boxmod.jpg`,     emoji: null,  href: '/search?category=starter' },
-  { slug: 'liquid',       name: 'VAPEリキッド/フレーバー', desc: '国産・海外の電子タバコ液',    image: `${CDN_BASE}/liquid.jpg`,     emoji: null,  href: '/search?category=liquid' },
-  { slug: 'heated',       name: '加熱式タバコ',             desc: 'IQOS・glo・PloomTECH',       image: null,                        emoji: '🔥',  href: '/search?category=heated' },
-  { slug: 'shisha',       name: '本格シーシャ・電子シーシャ', desc: 'ポケットシーシャ・水タバコ', image: null,                       emoji: '💨',  href: '/search?category=shisha' },
-  { slug: 'tobacco',      name: '紙タバコ・手巻きタバコ',   desc: '銘柄・フレーバーで口コミ比較', image: null,                       emoji: '🚬',  href: '/search?category=tobacco' },
-  { slug: 'cbd',          name: 'CBD商品',                  desc: 'CBDオイル・CBD VAPE',         image: null,                        emoji: '🌿',  href: '/search?category=cbd' },
+const CATEGORIES: { slug: string; name: string; desc: string; image: string; emoji: string; href: string }[] = [
+  { slug: 'disposable',   name: '使い捨てVAPE',             desc: '充電不要でそのまま使える',       image: `${CDN_BASE}/disposable.jpg`,  emoji: '💨',  href: '/category/disposable' },
+  { slug: 'pod',          name: '使い捨てPOD',               desc: 'コンパクトPOD型ディスポ',       image: `${CDN_BASE}/pod.jpg`,          emoji: '🫧',  href: '/search?category=pod' },
+  { slug: 'rechargeable', name: 'リキッドチャージ式VAPE',    desc: 'POD・BOX MOD・スターター',      image: `${CDN_BASE}/boxmod.jpg`,       emoji: '⚡',  href: '/search?category=starter' },
+  { slug: 'liquid',       name: 'VAPEリキッド/フレーバー',   desc: '国産・海外の電子タバコ液',      image: `${CDN_BASE}/liquid.jpg`,       emoji: '🧪',  href: '/search?category=liquid' },
+  { slug: 'heated',       name: '加熱式タバコ',               desc: 'IQOS・glo・PloomTECH',         image: `${CDN_BASE}/heated.jpg`,       emoji: '🔥',  href: '/search?category=heated' },
+  { slug: 'shisha',       name: '本格シーシャ・電子シーシャ', desc: 'ポケットシーシャ・水タバコ',   image: `${CDN_BASE}/shisha.jpg`,       emoji: '💨',  href: '/search?category=shisha' },
+  { slug: 'tobacco',      name: '紙タバコ・手巻きタバコ',     desc: '銘柄・フレーバーで口コミ比較', image: `${CDN_BASE}/tobacco.jpg`,      emoji: '🚬',  href: '/search?category=tobacco' },
+  { slug: 'cbd',          name: 'CBD商品',                    desc: 'CBDオイル・CBD VAPE',           image: `${CDN_BASE}/cbd.jpg`,          emoji: '🌿',  href: '/search?category=cbd' },
 ]
 
 async function getTopProducts() {
@@ -85,15 +85,11 @@ export default async function HomePage() {
                 style={{ background: 'rgba(255,255,255,0.04)' }}>
                 <div className="w-full aspect-[4/3] flex items-center justify-center"
                   style={{ background: 'rgba(10,5,25,0.6)' }}>
-                  {cat.image ? (
-                    <img
-                      src={cat.image}
-                      alt={cat.name}
-                      className="w-full h-full object-contain p-5 group-hover:scale-105 transition-transform duration-300"
-                    />
-                  ) : (
-                    <span className="text-6xl group-hover:scale-110 transition-transform duration-300 select-none">{cat.emoji}</span>
-                  )}
+                  <img
+                    src={cat.image}
+                    alt={cat.name}
+                    className="w-full h-full object-contain p-5 group-hover:scale-105 transition-transform duration-300"
+                  />
                 </div>
                 {/* 紫グラデーションライン */}
                 <div className="h-[2px] bg-gradient-to-r from-violet-600 via-indigo-500 to-violet-600 opacity-40 group-hover:opacity-100 transition-opacity" />
