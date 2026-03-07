@@ -3,7 +3,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
-type Slug = 'pod' | 'mod' | 'disposable'
+type Slug = 'pod' | 'mod' | 'disposable' | 'liquid' | 'shisha' | 'cbd' | 'starter'
 
 const CATEGORY_META: Record<Slug, {
   h1: string
@@ -77,7 +77,7 @@ const CATEGORY_META: Record<Slug, {
 export const revalidate = 0
 
 export async function generateStaticParams() {
-  return (['pod', 'mod', 'disposable'] as Slug[]).map((slug) => ({ slug }))
+  return (['pod', 'mod', 'disposable', 'liquid', 'shisha', 'cbd', 'starter'] as Slug[]).map((slug) => ({ slug }))
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -87,7 +87,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: meta.title,
     description: meta.desc,
-    alternates: { canonical: `https://vapego.vercel.app/category/${slug}` },
+    alternates: { canonical: `https://www.vape-go.com/category/${slug}` },
   }
 }
 
@@ -112,12 +112,12 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
     '@type': 'ItemList',
     name: meta.h1,
     description: meta.desc,
-    url: `https://vapego.vercel.app/category/${slug}`,
+    url: `https://www.vape-go.com/category/${slug}`,
     itemListElement: products.slice(0, 10).map((p, i) => ({
       '@type': 'ListItem',
       position: i + 1,
       name: p.name,
-      url: `https://vapego.vercel.app/products/${p.id}`,
+      url: `https://www.vape-go.com/products/${p.id}`,
     })),
   }
 
