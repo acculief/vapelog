@@ -12,7 +12,6 @@ const CATEGORIES: { slug: string; name: string; desc: string; image: string; emo
   { slug: 'liquid',       name: 'VAPEリキッド/フレーバー',   desc: '国産・海外の電子タバコ液',      image: `${CDN_BASE}/liquid.jpg`,       emoji: '🧪',  href: '/category/liquid' },
   { slug: 'heated',       name: '加熱式タバコ',               desc: 'IQOS・glo・PloomTECH',         image: `${CDN_BASE}/heated.jpg`,       emoji: '🔥',  href: '/search?category=heated' },
   { slug: 'shisha',       name: '本格シーシャ・電子シーシャ', desc: 'ポケットシーシャ・水タバコ',   image: `${CDN_BASE}/shisha.jpg`,       emoji: '💨',  href: '/category/shisha' },
-  { slug: 'tobacco',      name: '紙タバコ・手巻きタバコ',     desc: '銘柄・フレーバーで口コミ比較', image: `${CDN_BASE}/tobacco.jpg`,      emoji: '🚬',  href: '/search?category=tobacco' },
   { slug: 'cbd',          name: 'CBD商品',                    desc: 'CBDオイル・CBD VAPE',           image: `${CDN_BASE}/cbd.jpg`,          emoji: '🌿',  href: '/category/cbd' },
 ]
 
