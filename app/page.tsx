@@ -4,13 +4,16 @@ import { getProducts } from '@/lib/queries'
 export const revalidate = 0
 
 const CDN_BASE = 'https://cuinyjpiifcslzexrunc.supabase.co/storage/v1/object/public/item-images/vapelog-categories'
-const CATEGORIES = [
-  { slug: 'pod', name: 'ポッド型', desc: 'コンパクトで手軽', image: `${CDN_BASE}/pod.jpg`, href: '/category/pod' },
-  { slug: 'starter', name: 'スターターキット', desc: '初心者におすすめ', image: `${CDN_BASE}/starter.jpg`, href: '/search?category=starter' },
-  { slug: 'boxmod', name: 'BOX MOD', desc: 'ハイパワー・カスタム向け', image: `${CDN_BASE}/boxmod.jpg`, href: '/category/mod' },
-  { slug: 'liquid', name: 'リキッド', desc: 'フレーバー・ニコチン塩', image: `${CDN_BASE}/liquid.jpg`, href: '/search?category=liquid' },
-  { slug: 'disposable', name: '使い捨て', desc: '手軽に試したい方', image: `${CDN_BASE}/disposable.jpg`, href: '/category/disposable' },
-  { slug: 'parts', name: 'パーツ', desc: 'コイル・ポッド交換', image: `${CDN_BASE}/parts.jpg`, href: '/search?category=parts' },
+// ベプログ（vapelog.jp）準拠の8カテゴリ
+const CATEGORIES: { slug: string; name: string; desc: string; image: string | null; emoji: string | null; href: string }[] = [
+  { slug: 'disposable',   name: '使い捨てVAPE',           desc: '充電不要でそのまま使える',     image: `${CDN_BASE}/disposable.jpg`, emoji: null,  href: '/category/disposable' },
+  { slug: 'pod',          name: '使い捨てPOD',             desc: 'コンパクトPOD型ディスポ',     image: `${CDN_BASE}/pod.jpg`,        emoji: null,  href: '/search?category=pod' },
+  { slug: 'rechargeable', name: 'リキッドチャージ式VAPE',  desc: 'POD・BOX MOD・スターター',    image: `${CDN_BASE}/boxmod.jpg`,     emoji: null,  href: '/search?category=starter' },
+  { slug: 'liquid',       name: 'VAPEリキッド/フレーバー', desc: '国産・海外の電子タバコ液',    image: `${CDN_BASE}/liquid.jpg`,     emoji: null,  href: '/search?category=liquid' },
+  { slug: 'heated',       name: '加熱式タバコ',             desc: 'IQOS・glo・PloomTECH',       image: null,                        emoji: '🔥',  href: '/search?category=heated' },
+  { slug: 'shisha',       name: '本格シーシャ・電子シーシャ', desc: 'ポケットシーシャ・水タバコ', image: null,                       emoji: '💨',  href: '/search?category=shisha' },
+  { slug: 'tobacco',      name: '紙タバコ・手巻きタバコ',   desc: '銘柄・フレーバーで口コミ比較', image: null,                       emoji: '🚬',  href: '/search?category=tobacco' },
+  { slug: 'cbd',          name: 'CBD商品',                  desc: 'CBDオイル・CBD VAPE',         image: null,                        emoji: '🌿',  href: '/search?category=cbd' },
 ]
 
 async function getTopProducts() {
@@ -75,19 +78,22 @@ export default async function HomePage() {
         {/* Categories */}
         <section className="mb-10">
           <h2 className="text-lg sm:text-xl font-bold mb-4 text-white">カテゴリから探す</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {CATEGORIES.map((cat) => (
               <Link key={cat.slug} href={cat.href}
                 className="group rounded-2xl overflow-hidden border border-white/10 hover:border-violet-500/60 transition-all duration-300"
                 style={{ background: 'rgba(255,255,255,0.04)' }}>
-                {/* Emojiアイコン */}
                 <div className="w-full aspect-[4/3] flex items-center justify-center"
                   style={{ background: 'rgba(10,5,25,0.6)' }}>
-                  <img
-                    src={cat.image}
-                    alt={cat.name}
-                    className="w-full h-full object-contain p-5 group-hover:scale-105 transition-transform duration-300"
-                  />
+                  {cat.image ? (
+                    <img
+                      src={cat.image}
+                      alt={cat.name}
+                      className="w-full h-full object-contain p-5 group-hover:scale-105 transition-transform duration-300"
+                    />
+                  ) : (
+                    <span className="text-6xl group-hover:scale-110 transition-transform duration-300 select-none">{cat.emoji}</span>
+                  )}
                 </div>
                 {/* 紫グラデーションライン */}
                 <div className="h-[2px] bg-gradient-to-r from-violet-600 via-indigo-500 to-violet-600 opacity-40 group-hover:opacity-100 transition-opacity" />
